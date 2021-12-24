@@ -13,33 +13,12 @@ colorama.init()
 #bottle relics should only be offered if you have a corresponding card to bottle.
 #guardian modeshift seems broken. maybe fixed.
 #events are not following any rules yet.
+#most enemies follow the same pattern
+#no tutorial
 
 print("Slay the Spire is a registered trademark by Mega Crit, LLC\n\n")
 try:
-	while True:
-		
-		try:
-			
-			loader = ["Yes","No"]
-			
-			snap = input("Do you want to load a save game?\n1. Yes\n2. No\n")
-			snap = int(snap)-1
-			
-			if loader[snap] == "Yes":
-				save_handlery.load_and_bloat()
-				snap = "Yes"
-				break
-			
-			elif loader[snap] == "No":
-
-				entities.active_character[0].set_deck(entities.silent_deck)
-				print("Hi")
-				#entities.active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})			
-				break
-				
-		except Exception as e:
-			print("Type \"1\" or \"2\".",e)
-
+	save_handlery.the_question_of_safety()
 	running = True
 	while running and helping_functions.gameAct < 5:
 		if snap == "Yes":
