@@ -64,4 +64,4 @@ except Exception as e:
 		for i in crash:
 			i=str(i)
 			crashLog.write(i)
-input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.")
+	input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.")
