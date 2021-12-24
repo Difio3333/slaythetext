@@ -4,10 +4,12 @@ import helping_functions
 import acts
 from pathlib import Path
 
+snap = ""
 
 def the_question_of_safety():
+	global snap
 	while True:
-	
+		
 		try:
 			
 			loader = ["Yes","No"]
@@ -21,9 +23,8 @@ def the_question_of_safety():
 				break
 			
 			elif loader[snap] == "No":
-
+				snap = "No"
 				entities.active_character[0].set_deck(entities.silent_deck)
-				print("Hi")
 				#entities.active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})			
 				break
 				
@@ -32,6 +33,7 @@ def the_question_of_safety():
 		except Exception as e:
 			print("Type \"1\" or \"2\".")
 			print(e)
+
 def save_and_rave():
 	
 	saveDict = {"Encounter Counter":helping_functions.encounter_counter,

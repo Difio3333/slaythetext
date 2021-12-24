@@ -932,7 +932,7 @@ class Char():
 				
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
-				print("Hi")
+				
 			elif self.card_in_play[0].get("Name") == "Strike +":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])

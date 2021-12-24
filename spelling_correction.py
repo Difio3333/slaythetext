@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 import entities
 
-
+#this spelling correction code is basically a 1on1 copy of http://norvig.com/spell-correct.html. All credits to Peter Norvig!
 
 def words(text): return re.findall(r'\w+', text)
 

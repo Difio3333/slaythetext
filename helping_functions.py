@@ -513,7 +513,7 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
         except Exception as e:
             print("There is an issue in helpingfunctions Generate Relics. This is the issue-->\n",e)
        
-        print("Hi",place)
+        #print("Hi",place)
         
 
     if place == "Super":
