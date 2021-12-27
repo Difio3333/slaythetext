@@ -11,7 +11,7 @@ import save_handlery
 
 list_of_enemies = []
 relics_seen_list = []
-silent = Char("Silent",60,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic"}])
+silent = Char("Silent",66,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic"}])
 active_character = [silent]
 
 eventMonsterChance = 0.1
@@ -100,12 +100,13 @@ def fill_enemy_list():
         i = 0
         while i < 3:
             snap = checklist.pop(rd.randint(0,len(checklist) - 1))
+            #snap = 3
             miniList = []
             if snap == 1:
                 enemy = "Cultist"
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
-            elif snap == 2:
+            elif snap == 2:                                             
                 enemy = "Jaw Worm"
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
@@ -116,7 +117,7 @@ def fill_enemy_list():
                     enemy = "Green Louse"
                     miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
                     miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-
+                    
                 elif lousecheck == 1:
                     
                     enemy = "Red Louse"
@@ -127,7 +128,7 @@ def fill_enemy_list():
                     enemy = "Red Louse"
                     miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
                     enemy = "Green Louse"
-                    miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))                
+                    miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
             elif snap == 4:
                 
@@ -436,7 +437,7 @@ def fill_enemy_list():
 
             elif setup == 5:
                 enemy = "Jaw Worm Hard"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),block = enemies[enemy].get("Block"),strength=enemies[enemy].get("Strength"),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),block = enemies[enemy].get("Block"),strength=enemies[enemy].get("Strength"),intentions = enemies[enemy].get("Intentions"),intention_logic = [["Random"],list(helping_functions.nchoices_with_restrictions([0.25,0.3,0.45],{0:1,1:2,2:1}))],on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),block = enemies[enemy].get("Block"),strength=enemies[enemy].get("Strength"),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),block = enemies[enemy].get("Block"),strength=enemies[enemy].get("Strength"),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
             
@@ -1262,34 +1263,30 @@ silent_deck = [ {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Ra
                 ]
 
 
-#ACT 1 ENEMIES
-
-
-
 #ACT 1 Encounter
 
 enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smash 5/1"],"Intentions_Logic":[["Random"],[0]*100]},
             "Cultist": {"Name":"Cultist", "Health": (50,56),"Intentions":[1],"Intentions_Logic":[["First Move Set"],["Ritual 5"]]},
-            "Jaw Worm": {"Name": "Jaw Worm","Health": (42,46),"Intentions":[12, "Thrash 7/5", "Bellow 5|9"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.25,0.3,0.45],{0:1,1:2,2:1}))]},
-            "Jaw Worm Hard": {"Name": "Jaw Worm","Health": (42,46),"Block":9,"Strength":5,"Intentions":[12, "Thrash 7/5", "Bellow 5|9"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.25,0.3,0.45],{0:1,1:2,2:1}))]},
+            "Jaw Worm": {"Name": "Jaw Worm","Health": (42,46),"Intentions":[12, "Thrash 7/5", "Bellow 5|9"],"Intentions_Logic":[["Jaw Worm"]]},
+            "Jaw Worm Hard": {"Name": "Jaw Worm","Health": (42,46),"Block":9,"Strength":5,"Intentions":[12, "Thrash 7/5", "Bellow 5|9"],"Intentions_Logic":[["Jaw Worm"]]},
 
-            "Red Louse": {"Name":"Red Louse","Health":(11,17),"Intentions": [rd.randint(6,8),"Grow 2"], "Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))],"On_hit_or_death":[["Curl " + str(rd.randint(9,12)),"Hit"]]},
-            "Green Louse": {"Name":"Green Louse","Health":(12,18),"Intentions": [rd.randint(6,8),"Weak 2"], "Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))],"On_hit_or_death":[["Curl " + str(rd.randint(9,12)),"Hit"]]},
+            "Red Louse": {"Name":"Red Louse","Health":(11,17),"Intentions": [rd.randint(6,8),"Grow 2"], "Intentions_Logic":[["Red Louse"]],"On_hit_or_death":[["Curl " + str(rd.randint(9,12)),"Hit"]]},
+            "Green Louse": {"Name":"Green Louse","Health":(12,18),"Intentions": [rd.randint(6,8),"Weak 2"], "Intentions_Logic":[["Green Louse"]],"On_hit_or_death":[["Curl " + str(rd.randint(9,12)),"Hit"]]},
             
-            "Looter": {"Name": "Looter","Health":(46,50),"Intentions":["Steal 11/20", "Lunge 14/20", "SmokeBomb 6"],"Intentions_Logic":[["Random"],[0,0,rd.randint(1,2)]]},
+            "Looter": {"Name": "Looter","Health":(46,50),"Intentions":["Steal 11/20", "Lunge 14/20", "SmokeBomb 6"],"Intentions_Logic":[["Looter"]]},
             
-            "Red Slaver": {"Name": "Red Slaver","Health":(48,52),"Intentions":[14,"Scape 9/2","Entangle"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.375,0.375,0.25],{0:2,1:2,2:1}))]},
-            "Blue Slaver": {"Name": "Blue Slaver","Health":(48,52),"Intentions":[13,"Rake 8/2"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.6],{0:2,1:1}))]},
+            "Red Slaver": {"Name": "Red Slaver","Health":(48,52),"Intentions":[14,"Scape 9/2","Entangle"],"Intentions_Logic":[["Red Slaver"]]},
+            "Blue Slaver": {"Name": "Blue Slaver","Health":(48,52),"Intentions":[13,"Rake 8/2"],"Intentions_Logic":[["Blue Slaver"]]},
 
-            "Fungi Beast": {"Name": "Fungi Beast","Health":(24,28),"Intentions":[6,"Grow 5"],"Intentions_Logic": [["Random"],list(helping_functions.nchoices_with_restrictions([0.6,0.4],{0:2,1:1}))],"On_hit_or_death":[["Vulnerable 3","Death"]]},
+            "Fungi Beast": {"Name": "Fungi Beast","Health":(24,28),"Intentions":[6,"Grow 5"],"Intentions_Logic": [["Fungi Beast"]],"On_hit_or_death":[["Vulnerable 3","Death"]]},
 
-            "Small Acid Slime": {"Name": "Small Acid Slime","Health":(9,13),"Intentions":[4,"Weak 1"], "Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.5,0.5]))]},
-            "Medium Acid Slime": {"Name": "Medium Acid Slime","Health":(29,34),"Intentions":[12,"CorrosiveSpit 8/1","Weak 1"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]},
-            "Large Acid Slime": {"Name": "Large Acid Slime","Health":(68,72),"Intentions":[18,"CorrosiveSpit 12/2","Weak 2"],"Intentions_Logic": [["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.4,0.3],{0:1,1:2,2:1}))],"On_hit_or_death":[["Split","Hit"]]},
+            "Small Acid Slime": {"Name": "Small Acid Slime","Health":(9,13),"Intentions":[4,"Weak 1"], "Intentions_Logic":[["Small Acid Slime"]]},
+            "Medium Acid Slime": {"Name": "Medium Acid Slime","Health":(29,34),"Intentions":[12,"CorrosiveSpit 8/1","Weak 1"],"Intentions_Logic":[["Medium Acid Slime"]]},
+            "Large Acid Slime": {"Name": "Large Acid Slime","Health":(68,72),"Intentions":[18,"CorrosiveSpit 12/2","Weak 2"],"Intentions_Logic": [["Large Acid Slime"]],"On_hit_or_death":[["Split","Hit"]]},
 
             "Small Spike Slime": {"Name": "Small Spike Slime","Health":(11,15),"Intentions":[6],"Intentions_Logic":[["Random"],[0]*100]},
-            "Medium Spike Slime": {"Name": "Medium Spike Slime","Health":(29,34),"Intentions": ["CorrosiveSpit 10/1","Frail 1"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]},
-            "Large Spike Slime": {"Name": "Large Spike Slime", "Health":(67,73),"Intentions":["CorrosiveSpit 18/2","Frail 3"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))],"On_hit_or_death":[["Split","Hit"]]},
+            "Medium Spike Slime": {"Name": "Medium Spike Slime","Health":(29,34),"Intentions": ["CorrosiveSpit 10/1","Frail 1"],"Intentions_Logic":[["Medium Spike Slime"]]},
+            "Large Spike Slime": {"Name": "Large Spike Slime", "Health":(67,73),"Intentions":["CorrosiveSpit 18/2","Frail 3"],"Intentions_Logic":[["Large Spike Slime"]],"On_hit_or_death":[["Split","Hit"]]},
             
             "Fat Gremlin": {"Name": "Fat Gremlin","Health":(14,18),"Intentions":["Smash 5/1"],"Intentions_Logic":[["Random"],[0]*100]},
             "Mad Gremlin": {"Name": "Mad Gremlin","Health":(21,25),"Intentions":[5],"Intentions_Logic":[["Random"],[0]*100],"On_hit_or_death": [["Anger 2","Hit"]]},
@@ -1308,20 +1305,21 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
             "Guardian": {"Name": "Guardian", "Health":(250,250),"Intentions":["Block 9",36,"VentSteam 2","Multiattack 5*4"],"Intentions_Logic":[["Random"],[0,1,2,3]*25],"On_hit_or_death":[["Modeshift","Hit"]]},
             "Hexaghost":{"Name": "Hexaghost", "Health":(264,264),"Intentions":["Activate","Divider","Sear 6/2","Multiattack 6*2", "Bellow 3/12","Inferno 3*6"],"Intentions_Logic":[["Random"],[0,1] + [2,3,2,4,3,2,5]*30]},
             
-            "Byrd": {"Name":"Byrd","Health":(26,33),"Intentions":["Multiattack 1*6","Grow 1",14],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.625,0.375],k=1)) + list(helping_functions.nchoices_with_restrictions([0.5,0.3,0.2],{0:2,1:1,2:1}))],"On_hit_or_death":[["Fly 4","Hit"]]},
+            "Byrd": {"Name":"Byrd","Health":(26,33),"Intentions":["Multiattack 1*6","Grow 1",14],"Intentions_Logic":[["Byrd"]],"On_hit_or_death":[["Fly 4","Hit"]]},
 
-            "Chosen": {"Name":"Chosen","Health":(98,103),"Intentions":["Multiattack 6*2",21,"Scrape 12/2","Drain 3/3","Hex"],"Intentions_Logic":[["Random"],[4]+helping_functions.alternating_choices(optionsOne=[0,1],optionsTwo=[2,3],weightsOne = None,weightsTwo = [0.6,0.4])]},
-            "Mugger": {"Name": "Mugger","Health":(50,54),"Intentions":["Steal 11/20", "Lunge 18/20", "SmokeBomb 17"],"Intentions_Logic":[["Random"],[0,0,rd.randint(1,2)]]},
+            "Chosen": {"Name":"Chosen","Health":(98,103),"Intentions":["Multiattack 6*2",21,"Scrape 12/2","Drain 3/3","Hex"],"Intentions_Logic":[["Chosen"]]},
+            "Mugger": {"Name": "Mugger","Health":(50,54),"Intentions":["Steal 11/20", "Lunge 18/20", "SmokeBomb 17"],"Intentions_Logic":[["Mugger"]]},
 
-            "Shelled Parasite": {"Name": "Shelled Parasite","Health":(70,75),"Intentions":["Multiattack 7*2", "Suck 12", "Fell 21/2"],"Intentions_Logic":[["Random"],[2,rd.randint(0,1)] + list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))],"Plated Armor":14},
-            "Spheric Guardian": {"Name": "Spheric Guardian","Health":(20,20),"Block":40,"Intentions":["Harden 11/15","Multiattack 11*2", "Block 35", "Fell 11/5"],"Intentions_Logic":[["Random"],[2,3] + list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:1,1:1}))],"Artifact":3,"Barricade":True},
+            "Shelled Parasite": {"Name": "Shelled Parasite","Health":(70,75),"Intentions":["Multiattack 7*2", "Suck 12", "Fell 21/2"],"Intentions_Logic":[["Shelled Parasite"]],"Plated Armor":14},
+            #continue here
+            "Spheric Guardian": {"Name": "Spheric Guardian","Health":(20,20),"Block":40,"Intentions":["Harden 11/15","Multiattack 11*2", "Block 35", "Fell 11/5"],"Intentions_Logic":[["Spheric Guardian"]],"Artifact":3,"Barricade":True},
             "Centurion": {"Name": "Centurion","Health":(78,83),"Intentions":[14,"CenturionDefendAlly"],"Intentions_Logic":[["Centurion"]]},
             "Mystic": {"Name": "Mystic","Health":(78,83),"Intentions":["Fell 9/2","MysticBuff","MysticHeal 20"],"Intentions_Logic":[["Mystic"]]},
-            "Snecko": {"Name": "Snecko","Health":(120,125),"Intentions":["Smash 10/2",18,"Perplexing Glare"],"Intentions_Logic":[["Random"],[2]+list(helping_functions.nchoices_with_restrictions([0.60,0.40],{0:2,1:5}))]},
+            "Snecko": {"Name": "Snecko","Health":(120,125),"Intentions":["Smash 10/2",18,"Perplexing Glare"],"Intentions_Logic":[["Snecko"]]},
 
-            "Snake Plant": {"Name": "Snake Plant","Health":(78,82),"Intentions":["Multiattack 8*3","Roar 2"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.65,0.35],{0:2,1:1}))],"On_hit_or_death":[["Malleable 3","Hit"]]},
+            "Snake Plant": {"Name": "Snake Plant","Health":(78,82),"Intentions":["Multiattack 8*3","Roar 2"],"Intentions_Logic":[["Snake Plant"]],"On_hit_or_death":[["Malleable 3","Hit"]]},
 
-            "Book of Stabbing": {"Name": "Book of Stabbing","Health":(168,172),"Intentions":["Multiattack 7*3",24],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.85,0.15],{0:2,1:1}))],"Painfull Stabs":True},
+            "Book of Stabbing": {"Name": "Book of Stabbing","Health":(168,172),"Intentions":["Multiattack 7*3",24],"Intentions_Logic":[["Book of Stabbing"]],"Painfull Stabs":True},
             "Gremlin Leader": {"Name": "Gremlin Leader","Health":(145,155),"Intentions":["Encourage 3/6","Rally","Multiattack 6*3"],"Intentions_Logic":[["Gremlin Leader"]],"Leader":True},
             "Taskmaster": {"Name": "Taskmaster","Health":(57,64),"Intentions":["ScouringWhip 7/3"],"Intentions_Logic":[["Random"],[0]*100]},
         
@@ -1331,25 +1329,25 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
 
 
             "Bronze Automaton": {"Name": "Bronze Automaton","Health":(320,320),"Intentions":["Multiattack 8*2","Bellow 4|12",50,"Spawn Orbs"],"Intentions_Logic":[["Random"],[3]+[0,1,0,1,2]*30],"Artifact":3},
-            "Bronze Orb": {"Name": "Bronze Orb","Health":(54,60),"Intentions":[8,"Support Automaton","Stasis"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.175,0.075,0.75],{0:2,1:2,2:2}))]},
+            "Bronze Orb": {"Name": "Bronze Orb","Health":(54,60),"Intentions":[8,"Support Automaton","Stasis"],"Intentions_Logic":[["Bronze Orb"]]},
 
             "The Champ" : {"Name":"The Champ","Health":(440,440),"Intentions_Logic":[["The Champ Phase 1"]]},
 
             "The Collector": {"Name":"The Collector","Health":(300,300),"Intentions_Logic":[["The Collector"]],"Leader": True},
 
-            "Darkling": {"Name": "Darkling","Health":(50,59),"Intentions":[rd.randint(7,11)+2,"Bellow 2|12","Multiattack 9*2"],"Intentions_Logic":[["Random"],[rd.randint(0,1)]+list(helping_functions.nchoices_with_restrictions([0.3,0.3,0.4],{0:2,1:1,2:1}))],"On_hit_or_death":[["Lifelink","Death"]]},
-            "Orb Walker": {"Name": "Orb Walker", "Health":(92,102),"Intentions":[16,"Laser 11/1"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.6],{0:2,1:2}))],"Ritual":5},
-            "Spiker": {"Name": "Spiker", "Health":(44,60),"Intentions":[9,"SpikeUp 2"],"Intentions_Logic":[["Spiker"],list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:1,1:1}))],"On_hit_or_death":[[7,"Hit"]]},
+            "Darkling": {"Name": "Darkling","Health":(50,59),"Intentions":[rd.randint(7,11)+2,"Bellow 2|12","Multiattack 9*2"],"Intentions_Logic":[["Darkling"]],"On_hit_or_death":[["Lifelink","Death"]]},
+            "Orb Walker": {"Name": "Orb Walker", "Health":(92,102),"Intentions":[16,"Laser 11/1"],"Intentions_Logic":[["Orb Walker"]],"Ritual":5},
+            "Spiker": {"Name": "Spiker", "Health":(44,60),"Intentions":[9,"SpikeUp 2"],"Intentions_Logic":[["Spiker"]],"On_hit_or_death":[[7,"Hit"]]},
             "Exploder": {"Name": "Exploder", "Health":(30,35),"Intentions":[11,"Explode 30"],"Intentions_Logic":[["Random"],[0,0,1]]},
-            "Repulsor": {"Name": "Repulsor", "Health":(31,38),"Intentions":[13,"Repulse 2"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.2,0.8],{0:1,1:10}))]},
+            "Repulsor": {"Name": "Repulsor", "Health":(31,38),"Intentions":[13,"Repulse 2"],"Intentions_Logic":[["Repulsor"]]},
         
             "The Maw": {"Name": "The Maw", "Health":(300,300),"Intentions_Logic":[["The Maw"]]},
-            "Spire Growth": {"Name": "Spire Growth", "Health":(190,190),"Intentions":[18,25,"Constrict 12"],"Intentions_Logic":[["Spire Growth"],list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:2,1:2}))]},
+            "Spire Growth": {"Name": "Spire Growth", "Health":(190,190),"Intentions":[18,25,"Constrict 12"],"Intentions_Logic":[["Spire Growth"]]},
             "Transient": {"Name": "Transient","Health":(999,999),"Intentions":["Transientattack 40"],"Intentions_Logic":[["Random"],[0]*20],"On_hit_or_death": [["Shifting","Hit"]],"Fading":True},
-            "Writhing Mass": {"Name": "Writhing Mass","Health":(175,175),"Intentions":["Thrash 15/16","Wither 10/2","Multiattack 9*3",38,"Implant"],"Intentions_Logic":[["Writhing Mass"],list(helping_functions.nchoices_with_restrictions([0.3,0.2,0.3,0.1,0.1],{0:1,1:1,2:1,3:1,4:1}))],"On_hit_or_death": [["Malleable 3","Hit"],["Reactive","Hit"]]},
+            "Writhing Mass": {"Name": "Writhing Mass","Health":(175,175),"Intentions":["Thrash 15/16","Wither 10/2","Multiattack 9*3",38,"Implant"],"Intentions_Logic":[["Writhing Mass"]],"On_hit_or_death": [["Malleable 3","Hit"],["Reactive","Hit"]]},
                     
-            "Nemesis": {"Name": "Nemesis","Health":(200,200),"Intentions":[45,"Multiattack 7*3","BurningDebuff 5"],"Intentions_Logic":[["Random"],[rd.randint(0,1)]+list(helping_functions.nchoices_with_restrictions([0.3,0.35,0.35],{0:2,1:1,2:1}))],"Intangible Power":True},
-            "Giant Head": {"Name":"Giant Head","Health":(520,520),"Intentions":[13,"Weak 1","GiantHead 40"],"Intentions_Logic":[["Random"],list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:2,1:2},k=4))+[2]*40],"Slow":True},
+            "Nemesis": {"Name": "Nemesis","Health":(200,200),"Intentions":[45,"Multiattack 7*3","BurningDebuff 5"],"Intentions_Logic":[["Nemesis"]],"Intangible Power":True},
+            "Giant Head": {"Name":"Giant Head","Health":(520,520),"Intentions":[13,"Weak 1","GiantHead 40"],"Intentions_Logic":[["Giant Head"]],"Slow":True},
 
             "Raptomancer": {"Name": "Raptomancer","Health":(190,200),"Intentions_Logic":[["Raptomancer"]],"Leader":True},
             "Dagger": {"Name": "Dagger","Health":(20,25),"Intentions":["ScouringWhip 9/1","Explode 25"],"Intentions_Logic":[["Random"],[0,1,1,1]]},
@@ -1357,12 +1355,12 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
         	"Donu":{"Name":"Donu","Health":(265,265),"Intentions":["MysticBuff 3","Multiattack 12*2"],"Intentions_Logic":[["Random"],[0,1]*50],"Artifact":3},
         	"Deca":{"Name":"Deca","Health":(265,265),"Intentions":["SquareOfDeca 16|3","DazeBeam 12*2"],"Intentions_Logic":[["Random"],[1,0]*50],"Artifact":3},
 
-        	"Awakened One": {"Name":"Awakened One","Health":(320,320),"Intentions":[20,"Multiattack 6*4"],"Intentions_Logic":[["Random"],[0]+list(helping_functions.nchoices_with_restrictions([0.25,0.75],{0:2,1:1}))], "CardTypeToLookOutFor":"Power Strength 2","Regen":15,"On_hit_or_death":[["Rebirth","Death"]]},
+        	"Awakened One": {"Name":"Awakened One","Health":(320,320),"Intentions":[20,"Multiattack 6*4"],"Intentions_Logic":[["Awakened One"]], "CardTypeToLookOutFor":"Power Strength 2","Regen":15,"On_hit_or_death":[["Rebirth","Death"]]},
         	
-        	"Time Eater": {"Name":"Time Eater","Health":(480,480),"Intentions":["TimeSlam 32/2","Ripple 20|1","Multiattack 8*3"],"Intentions_Logic":[["Time Eater"],[0]+list(helping_functions.nchoices_with_restrictions([0.35,0.2,0.45],{0:1,1:1,2:2}))], "CardTypeToLookOutFor":"Everything Counter Opposites 1"},
+        	"Time Eater": {"Name":"Time Eater","Health":(480,480),"Intentions":["TimeSlam 32/2","Ripple 20|1","Multiattack 8*3"],"Intentions_Logic":[["Time Eater"]], "CardTypeToLookOutFor":"Everything Counter Opposites 1"},
 
             "Spire Shield": {"Name":"Spire Shield","Health":(125,125),"Intentions":["Bash 12/1","Fortify 30","Thrash 38/99"],"Intentions_Logic":[["Spire Shield"]],"Artifact":2,"On_hit_or_death":[["SpireBros","Hit"]]},
-            "Spire Spear": {"Name":"Spire Spear","Health":(180,180),"Intentions":["Multiattack 10*4","BurnStrike 6*2","CircleOfPower 2",],"Intentions_Logic":[["Random"],[1]+helping_functions.spireSpearAttacks()], "Artifact":2,"On_hit_or_death":[["SpireBros","Hit"]]},
+            "Spire Spear": {"Name":"Spire Spear","Health":(180,180),"Intentions":["Multiattack 10*4","BurnStrike 6*2","CircleOfPower 2",],"Intentions_Logic":[["Spire Spear"]], "Artifact":2,"On_hit_or_death":[["SpireBros","Hit"]]},
                                                                 
             "Corrupt Heart":{"Name":"Corrupt Heart","Health":(800,800),"Intentions":["Debilitate 2","Multiattack 2*15",45,"HeartBuff"],"Intentions_Logic":[["Corrupt Heart"]],"On_hit_or_death":[["Invincible 200","Hit"]],"CardTypeToLookOutFor":"Everything BeatOfDeath Opposites 2"}
         	}    
@@ -1659,7 +1657,7 @@ def neowBlesses():
 
     for advantage in advantages:
         for disadvantage in disadvantages:
-            if advantage == "Gain 250 Gold" and disadvantage == "Lose all gold":
+            if advantage == "Gain 250 Gold" and disadvantage == "Lose all Gold":
                 pass
             elif advantage == "Max HP + 12" and disadvantage == "Lose 6 max health":
                 pass
@@ -1742,8 +1740,7 @@ def neowBlesses():
         if blessings[choice][1] == "Lose 6 max health":
             active_character[0].set_maxHealth(-6)
 
-        elif blessings[choice][1] == "Take Damage":
-            damageValue = math.floor((active_character[0].health / 10) * 3)
+        elif blessings[choice][1] == "Take " +str(damageValue)+" Damage":
             active_character[0].set_health(-damageValue)
         
         elif blessings[choice][1] == "Obtain a Curse":
@@ -1753,7 +1750,7 @@ def neowBlesses():
             
             active_character[0].add_CardToDeck(card_add)
 
-        elif blessings[choice][1] == "Lose all gold":
+        elif blessings[choice][1] == "Lose all Gold":
             goldSwish = -active_character[0].gold
             active_character[0].set_gold(goldSwish)   
             

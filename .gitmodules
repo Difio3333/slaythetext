@@ -1,0 +1,6 @@
+[submodule "libs/colorama"]
+	path = libs/colorama
+	url = https://github.com/tartley/colorama
+[submodule "libs/ansimarkup"]
+	path = libs/ansimarkup
+	url = https://github.com/gvalkov/python-ansimarkup

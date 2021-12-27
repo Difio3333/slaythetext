@@ -27,7 +27,7 @@ class Char():
 		self.name = name
 		self.displayName = "<green>" + self.name + "</green>"
 		self.max_health = max_health
-		self.health = self.max_health
+		self.health = self.max_health - math.floor(self.max_health / 10)
 		self.energy = energy
 		self.energy_gain = energy_gain
 
@@ -239,7 +239,7 @@ class Char():
 			self.reset()
 			self.relicsEveryTurn(turn_counter)
 			self.showHand()
-			ansiprint("You have <yellow>"+str(self.energy)+" Energy</yellow>.")
+			ansiprint("You have <yellow>"+str(self.energy)+" Energy</yellow>.")#replace by status function.
 
 			
 			if len(self.doubleDamage) > 0:
@@ -321,6 +321,7 @@ class Char():
 	def enemyMoves(self):
 		for enemy in entities.list_of_enemies:
 			enemy.chooseMove()
+
 
 	def gainEnergy(self,value):
 		self.energy += value
@@ -3123,7 +3124,6 @@ class Char():
 				card.pop("This turn Energycost changed",None)
 				card["Energy"] = entities.cards[card.get("Name")].get("Energy")
 
-
 	def set_attackCounter(self):
 		self.attack_counter += 1
 
@@ -3145,6 +3145,8 @@ class Char():
 				relic["Counter"] += 1
 				if relic.get("Counter") % 10 == 0:
 					self.penNip = 1
+				else:
+					self.penNip = 0
 
 			elif relic.get("Name") == "Orange Pellets":
 				if self.attack_counter > 0 and self.skill_counter > 0 and self.power_counter > 0:
@@ -3283,7 +3285,6 @@ class Char():
 
 			if self.penNip > 0:
 				attack*=2
-				self.penNip = 0
 
 			if self.weak > 0:
 				damage = (attack + self.strength) - int((attack + self.strength) * 0.25)
@@ -3663,6 +3664,8 @@ class Char():
 		i = 0
 		for opponent in entities.list_of_enemies:
 			gegner += "\n{}.) {} (<red>{}</red>/<red>{}</red>)".format(i+1,opponent.name,opponent.health,opponent.max_health)
+			if opponent.block > 0:
+				gegner += " |<green> Block: "+str(opponent.block)+"</green>"
 			if opponent.poison > 0:
 				gegner += " |<green> Poison: "+str(opponent.poison)+"</green>"
 			if opponent.weak > 0:
@@ -3709,14 +3712,19 @@ class Char():
 			
 			attackDamage = self.determine_damage_to_character(entities.list_of_enemies[index].move,index)
 
-			previewString = "Attacks for " + str(attackDamage)
+			previewString = "Attacks for <red>" + str(attackDamage)+"</red>"
 			
 		elif "Multiattack" in entities.list_of_enemies[index].move:
 			
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
 
-			previewString = "Attacks "+amount+" times for "+damage+" damage"
+			previewString = "Attacks "+amount+" times for <red>"+damage+"</red>"
+
+		elif "Thrash" in entities.list_of_enemies[index].move:
+
+			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
+			previewString = "Attacks for "+str(damage)+". Blocks"
 
 		elif "Blocking" in entities.list_of_enemies[index].move:
 
@@ -3761,7 +3769,7 @@ class Char():
 		elif "Suck" in entities.list_of_enemies[index].move:
 
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1]),index)
-			previewString = "Attacks for "+str(damage)+" damage. Applies positive effect to itself"
+			previewString = "Attacks for "+str(damage)+" damage. Buffs itself"
  		
 		elif "CenturionDefendAlly" in entities.list_of_enemies[index].move:
 
@@ -3815,7 +3823,7 @@ class Char():
 
 		elif "Divider" in entities.list_of_enemies[index].move:
 			damage = self.determine_damage_to_character(6,index)
-			previewString = "Attacks"+ int(self.health // 12 + 1) *"times for "+ str(damage)+" damage"
+			previewString = "Attacks"+ int(self.health // 12 + 1) *"times for <red>"+ str(damage)+"</red>"
 
 		elif "Inferno" in entities.list_of_enemies[index].move:
 			
@@ -3857,7 +3865,7 @@ class Char():
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
 
-			previewString = "Attacks "+amount+" times for "+damage+" damage. Applies Debuff"
+			previewString = "Attacks "+amount+" times for <red>"+damage+"</red>. Applies Debuff"
 
 		elif "Gloat" in entities.list_of_enemies[index].move:
 
@@ -3943,12 +3951,12 @@ class Char():
 		elif "Transientattack" in entities.list_of_enemies[index].move:
 
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1])+(helping_functions.turnCounter-1)*10,index)
-			previewString = "Attacks for "+str(damage)+" damage"
+			previewString = "Attacks for <red>"+str(damage)+"</red>"
 
 		elif "/" in entities.list_of_enemies[index].move:
 			
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
-			previewString = "Attacks for "+str(damage)+" damage. Applies Debuff"
+			previewString = "Attacks for <red>"+str(damage)+"</red>. Applies Debuff"
 
 		elif "|" in entities.list_of_enemies[index].move:
 			

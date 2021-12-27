@@ -43,25 +43,6 @@ def count_up(turn):
     
     return turn + 1
 
-def nchoices_with_restrictions(weights=None, restrictions={},k = 100):
-
-    N = 0 # count how many values we have yielded so far
-    last_value = None # last value that was yielded
-    repeat_count = 0 # how often it has been yielded in a row
-    while N < k:
-        while True:
-            x = rd.choices(range(len(weights)), weights)[0]
-            if x == last_value and repeat_count == restrictions.get(x, 0):
-                continue
-            break
-        yield x
-        N += 1
-        if x == last_value:
-            repeat_count += 1
-        else:
-            repeat_count = 1
-            last_value = x
-
 
 def alternating_choices(optionsOne,optionsTwo,weightsOne = None,weightsTwo = None,k = 50):
     i = 0
@@ -1315,3 +1296,65 @@ def checkSpireBros(target):
                     entities.list_of_enemies[target].spireBroAttacked = False                
     except Exception as e:
         print(e)
+
+def nchoices_with_restrictions(weights=None, restrictions=None,k = 100):
+    if restrictions == None:
+        restrictions = {}
+    N = 0 # count how many values we have yielded so far
+    last_value = None # last value that was yielded
+    repeat_count = 0 # how often it has been yielded in a row
+    while N < k:
+        while True:
+            x = rd.choices(range(len(weights)), weights)[0]
+            if x == last_value and repeat_count == restrictions.get(x, 0):
+                continue
+            break
+        yield x
+        N += 1
+        if x == last_value:
+            repeat_count += 1
+        else:
+            repeat_count = 1
+            last_value = x
+
+def nchoices_with_restrictions_minions(weightsAndRestrictions,k = None):
+    if k == None:
+        k = 100
+    print("weightsAndRestrictions:",weightsAndRestrictions)
+    weights = weightsAndRestrictions[0]
+    if len(weightsAndRestrictions) == 1:
+        restrictions = {}
+    else:
+        restrictions = weightsAndRestrictions[1]
+
+
+    N = 0 # count how many values we have yielded so far
+    last_value = None # last value that was yielded
+    repeat_count = 0 # how often it has been yielded in a row
+    while N < k:
+        while True:
+            x = rd.choices(range(len(weights)), weights)[0]
+            if x == last_value and repeat_count == restrictions.get(x, 0):
+                continue
+            break
+        yield x
+        N += 1
+        if x == last_value:
+            repeat_count += 1
+        else:
+            repeat_count = 1
+            last_value = x
+
+
+def create_intentions_list(enemy):
+    intentions = []
+    
+    if enemy == "Red Louse":
+        #intentions = list(nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
+        intentions = rd.choices([0,1],weights= [0.75,0.25],k=100)
+
+    elif enemy == "Green Louse":
+        #intentions = list(nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
+        intentions = rd.choices([0,1],weights= [0.75,0.25],k=100)
+
+    return intentions

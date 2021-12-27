@@ -5,9 +5,9 @@ import helping_functions
 from ansimarkup import parse, ansiprint
 
 class Enemy():
-	def __init__(self, name: str = "default_name", max_health: int = 0, intentions: list = [],
+	def __init__(self, name:str = None, max_health: int = 0, intentions: list = None,
 		
-		intention_logic:list = [], on_hit_or_death:list = [], block: int = 0,
+		intention_logic:list = None, on_hit_or_death:list = None, block: int = 0,
 		
 		weak: int = 0, vulnerable: int = 0, poison: int = 0,
 
@@ -27,10 +27,20 @@ class Enemy():
 		self.max_health = max_health
 		self.health = self.max_health
 
-		self.intentions = intentions
-		self.intention_logic = intention_logic
+		if intentions == None:
+			self.intentions = []
+		else:
+			self.intentions = intentions
 		
-		self.on_hit_or_death = on_hit_or_death
+		if intention_logic == None:
+			self.intention_logic = []
+		else:
+			self.intention_logic = intention_logic
+		
+		if on_hit_or_death == None:
+			self.on_hit_or_death = []
+		else:
+			self.on_hit_or_death = on_hit_or_death
 
 		self.block = block		
 		self.leader = leader
@@ -89,6 +99,9 @@ class Enemy():
 		self.moveThreeSpree = 0
 
 	def chooseMove(self):
+		if helping_functions.turn_counter == 1:
+			self.set_intention_logic()
+			
 		
 		self.move = self.determine_choice(helping_functions.turn_counter)
 
@@ -522,6 +535,9 @@ class Enemy():
 						else:
 							choice = "Multiattack 2*15"
 
+		else:
+					
+			choice = self.intentions[self.intention_logic[1][turn_counter-1]]
 
 		return choice
 
@@ -1760,4 +1776,110 @@ class Enemy():
 	def receive_sadistic_damage(self):
 
 		self.receive_recoil_damage(self.sadisticNature)
+
+	def set_intention_logic(self):
+		if self.intention_logic[0][0] != "Random":
+			self.dumb_check_because_this_part_of_python_sucks()
+
+		if self.intention_logic[0][0] == "Green Louse":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
+			
+		elif self.intention_logic[0][0] == "Red Louse":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
+		
+		elif self.intention_logic[0][0] == "Jaw Worm":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.25,0.3,0.45],{0:1,1:2,2:1}))
+
+		elif self.intention_logic[0][0] == "Looter":
+			self.intention_logic[1] = [0,0,rd.randint(1,2)]
+
+		elif self.intention_logic[0][0] == "Red Slaver":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.375,0.375,0.25],{0:2,1:2,2:1}))
+		
+		elif self.intention_logic[0][0] == "Blue Slaver":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.4,0.6],{0:2,1:1}))
+		
+		elif self.intention_logic[0][0] == "Fungi Beast":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.6,0.4],{0:2,1:1}))
+
+		elif self.intention_logic[0][0] == "Small Acid Slime":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.5,0.5]))
+
+		elif self.intention_logic[0][0] == "Medium Acid Slime":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))
+
+		elif self.intention_logic[0][0] == "Large Acid Slime":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.3,0.4,0.3],{0:1,1:2,2:1}))
+
+		elif self.intention_logic[0][0] == "Byrd":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.625,0.375],k=1)) + list(helping_functions.nchoices_with_restrictions([0.5,0.3,0.2],{0:2,1:1,2:1}))
+
+		elif self.intention_logic[0][0] == "Chosen":
+			self.intention_logic[1] = [4]+helping_functions.alternating_choices(optionsOne=[0,1],optionsTwo=[2,3],weightsOne = None,weightsTwo = [0.6,0.4])
+
+		elif self.intention_logic[0][0] == "Shelled Parasite":
+			self.intention_logic[1] = [2,rd.randint(0,1)] + list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))
+
+		elif self.intention_logic[0][0] == "Mugger":
+			self.intention_logic[1] = [0,0,rd.randint(1,2)]
+
+		elif self.intention_logic[0][0] == "Snecko":
+			self.intention_logic[1] = [2]+list(helping_functions.nchoices_with_restrictions([0.60,0.40],{0:2,1:5}))
+
+		elif self.intention_logic[0][0] == "Spheric Guardian":
+			self.intention_logic[1] = [2,3] + list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:1,1:1}))
+		
+		elif self.intention_logic[0][0] == "Snake Plant":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.65,0.35],{0:2,1:1}))
+
+		elif self.intention_logic[0][0] == "Book of Stabbing":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.85,0.15],{0:2,1:1}))
+
+		elif self.intention_logic[0][0] == "Bronze Orb":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.175,0.075,0.75],{0:2,1:2,2:2}))
+
+		elif self.intention_logic[0][0] == "Darkling":
+			self.intention_logic[1] = [rd.randint(0,1)]+list(helping_functions.nchoices_with_restrictions([0.3,0.3,0.4],{0:2,1:1,2:1}))
+
+		elif self.intention_logic[0][0] == "Orb Walker":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.4,0.6],{0:2,1:2}))
+
+		elif self.intention_logic[0][0] == "Spiker":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:1,1:1}))
+
+		elif self.intention_logic[0][0] == "Repulsor":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.2,0.8],{0:1,1:10}))
+
+		elif self.intention_logic[0][0] == "Spire Growth":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:2,1:2}))
+
+		elif self.intention_logic[0][0] == "Writhing Mass":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.3,0.2,0.3,0.1,0.1],{0:1,1:1,2:1,3:1,4:1}))
+
+
+		elif self.intention_logic[0][0] == "Nemesis":
+			self.intention_logic[1] = [rd.randint(0,1)]+list(helping_functions.nchoices_with_restrictions([0.3,0.35,0.35],{0:2,1:1,2:1}))
+			
+		elif self.intention_logic[0][0] == "Giant Head":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.5,0.5],{0:2,1:2},k=4))+[2]*40
+		
+		elif self.intention_logic[0][0] == "Awakened One":
+			self.intention_logic[1] = [0]+list(helping_functions.nchoices_with_restrictions([0.25,0.75],{0:2,1:1}))
+		
+		elif self.intention_logic[0][0] == "Time Eater":
+			self.intention_logic[1] = [0]+list(helping_functions.nchoices_with_restrictions([0.35,0.2,0.45],{0:1,1:1,2:2}))
+		
+		elif self.intention_logic[0][0] == "Spire Spear":
+			self.intention_logic[1] = [1]+helping_functions.spireSpearAttacks()
+
+		
+
+	def dumb_check_because_this_part_of_python_sucks(self):
+		if len(self.intention_logic) == 1:
+			self.intention_logic.append(None)
+		#look you'll come back here in the future and wonder why you've done this
+		#while even at the point you've created this you're not entirely sure.
+		#try reading this sometimes in the future.
+		#https://stackoverflow.com/questions/1132941/least-astonishment-and-the-mutable-default-argument/11416002#11416002
+
 	
