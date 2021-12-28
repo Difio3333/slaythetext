@@ -3,9 +3,10 @@ import entities
 import math
 import helping_functions
 from ansimarkup import parse, ansiprint
+import copy
 
 class Enemy():
-	def __init__(self, name:str = None, max_health: int = 0, intentions: list = None,
+	def __init__(self, name, max_health,intentions,
 		
 		intention_logic:list = None, on_hit_or_death:list = None, block: int = 0,
 		
@@ -23,24 +24,21 @@ class Enemy():
 		
 		self.codeName = name
 		self.name = "<red>" + name + "</red>"
-		self.identifier = name + str(rd.randint(0,999999))
+		self.identifier = name + " "+ str(rd.randint(0,999999))
 		self.max_health = max_health
 		self.health = self.max_health
-
-		if intentions == None:
-			self.intentions = []
-		else:
-			self.intentions = intentions
+		
+		self.intentions = copy.deepcopy(intentions)
 		
 		if intention_logic == None:
 			self.intention_logic = []
 		else:
-			self.intention_logic = intention_logic
+			self.intention_logic = copy.deepcopy(intention_logic)
 		
 		if on_hit_or_death == None:
 			self.on_hit_or_death = []
 		else:
-			self.on_hit_or_death = on_hit_or_death
+			self.on_hit_or_death = copy.deepcopy(on_hit_or_death)
 
 		self.block = block		
 		self.leader = leader
@@ -100,9 +98,11 @@ class Enemy():
 
 	def chooseMove(self):
 		if helping_functions.turn_counter == 1:
-			self.set_intention_logic()
 			
-		
+			self.set_intention_logic()
+			self.set_randoms_at_start_of_battle()
+			print(self.on_hit_or_death)
+
 		self.move = self.determine_choice(helping_functions.turn_counter)
 
 	def turn(self,turn_counter):
@@ -294,7 +294,6 @@ class Enemy():
 			if choice == "Implant":
 				self.counter += 1
 			
-
 		elif "Gremlin Leader" in self.intention_logic[0][0]:
 
 			if len(entities.list_of_enemies) == 1:
@@ -1778,6 +1777,7 @@ class Enemy():
 		self.receive_recoil_damage(self.sadisticNature)
 
 	def set_intention_logic(self):
+		
 		if self.intention_logic[0][0] != "Random":
 			self.dumb_check_because_this_part_of_python_sucks()
 
@@ -1856,7 +1856,6 @@ class Enemy():
 		elif self.intention_logic[0][0] == "Writhing Mass":
 			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.3,0.2,0.3,0.1,0.1],{0:1,1:1,2:1,3:1,4:1}))
 
-
 		elif self.intention_logic[0][0] == "Nemesis":
 			self.intention_logic[1] = [rd.randint(0,1)]+list(helping_functions.nchoices_with_restrictions([0.3,0.35,0.35],{0:2,1:1,2:1}))
 			
@@ -1872,8 +1871,6 @@ class Enemy():
 		elif self.intention_logic[0][0] == "Spire Spear":
 			self.intention_logic[1] = [1]+helping_functions.spireSpearAttacks()
 
-		
-
 	def dumb_check_because_this_part_of_python_sucks(self):
 		if len(self.intention_logic) == 1:
 			self.intention_logic.append(None)
@@ -1881,5 +1878,18 @@ class Enemy():
 		#while even at the point you've created this you're not entirely sure.
 		#try reading this sometimes in the future.
 		#https://stackoverflow.com/questions/1132941/least-astonishment-and-the-mutable-default-argument/11416002#11416002
+
+	def set_randoms_at_start_of_battle(self):
+
+		i = 0
+		while i < len(self.intentions):
+			if type(self.intentions[i]) == tuple:
+				self.intentions[i] = rd.randint(self.intentions[i][0],self.intentions[i][1])
+			i+=1
+
+		for effect in self.on_hit_or_death:
+			if "Curl" in effect:  
+				effect[0] = "Curl " + str(rd.randint(9,12))
+
 
 	

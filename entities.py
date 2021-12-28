@@ -7,7 +7,7 @@ from ansimarkup import parse, ansiprint
 import math
 import time
 import save_handlery
-
+import copy
 
 list_of_enemies = []
 relics_seen_list = []
@@ -99,8 +99,8 @@ def fill_enemy_list():
         checklist = [1,2,3,4]
         i = 0
         while i < 3:
-            snap = checklist.pop(rd.randint(0,len(checklist) - 1))
-            #snap = 3
+            #snap = checklist.pop(rd.randint(0,len(checklist) - 1))
+            snap = 3
             miniList = []
             if snap == 1:
                 enemy = "Cultist"
@@ -1270,8 +1270,8 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
             "Jaw Worm": {"Name": "Jaw Worm","Health": (42,46),"Intentions":[12, "Thrash 7/5", "Bellow 5|9"],"Intentions_Logic":[["Jaw Worm"]]},
             "Jaw Worm Hard": {"Name": "Jaw Worm","Health": (42,46),"Block":9,"Strength":5,"Intentions":[12, "Thrash 7/5", "Bellow 5|9"],"Intentions_Logic":[["Jaw Worm"]]},
 
-            "Red Louse": {"Name":"Red Louse","Health":(11,17),"Intentions": [rd.randint(6,8),"Grow 2"], "Intentions_Logic":[["Red Louse"]],"On_hit_or_death":[["Curl " + str(rd.randint(9,12)),"Hit"]]},
-            "Green Louse": {"Name":"Green Louse","Health":(12,18),"Intentions": [rd.randint(6,8),"Weak 2"], "Intentions_Logic":[["Green Louse"]],"On_hit_or_death":[["Curl " + str(rd.randint(9,12)),"Hit"]]},
+            "Red Louse": {"Name":"Red Louse","Health":(11,17),"Intentions": [(6,8),"Grow 2"], "Intentions_Logic":[["Red Louse"]],"On_hit_or_death":[["Curl","Hit"]]},
+            "Green Louse": {"Name":"Green Louse","Health":(12,18),"Intentions": [(6,8),"Weak 2"], "Intentions_Logic":[["Green Louse"]],"On_hit_or_death":[["Curl","Hit"]]},
             
             "Looter": {"Name": "Looter","Health":(46,50),"Intentions":["Steal 11/20", "Lunge 14/20", "SmokeBomb 6"],"Intentions_Logic":[["Looter"]]},
             
@@ -1335,7 +1335,7 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
 
             "The Collector": {"Name":"The Collector","Health":(300,300),"Intentions_Logic":[["The Collector"]],"Leader": True},
 
-            "Darkling": {"Name": "Darkling","Health":(50,59),"Intentions":[rd.randint(7,11)+2,"Bellow 2|12","Multiattack 9*2"],"Intentions_Logic":[["Darkling"]],"On_hit_or_death":[["Lifelink","Death"]]},
+            "Darkling": {"Name": "Darkling","Health":(50,59),"Intentions":[(9,13),"Bellow 2|12","Multiattack 9*2"],"Intentions_Logic":[["Darkling"]],"On_hit_or_death":[["Lifelink","Death"]]},
             "Orb Walker": {"Name": "Orb Walker", "Health":(92,102),"Intentions":[16,"Laser 11/1"],"Intentions_Logic":[["Orb Walker"]],"Ritual":5},
             "Spiker": {"Name": "Spiker", "Health":(44,60),"Intentions":[9,"SpikeUp 2"],"Intentions_Logic":[["Spiker"]],"On_hit_or_death":[[7,"Hit"]]},
             "Exploder": {"Name": "Exploder", "Health":(30,35),"Intentions":[11,"Explode 30"],"Intentions_Logic":[["Random"],[0,0,1]]},

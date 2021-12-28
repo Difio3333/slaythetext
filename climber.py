@@ -322,7 +322,6 @@ class Char():
 		for enemy in entities.list_of_enemies:
 			enemy.chooseMove()
 
-
 	def gainEnergy(self,value):
 		self.energy += value
 		ansiprint(self.displayName, "has now <yellow>"+str(self.energy)+" Energy</yellow>.\n")	
