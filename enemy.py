@@ -115,18 +115,18 @@ class Enemy():
 		self.specialBegginingOfTurnEffects()
 
 		entities.check_if_enemy_dead()
+		if self.alive:
+			if self.regen > 0:
+				self.heal(self.regen)
+				
+			if self.barricade == False:
+				self.block = 0
+		
+			self.action(self.move)
 
-		if self.regen > 0:
-			self.heal(self.regen)
-			
-		if self.barricade == False:
-			self.block = 0
-	
-		self.action(self.move)
+			self.effect_counter_down()
 
-		self.effect_counter_down()
-
-		self.endOfTurnEffects()
+			self.endOfTurnEffects()
 	
 	def specialBegginingOfTurnEffects(self):
 		
@@ -727,15 +727,15 @@ class Enemy():
 			elif "Split" in action:
 				
 				if "Boss" in self.name:
-					entities.list_of_enemies.append(Enemy("Large Spike Slime",self.health,["CorrosiveSpit 18/2","Frail 3"],[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))],[["Split","Hit"]]))
-					entities.list_of_enemies.append(Enemy("Large Acid Slime",self.health,[18,"CorrosiveSpit 12/2","Weak 2"],[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.4,0.3],{0:1,1:2,2:1}))],[["Split","Hit"]]))
+					entities.list_of_enemies.append(Enemy(name="Large Spike Slime",max_health=self.health,intentions=["CorrosiveSpit 18/2","Frail 3"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))],on_hit_or_death=[["Split","Hit"]]))
+					entities.list_of_enemies.append(Enemy(name="Large Acid Slime",max_health=self.health,intentions=[18,"CorrosiveSpit 12/2","Weak 2"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.4,0.3],{0:1,1:2,2:1}))],on_hit_or_death=[["Split","Hit"]]))
 				
 				elif "Spike" in self.name: 
-					entities.list_of_enemies.append(Enemy("Medium Spike Slime",self.health,["CorrosiveSpit 10/1","Frail 1"],[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
-					entities.list_of_enemies.append(Enemy("Medium Spike Slime",self.health,["CorrosiveSpit 10/1","Frail 1"],[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Spike Slime",max_health=self.health,intentions=["CorrosiveSpit 10/1","Frail 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Spike Slime",max_health=self.health,intentions=["CorrosiveSpit 10/1","Frail 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
 				elif "Acid" in self.name:
-					entities.list_of_enemies.append(Enemy("Medium Acid Slime",self.health,[12,"CorrosiveSpit 8/1","Weak 1"],[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
-					entities.list_of_enemies.append(Enemy("Medium Acid Slime",self.health,[12,"CorrosiveSpit 8/1","Weak 1"],[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Acid Slime",max_health=self.health,intentions=[12,"CorrosiveSpit 8/1","Weak 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Acid Slime",max_health=self.health,intentions=[12,"CorrosiveSpit 8/1","Weak 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
 				
 
 				self.alive = False

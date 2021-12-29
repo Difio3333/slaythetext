@@ -886,18 +886,19 @@ class Char():
 				
 					except Exception as e:	
 						if e == "Energy":
-							ansiprint("This card is unplayable!")
+							ansiprint("You don't have enough <yellow>Energy</yellow> to play this card.")
 						else:
-							ansiprint("There is an issue playing this card. Play card.",type(e))
+							#ansiprint("There is an issue playing this card. Play card.",type(e))
+							pass
 						return
 					
 				else:
 					ansiprint ("You don't have this card!")
 					
 			except Exception as e:
-				print("play card",e)
+				#print("play card",e)
 				self.explainer_function(card_index)
-				ansiprint ("Type a corresponding number and choose playable cards! play_card")
+				ansiprint ("Type a corresponding number and choose playable cards!")
 				
 		
 		if "Grand Finale" in self.hand[card_index].get("Name"):
