@@ -2452,6 +2452,7 @@ class Char():
 						return
 					elif self.potionBag[potion_index]["Name"] == "Smoke Bomb" and self.get_floor() == "Boss":
 						ansiprint("<c>Smoke Bomb</c> can't be played during <black>Bossfigts</black>!")
+						return
 					else:
 						break
 

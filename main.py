@@ -17,11 +17,11 @@ colorama.init()
 #events are not following any rules yet.
 #no tutorial
 #no proper error logging yet.
-#skip function for potion use.
+
 
 print("Slay the Spire is a registered trademark by Mega Crit, LLC")
 print("Please consider supporting the Developers by purchasing Slay the Spire on Steam/Gog/Epic etc.\n\n")
-print("This game probably requires a base understanding of Slay the Spire.")
+print("This game likely requires a base understanding of Slay the Spire.")
 print("If you don't know what a card or relic does just type out its name wherever you are and you should get a short explanation of it.")
 print("In 99 out of 100 cases you can navigate the game by typing in the corresponding numbers of the options presented to you.\n\n")
 
