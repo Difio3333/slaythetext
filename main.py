@@ -6,7 +6,7 @@ import sys
 import time
 import save_handlery
 from pathlib import Path
-
+from ansimarkup import parse, ansiprint
 
 
 colorama.init()
@@ -19,11 +19,11 @@ colorama.init()
 #no proper error logging yet.
 
 
-print("Slay the Spire is a registered trademark by Mega Crit, LLC")
-print("Please consider supporting the Developers by purchasing Slay the Spire on Steam/Gog/Epic etc.\n\n")
-print("This game likely requires a base understanding of Slay the Spire.")
-print("If you don't know what a card or relic does just type out its name wherever you are and you should get a short explanation of it.")
-print("In 99 out of 100 cases you can navigate the game by typing in the corresponding numbers of the options presented to you.\n\n")
+ansiprint("Slay the Spire is a registered trademark by Mega Crit, LLC")
+ansiprint("Please consider supporting the Developers by purchasing Slay the Spire on Steam/Gog/Epic etc.\n\n")
+ansiprint("This game likely requires a base understanding of Slay the Spire.")
+ansiprint("If you don't know what a <blue>Card</blue> or <light-red>Relic</light-red> does just type out its name wherever you are and you should get a short explanation of it.")
+ansiprint("In 99 out of 100 cases you can navigate the game by typing in the corresponding numbers of the options presented to you.\n\n")
 
 try:
 	save_handlery.the_question_of_safety()
@@ -75,4 +75,4 @@ except Exception as e:
 		for i in crash:
 			i=str(i)
 			crashLog.write(i)
-	input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.\nIt would be really nice if you could copy paste your game text to a txt. file and send it to me. Thanks and sorry for the inconveniences.")
+	input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.\nIt would be really nice if you could copy paste your game text to a txt. file and send it to slaythetext@gmail.com. Thanks and sorry for the inconveniences.")
