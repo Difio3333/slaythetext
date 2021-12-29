@@ -239,18 +239,16 @@ class Char():
 			self.reset()
 			self.relicsEveryTurn(turn_counter)
 			self.showHand()
-			ansiprint("You have <yellow>"+str(self.energy)+" Energy</yellow>.")#replace by status function.
-
 			
-			if len(self.doubleDamage) > 0:
-				ansiprint(self.displayName, "attacks will deal Double Damage.")
+			
+			
 			self.turnMoment = 1
 		else:
 			ansiprint("You saved during a fight!")
-			ansiprint("You have <yellow>"+str(self.energy)+" Energy</yellow>.")
+			
 			
 		while True:
-			
+			self.show_status()
 			actionlist = ["Play a <blue>Card</blue>","Use a <c>Potion</c>","Update <red>Opponents</red>","Show <light-red>Relics</light-red>","End Turn"]
 			
 			if self.runicDome == 0:
@@ -5434,6 +5432,38 @@ class Char():
 			except Exception as e:
 				print(e,"This is neither a Card, a <light-red>Relic</light-red> or a <c>Potion</c>.")
 				pass
+
+	def show_status(self):
+		status = "\n{} (<red>{}</red>/<red>{}</red>) | <yellow>Energy</yellow>: {}".format(self.displayName,self.health,self.max_health,self.energy)
+		
+		if self.block > 0:
+			status += " |<green> Block: "+str(self.block)+"</green>"
+		if self.weak > 0:
+			status += " |<light-cyan> Weakness: "+str(self.weak)+"</light-cyan>"
+		if self.vulnerable > 0:
+			status += " |<light-cyan> Vulnerable: "+str(self.vulnerable)+"</light-cyan>"
+		if self.frail > 0:
+			status += " |<light-cyan> Frail: "+str(self.frail)+"</light-cyan>"
+		if self.strength != 0:
+			status += " |<red> Strength: "+str(self.strength)+"</red>"
+		if self.dexterity != 0:
+			status += " |<green> Dexterity: "+str(self.dexterity)+"</green>"
+		if self.ritual > 0:
+			status += " |<red> Ritual: "+str(self.ritual)+"</red>"
+		if self.invulnerable > 0:
+			status += " |<light-blue> Invulnerable: "+str(self.invulnerable)+"</light-blue>"
+		if self.intangible > 0:
+			status += " |<light-blue> Invincible: "+str(self.intangible)+"</light-blue>"
+		if self.artifact > 0:
+			status += " |<light-blue> Artifact: "+str(self.artifact)+"</light-blue>"
+		if len(self.doubleDamage) > 0:
+			status += "Attacks deal Double Damage."
+		# if self.metallicize > 0:
+		# 	status += " |<light-blue> Metallicize: "+str(self.metallicize)+"</light-blue>"
+		# if self.barricade == True:
+		# 	status += " |<light-blue> Barricade</light-blue>"
+		
+		ansiprint(status)
 
 	def resetChar(self):
 		self.target = None

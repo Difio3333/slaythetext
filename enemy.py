@@ -535,7 +535,7 @@ class Enemy():
 							choice = "Multiattack 2*15"
 
 		else:
-					
+			
 			choice = self.intentions[self.intention_logic[1][turn_counter-1]]
 
 		return choice
@@ -1810,6 +1810,12 @@ class Enemy():
 
 		elif self.intention_logic[0][0] == "Large Acid Slime":
 			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.3,0.4,0.3],{0:1,1:2,2:1}))
+
+		elif self.intention_logic[0][0] == "Medium Spike Slime":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))
+
+		elif self.intention_logic[0][0] == "Large Spike Slime":
+			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))
 
 		elif self.intention_logic[0][0] == "Byrd":
 			self.intention_logic[1] = list(helping_functions.nchoices_with_restrictions([0.625,0.375],k=1)) + list(helping_functions.nchoices_with_restrictions([0.5,0.3,0.2],{0:2,1:1,2:1}))

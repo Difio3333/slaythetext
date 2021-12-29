@@ -99,8 +99,8 @@ def fill_enemy_list():
         checklist = [1,2,3,4]
         i = 0
         while i < 3:
-            #snap = checklist.pop(rd.randint(0,len(checklist) - 1))
-            snap = 3
+            snap = checklist.pop(rd.randint(0,len(checklist) - 1))
+            #snap = 4
             miniList = []
             if snap == 1:
                 enemy = "Cultist"
