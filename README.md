@@ -11,6 +11,9 @@ https://github.com/Difio3333/slaythetext/releases/download/v0.5.1/slaythetext.ex
 Mac:
 https://github.com/Difio3333/slaythetext/releases/download/v0.5.0/slaythetext
 
+Linux:
+I currently don't have an executable but you can just clone the repo and install the dependencies manually and then just run main.py.
+
 You can check out 20 minutes of me talking and playing over the game here:
 https://youtu.be/qSctBJB82JI
 
