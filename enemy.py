@@ -101,7 +101,7 @@ class Enemy():
 			
 			self.set_intention_logic()
 			self.set_randoms_at_start_of_battle()
-			print(self.on_hit_or_death)
+			
 
 		self.move = self.determine_choice(helping_functions.turn_counter)
 
@@ -1450,7 +1450,7 @@ class Enemy():
 						if self.health > 0:		
 							self.blocking(int(effect[0].split(" ")[1]))
 							self.on_hit_or_death = []
-							ansiprint(self.name, "is curling up for",effect[0].split(" ")[1],"block.")
+							ansiprint(self.name, "<light-blue>curled</light-blue>!")
 					
 					elif "Shifting" in effect[0]:
 						

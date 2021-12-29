@@ -3690,9 +3690,13 @@ class Char():
 			if opponent.sadisticNature > 0:
 				gegner += " |<light-blue> Sadistic Nature: "+str(opponent.sadisticNature)+"</light-blue>"
 			if opponent.heartVincibility > 0:
-				gegner += " |<light-blue>: Heart Vincibility: "+str(opponent.heartVincibility)+"</light-blue>"
+				gegner += " |<light-blue> Heart Vincibility: "+str(opponent.heartVincibility)+"</light-blue>"
 			if opponent.slow > 0:
-				gegner += " |<light-blue>: Slow: "+str(opponent.slow)+"</light-blue>"				
+				gegner += " |<light-blue> Slow: "+str(opponent.slow)+"</light-blue>"
+			for effect in opponent.on_hit_or_death:
+				if "Curl" in effect[0]:
+					gegner += " |<light-blue> Curl: "+effect[0].split(" ")[1]+"</light-blue>"
+
 			if opponent.move:
 				gegner += " | "+ self.enemy_preview(i)
 			if len(self.card_in_play) > 0 and self.card_in_play[0].get("Damage"):
