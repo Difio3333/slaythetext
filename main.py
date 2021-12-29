@@ -24,7 +24,7 @@ ansiprint("Please consider supporting the Developers by purchasing Slay the Spir
 ansiprint("This game likely requires a base understanding of Slay the Spire.")
 ansiprint("If you don't know what a <blue>Card</blue> or <light-red>Relic</light-red> does just type out its name wherever you are and you should get a short explanation of it.")
 ansiprint("In 99 out of 100 cases you can navigate the game by typing in the corresponding numbers of the options presented to you.")
-ansiprint("You can Save only during battles by tyimping \"Save\" and hitting Enter afterwards.\n\n")
+ansiprint("You can Save only during battles by tyimping \"Save\" and hitting \"Enter\" afterwards.\n\n")
 
 try:
 	save_handlery.the_question_of_safety()
