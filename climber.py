@@ -54,7 +54,7 @@ class Char():
 
 		#positiv statuses
 		
-
+		self.smokeBomb = False
 		self.position = position
 		self.alive = alive
 		
@@ -2429,7 +2429,7 @@ class Char():
 
 	def play_potion(self,turn_counter):
 		
-		self.showPotions()
+		self.showPotions(skip=True)
 		potion_index = 0
 		potion_in_play = []
 
@@ -2442,11 +2442,16 @@ class Char():
 				ansiprint("Pick the number of the <c>Potion</c> you want to play\n")
 				potion_index = input("")
 				potion_index = int(potion_index)-1
+				if potion_index == len(self.potionBag):
+					return
+				
 				if potion_index in range(len(self.potionBag)):
 					
 					if self.potionBag[potion_index]["Name"] == "Fairy in a Bottle":
-						ansiprint("<c> Fairy in a Bottle </c> can't be played. It will revive you automatically if you died. I hope.")
+						ansiprint("<c>Fairy in a Bottle</c> can't be played. It will revive you automatically if you died. I hope.")
 						return
+					elif self.potionBag[potion_index]["Name"] == "Smoke Bomb" and self.get_floor() == "Boss":
+						ansiprint("<c>Smoke Bomb</c> can't be played during <black>Bossfigts</black>!")
 					else:
 						break
 
@@ -2605,7 +2610,7 @@ class Char():
 			snapPotions = helping_functions.generatePotionRewards(event=True, amount= self.potionBagSize - len(self.potionBag))
 			i = 0
 			while i < self.potionBagSize:
-				self.add_Potion(snapPotions.pop(0))
+				self.add_potion(snapPotions.pop(0))
 				i += 1
 		
 		elif potion_in_play[0]["Name"] == "Essence of Steel":
@@ -2749,7 +2754,13 @@ class Char():
 			helping_functions.pickCard(three_options,"Hand")
 		
 		elif potion_in_play[0]["Name"] == "Smoke Bomb":
-			print("bomb")
+			if self.get_floor() != "Boss":
+				self.smokeBomb = True
+				entities.list_of_enemies = []
+				ansiprint("You threw the <c>Smoke Bomb</c> on the floor and ran away!")
+			else:
+				ansiprint("You can't run away from <black>Boss</black> Fights!")
+				self.potionBag.append(self.potion_in_play.pop(0))
 
 		elif potion_in_play[0]["Name"] == "Snecko Oil": 
 			self.draw(potion_in_play[0]["Potion Yield"])
@@ -3644,16 +3655,21 @@ class Char():
 					ansiprint(str(i+1)+"."+numberSpacing+"<light-cyan>"+card.get("Name")+"</light-cyan>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
 				i = i + 1
 	
-	def showPotions(self):
+	def showPotions(self,skip=False):
+		try:
+			ansiprint("These are your Potions:\n")
+			potions = ""
+			i = 0
+			for potion in self.potionBag:
+				potions += "{}.) <c>{}</c>\n".format(i+1,potion.get("Name"))
+				i = i + 1
+			if skip and len(self.potionBag)>0:
+				potions += str(i+1)+".) Skip"
+			ansiprint(potions)
+		except Exception as e:
+			print(e)
 
-		ansiprint("These are your Potions:\n")
-		potions = ""
-		i = 0
-		for potion in self.potionBag:
-			potions += "{}.) <c>{}</c>\n".format(i+1,potion.get("Name"))
-			i = i + 1
-	
-		ansiprint(potions)
+
 
 	def showEnemies(self,skip=True):
 		#try:
@@ -4614,7 +4630,7 @@ class Char():
 				randomCard = {k:v for k,v in entities.cards.items() if v.get("Owner") == self.name and v.get("Upgraded") == None}
 				self.add_CardToHand(rd.choices(list(randomCard.items()))[0][1])
 
-	def add_Potion(self,potion):
+	def add_potion(self,potion):
 		
 		sozu = False
 
@@ -4639,7 +4655,7 @@ class Char():
 
 				if choice == "Yes":
 					self.remove_Potion()
-					self.add_Potion(potion)
+					self.add_potion(potion)
 				elif choice == "No":
 					print("You have chosen to not take any further potion.")
 			else:
@@ -5457,13 +5473,21 @@ class Char():
 		if self.artifact > 0:
 			status += " |<light-blue> Artifact: "+str(self.artifact)+"</light-blue>"
 		if len(self.doubleDamage) > 0:
-			status += "Attacks deal Double Damage."
+			status += " | Attacks deal Double Damage."
 		# if self.metallicize > 0:
 		# 	status += " |<light-blue> Metallicize: "+str(self.metallicize)+"</light-blue>"
 		# if self.barricade == True:
 		# 	status += " |<light-blue> Barricade</light-blue>"
 		
 		ansiprint(status)
+
+	def get_smokebomb(self):
+		print("Hello")
+		if self.smokeBomb == True:
+			self.smokeBomb = False
+			return False
+		else:
+			return True
 
 	def resetChar(self):
 		self.target = None

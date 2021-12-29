@@ -1052,7 +1052,7 @@ potions = {
     "Power Potion": {"Name": "Power Potion","Potion Yield":1,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Add 1 of 3 random <blue>Power Cards</blue> to your hand, it costs <yellow> 0 Energy</yellow> this turn."},
     "Regen Potion": {"Name": "Regen Potion","Potion Yield":5,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Gain <green>6 Regeneration</green>."},
     "Skill Potion": {"Name": "Skill Potion","Potion Yield":1,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of 3 <green>random Skill</green> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."},
-    "Smoke Bomb": {"Name": "Smoke Bomb","Rarity": "Rare","Owner":"The Spire","Type": [False,"Potion"],"Info":"Escape from a non-boss combat. Receive no rewards."},
+    "Smoke Bomb": {"Name": "Smoke Bomb","Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"Escape from a non-boss combat. Receive no rewards."},
     "Snecko Oil": {"Name": "Snecko Oil","Potion Yield":5,"Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"Draw 5 Cards. Randomize the costs of all Cards in your hand for the rest of the combat."},
     "Speed Potion": {"Name": "Speed Potion","Potion Yield":5,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Gain <green>5 Dexterity</green>. At the end of your turn lose <green>5 Dexterity</green>."},
     "Flex Potion": {"Name": "Flex Potion","Potion Yield":5,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Gain <red>5 Strength</red>. At the end of your turn lose <red>5 Strength</red>."},
@@ -3186,7 +3186,7 @@ def event_knowingSkull():
 			ansiprint("\"DRINK UP!\"\nYou obtain a <c>Potion</c>.")
 			random_potions = {k:v for k,v in potions.items() if v.get("Owner") == active_character[0].name or v.get("Owner") == "The Spire"}
 			onePotion = rd.choices(list(random_potions.items()),k=1)
-			active_character[0].add_Potion(onePotion[0][1])
+			active_character[0].add_potion(onePotion[0][1])
 
 			active_character[0].set_health(-healthLoss)		
 

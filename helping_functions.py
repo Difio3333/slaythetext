@@ -124,29 +124,30 @@ def afterBattleScreen():
 
     else:
         
-        potentialCardWinnings = generateCardRewards()
-        afterBattleOptions.append("<blue>Card Reward</blue>")
+        if entities.active_character[0].get_smokebomb():
+            potentialCardWinnings = generateCardRewards()
+            afterBattleOptions.append("<blue>Card Reward</blue>")
 
-        if entities.active_character[0].prayerWheel > 0 and entities.active_character[0].get_floor() == "Enemy":
-            potentialCardWinnings2 = generateCardRewards()
-            afterBattleOptions.append("<blue>Card Reward 2</blue>")
+            if entities.active_character[0].prayerWheel > 0 and entities.active_character[0].get_floor() == "Enemy":
+                potentialCardWinnings2 = generateCardRewards()
+                afterBattleOptions.append("<blue>Card Reward 2</blue>")
 
-        if entities.active_character[0].get_floor() == "Elite":
-            relicReward = generateRelicRewards(place ="Elite Fight")
-            afterBattleOptions.append("<light-red>Relic</light-red>")
+            if entities.active_character[0].get_floor() == "Elite":
+                relicReward = generateRelicRewards(place ="Elite Fight")
+                afterBattleOptions.append("<light-red>Relic</light-red>")
 
-        if entities.active_character[0].get_floor() == "Super":
-            relicReward = generateRelicRewards(place ="Super")
-            afterBattleOptions.append("<light-red>Relic</light-red>")
+            if entities.active_character[0].get_floor() == "Super":
+                relicReward = generateRelicRewards(place ="Super")
+                afterBattleOptions.append("<light-red>Relic</light-red>")
 
-        potentialPotion = generatePotionRewards()
+            potentialPotion = generatePotionRewards()
 
-        if len(potentialPotion) > 0:
-            afterBattleOptions.append("<c>Potion Reward</c>")
+            if len(potentialPotion) > 0:
+                afterBattleOptions.append("<c>Potion Reward</c>")
 
-        
-        goldGain = generateGoldReward()
-        afterBattleOptions.append("<yellow>Gain "+str(goldGain)+" Gold</yellow>")
+            
+            goldGain = generateGoldReward()
+            afterBattleOptions.append("<yellow>Gain "+str(goldGain)+" Gold</yellow>")
 
     
     afterBattleOptions.append("Show Deck")
@@ -255,27 +256,28 @@ def afterEventBattleRewardScreen(gold: int = None,potion:dict = None,cards: list
     eventBattleRewards = []
     potionName = "SUPER POTION 1 MILLION"
     
-    if potion:
-        for drink in potion:
-            eventBattleRewards.append("Receive <c>"+drink["Name"]+"</c>.")
-        potionName = drink.get("Name")
-    
-    if gold:      
-        eventBattleRewards.append("Receive <yellow>"+str(gold)+" Gold</yellow>.")
-    
-    if cards:
-        eventBattleRewards.append("Check <blue>Card Reward</blue>.")
-
-    if relic:
-        eventBattleRewards.append("Receive <light-red>"+relic.get("Name")+"</light-red>.")
+    if entities.active_character[0].get_smokebomb():
+        if potion:
+            for drink in potion:
+                eventBattleRewards.append("Receive <c>"+drink["Name"]+"</c>.")
+            potionName = drink.get("Name")
         
-    if secondRelic:
-        eventBattleRewards.append("Receive <light-red>"+secondRelic.get("Name")+"</light-red>.")
+        if gold:      
+            eventBattleRewards.append("Receive <yellow>"+str(gold)+" Gold</yellow>.")
+        
+        if cards:
+            eventBattleRewards.append("Check <blue>Card Reward</blue>.")
 
-    if multipleCardRewards:
-        i = 0
-        while i < len(multipleCardRewards):
-            eventBattleRewards.append("Check <blue>Card Reward</blue> "+str(i+1)+".")
+        if relic:
+            eventBattleRewards.append("Receive <light-red>"+relic.get("Name")+"</light-red>.")
+            
+        if secondRelic:
+            eventBattleRewards.append("Receive <light-red>"+secondRelic.get("Name")+"</light-red>.")
+
+        if multipleCardRewards:
+            i = 0
+            while i < len(multipleCardRewards):
+                eventBattleRewards.append("Check <blue>Card Reward</blue> "+str(i+1)+".")
             i+=1
     
     eventBattleRewards.append("[Leave] All Rewards that weren't claimed will be gone!")
@@ -301,7 +303,7 @@ def afterEventBattleRewardScreen(gold: int = None,potion:dict = None,cards: list
             
             elif potionName in eventBattleRewards[snap]:
                 
-                entities.active_character[0].add_Potion(drink)
+                entities.active_character[0].add_potion(drink)
                 eventBattleRewards.pop(snap)
             
             elif eventBattleRewards[snap] == "Check <blue>Card Reward</blue>.":                
@@ -777,7 +779,7 @@ def pickPotion(potionPrize: list):
                 return len(potionPrize)
             
             if potion_index in range(len(potionPrize)):
-                entities.active_character[0].add_Potion(potionPrize.pop(potion_index))
+                entities.active_character[0].add_potion(potionPrize.pop(potion_index))
         
             else:
                 ansiprint("There is no potion at that place! Pick again.")
@@ -1238,7 +1240,7 @@ def displayShop(shoplist):
                 entities.active_character[0].set_gold(-shoplist[snap][1])
                 
                 if shoplist[snap][0].get("Type") == "Potion":
-                    entities.active_character[0].add_Potion(shoplist[snap][0])
+                    entities.active_character[0].add_potion(shoplist[snap][0])
                 
                 elif shoplist[snap][0].get("Owner") == "Colorless":
                     entities.active_character[0].add_CardToDeck(shoplist[snap][0])

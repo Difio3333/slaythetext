@@ -17,7 +17,7 @@ colorama.init()
 #events are not following any rules yet.
 #no tutorial
 #no proper error logging yet.
-#smoke bomb potion does not exist yet. just make a boolean that gets checked in the after battle function which disables all the rewards. then reset the boolean.
+#skip function for potion use.
 
 print("Slay the Spire is a registered trademark by Mega Crit, LLC")
 print("Please consider supporting the Developers by purchasing Slay the Spire on Steam/Gog/Epic etc.\n\n")

@@ -25,7 +25,8 @@ def the_question_of_safety():
 			elif loader[snap] == "No":
 				snap = "No"
 				entities.active_character[0].set_deck(entities.silent_deck)
-				#entities.active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})			
+				#entities.active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})
+				entities.active_character[0].add_potion({"Name": "Smoke Bomb","Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"Escape from a non-boss combat. Receive no rewards."})
 				break
 				
 		except TypeError:
