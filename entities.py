@@ -1737,7 +1737,7 @@ def neowBlesses():
             active_character[0].add_relic(randomRareRelic[0])
             
 
-        if blessings[choice][1] == "Lose 6 max health":
+        if blessings[choice][1] == "Lose 6 Max HP":
             active_character[0].set_maxHealth(-6)
 
         elif blessings[choice][1] == "Take " +str(damageValue)+" Damage":

@@ -984,6 +984,7 @@ class Char():
 
 			elif self.card_in_play[0].get("Name") == "Dagger Spray":
 				i = 0
+
 				while i < len(entities.list_of_enemies):
 					enemy_check = len(entities.list_of_enemies)
 					self.target = i
@@ -1003,6 +1004,7 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Dagger Spray +":
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check = len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check == len(entities.list_of_enemies):
@@ -1010,6 +1012,7 @@ class Char():
 				
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check = len(entities.list_of_enemies)
 					self.target = i					
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check == len(entities.list_of_enemies):
@@ -1041,6 +1044,7 @@ class Char():
 
 
 			elif self.card_in_play[0].get("Name") == "Poisoned Stab":
+				enemy_check = len(entities.list_of_enemies)
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
 				
@@ -1048,6 +1052,7 @@ class Char():
 					entities.list_of_enemies[self.target].set_poison(self.card_in_play[0]["Poison"])
 			
 			elif self.card_in_play[0].get("Name") == "Poisoned Stab +":
+				enemy_check = len(entities.list_of_enemies)
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
 				
@@ -1091,6 +1096,7 @@ class Char():
 
 
 			elif self.card_in_play[0].get("Name") == "Sucker Punch":
+				
 				self.choose_enemy()		
 				self.attack(self.card_in_play[0]["Damage"])
 				
@@ -4876,9 +4882,9 @@ class Char():
 						print("You have to type one of the corresponding numbers.")
 
 				except Exception as e:
-					print(e)
+					#print(e)
 					self.explainer_function(snap)
-					print("You have to type a number. Orrery relic get")
+					print("Type a number.")
 			
 		elif relic.get("Name") == "Calling Bell":
 			
@@ -4938,7 +4944,7 @@ class Char():
 					try:
 						snap = input("Which Skill Card do you want to bottle?")
 						snap = int(snap)-1
-						if self.deck[snap].get("Type")== "Skill":
+						if self.deck[snap].get("Type") == "Skill":
 							self.deck[snap]["Innate"] = "True"
 							break
 						else:
@@ -4947,8 +4953,8 @@ class Char():
 						
 					except Exception as e:
 						self.explainer_function(snap)
-						print(e,"You have to type one of the corresponding numbers of the cards in your deck. Bottled Lightning relic get")
-
+						#print(e,"You have to type one of the corresponding numbers of the cards in your deck. Bottled Lightning relic get")
+						print("You have to type one of the corresponding numbers of the cards in your deck.")
 
 			else:
 				ansiprint("You just reveiced <light-red>Bottled Lightning</light-red> but have no <green>Skills</green> that can be bottled.")
@@ -4971,8 +4977,8 @@ class Char():
 						
 					except Exception as e:
 						self.explainer_function(snap)
-						print(e,"You have to type one of the corresponding numbers of the cards in your deck. Bottled Tornado relic get")
-
+						#print(e,"You have to type one of the corresponding numbers of the cards in your deck. Bottled Tornado relic get")
+						print("You have to type one of the corresponding numbers of the cards in your deck.")
 
 			else:
 				ansiprint("You just reveiced <light-red>Bottled Tornado</light-red> but have no power that can be bottled.")
@@ -5436,7 +5442,8 @@ class Char():
 							if e == "object of type 'int' has no len()":
 								break
 							else:
-								print(e,"explainer_function issue")
+								pass
+								#print(e,"explainer_function issue")
 								break
 			
 			except Exception as e:
