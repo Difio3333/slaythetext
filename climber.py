@@ -1643,22 +1643,15 @@ class Char():
 				self.draw(self.card_in_play[0]["Draw"])
 
 			elif self.card_in_play[0].get("Name") == "Alchemize":
-				try:
-					random_potions = {k:v for k,v in entities.potions.items() if v.get("Owner") == self.name or v.get("Owner") == "The Spire"}
-					onePotion = rd.choices(list(random_potions.items()),k=1)
-					one_option = []
-					one_option.append(onePotion[1])
-					helping_functions.pickPotion(one_option)
-				except Exception as e:
-					print("Play Alchemize",e)
+				
+				onePotionAlchemize = helping_functions.generatePotionRewards(event = True,amount = 1)[0]
+				self.add_potion(onePotionAlchemize)
+				
 
 			elif self.card_in_play[0].get("Name") == "Alchemize +":
-				random_potions = {k:v for k,v in entities.potions.items() if v.get("Owner") == self.name or v.get("Owner") == "The Spire"}
-				onePotion = rd.choices(list(random_potions.items()),k=1)
-				one_option = []
-				one_option.append(onePotion[1])
-				helping_functions.pickPotion(one_option)
-
+				onePotionAlchemize = helping_functions.generatePotionRewards(event = True,amount = 1)[0]
+				self.add_potion(onePotionAlchemize)
+				
 			elif self.card_in_play[0].get("Name") == "Corpse Explosion":
 				self.choose_enemy()
 				entities.list_of_enemies[self.target].set_poison(self.card_in_play[0]["Poison"])
@@ -5483,7 +5476,7 @@ class Char():
 		ansiprint(status)
 
 	def get_smokebomb(self):
-		print("Hello")
+		
 		if self.smokeBomb == True:
 			self.smokeBomb = False
 			return False
