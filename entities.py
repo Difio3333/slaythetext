@@ -11,7 +11,7 @@ import copy
 
 list_of_enemies = []
 relics_seen_list = []
-silent = Char("Silent",66,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic"}])
+silent = Char("Silent",66,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."}])
 active_character = [silent]
 
 eventMonsterChance = 0.1
@@ -33,9 +33,6 @@ def check_if_character_dead():
                         character.resurrect("Lizard Tale")                        
                     else:
                         pass
-            
-            if character.alive == False:
-                active_character.pop(0)
 
 def check_if_enemy_dead():
 	global list_of_enemies
@@ -59,7 +56,7 @@ def check_if_enemy_dead():
 					elif relic.get("Name") == "The Specimen":
 						if enemy.poison > 0:
 							if len(list_of_enemies) > 1:
-								print("Snipper.")
+								print("<light-red>The Specimen</light-red> did that.")
 								snap = rd.randint(0,len(list_of_enemies)-1)
 								while snap == i:
 									snap = rd.randint(0,len(list_of_enemies)-1)
@@ -115,14 +112,14 @@ def fill_enemy_list():
                 if lousecheck == 0:
                     
                     enemy = "Green Louse"
-                    miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                    miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                    miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                    miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
                     
                 elif lousecheck == 1:
                     
                     enemy = "Red Louse"
-                    miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                    miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                    miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                    miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
                 elif lousecheck == 2:
                     enemy = "Red Louse"
@@ -172,14 +169,14 @@ def fill_enemy_list():
 
             elif setup == 2:
                 enemy = "Small Acid Slime"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
                 enemy = "Small Spike Slime"
 
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 3",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
            
             elif setup == 3:
                 enemy = "Red Slaver"
@@ -204,8 +201,8 @@ def fill_enemy_list():
                 
                 enemy = "Fungi Beast"
                 
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
             elif setup == 7:
             
@@ -280,9 +277,9 @@ def fill_enemy_list():
 
             elif snap == 4:
                 enemy = "Byrd"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 3",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
                 
 
             elif snap == 5:
@@ -327,9 +324,9 @@ def fill_enemy_list():
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
             elif setup == 7:
                 enemy = "Cultist"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 3",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
             elif setup == 8:
                 enemy = "Shelled Parasite"
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
@@ -347,9 +344,9 @@ def fill_enemy_list():
             miniList = []
             if snap == 1:
                 enemy = "Darkling"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name") +" 3",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
             elif snap == 2:
                 enemy = "Orb Walker"
@@ -1012,9 +1009,9 @@ cards = {
     "Writhe": {"Name": "Writhe","Innate": True,"Type": "Curse","Rarity": "Curse","Owner":"The Spire","Info":"<RED>Unplayable</RED>. <BLUE>Innate</BLUE>."},
     "Normality": {"Name": "Normality","Type": "Curse","Rarity": "Curse","Owner":"The Spire","Info":"<RED>Unplayable</RED>. You cannot play more than 3 Cards this turn."},
     
-    "Curse of the Bell": {"Name": "Curse of the Bell","Type": "Curse","Rarity": "Special","Owner":"The Spire","Info":"<RED>Unplayable</RED>. Cannot be removed from your deck."},
-    "Necronomicurse": {"Name": "Necronomicurse","Type": "Curse","Rarity": "Special","Owner":"The Spire","Info":"<RED>Unplayable</RED>. Cannot be removed from your deck."},
-    "Ascender's Bane": {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>."},
+    "Curse of the Bell": {"Name": "Curse of the Bell","Type": "Curse","Rarity": "Special","Irremovable":True,"Owner":"The Spire","Info":"<RED>Unplayable</RED>. Cannot be removed from your deck."},
+    "Necronomicurse": {"Name": "Necronomicurse","Type": "Curse","Rarity": "Special","Irremovable":True,"Owner":"The Spire","Info":"<RED>Unplayable</RED>. Cannot be removed from your deck."},
+    "Ascender's Bane": {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>. Can't be removed from the Deck."},
     }
 
 potions = {
@@ -1023,7 +1020,6 @@ potions = {
     "Attack Potion": {"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."},
     "Blessing of the Forge": {"Name": "Blessing of the Forge","Rarity": "Common","Owner":"The Spire","Type": "Potion","Type": "Potion","Info":"<blue>Upgrade</blue> ALL cards in your hand."},
     "Block Potion": {"Name": "Block Potion","Potion Yield": 12,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Gain <green>12 Block</green>."},
-    "Blood Potion": {"Name": "Blood Potion","Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"<red>Heal for 20%</red> of your <red>Max HP</red>."},
     "Colorless Potion": {"Name": "Colorless Potion","Potion Yield": "Colorless", "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <white>3 random Colorless</white> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."},
     "Cultist Potion": {"Name": "Cultist Potion","Potion Yield":1,"Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"Gain <red>1 Strength</red> at the start of each turn."},
     "Cunning Potion": {"Name": "Cunning Potion","Potion Yield":3,"Rarity": "Uncommon","Owner":"Silent","Type": "Potion","Info":"Add <red>3 upgraded Shivs</red> to your hand."},
@@ -1058,7 +1054,7 @@ potions = {
     "Flex Potion": {"Name": "Flex Potion","Potion Yield":5,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Gain <red>5 Strength</red>. At the end of your turn lose <red>5 Strength</red>."},
     "Swift Potion": {"Name": "Swift Potion","Potion Yield": 3,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Draw 3 Cards."},
     "Weak Potion": {"Name": "Weak Potion","Potion Yield": 3,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Apply <light-cyan>3 Weak</light-cyan>."},
-        
+    #"Blood Potion": {"Name": "Blood Potion","Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"<red>Heal for 20%</red> of your <red>Max HP</red>."},
     }
 
 potionNames = ["Ancient Potion","Attack Potion","Blessing of the Forge","Block Potion","Blood Potion","Colorless Potion","Cultist Potion",
@@ -1237,13 +1233,14 @@ relics = {
 
     }
 
-# silent_deck = [ {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent","Unique ID":1},
-#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent","Unique ID":2},
-#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent","Unique ID":3},
-#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent","Unique ID":4},
-#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent","Unique ID":5},
+# silent_deck = [ {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
+#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
+#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
+#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
+#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
 #                 {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent","Unique ID":6},
-#                 {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent","Unique ID":7},
+#                 {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent","Unique ID":7}
                 
 #                 ]
 
@@ -1259,7 +1256,7 @@ silent_deck = [ {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Ra
                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
                 {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent"},
                 {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent"},
-                
+                {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>."}
                 ]
 
 
@@ -2612,9 +2609,9 @@ def event_HypnotizingColoredMushrooms():
     if snap == "1":
         ansiprint("<red>Ambushed!! Rodents infested by the mushrooms appear out of nowhere!</red>")
         enemy = "Fungi Beast"
-        fungiList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-        fungiList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
-        fungiList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+        fungiList.append(Enemy(name = enemies[enemy].get("Name")+" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+        fungiList.append(Enemy(name = enemies[enemy].get("Name")+" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+        fungiList.append(Enemy(name = enemies[enemy].get("Name")+" 3",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
         eventFight(fungiList)
         goldReward = helping_functions.generateGoldReward("Creep")
         cardReward = helping_functions.generateCardRewards()
@@ -3927,7 +3924,7 @@ def visit_event():
     unknownLocation = list(helping_functions.nchoices_with_restrictions([eventChance,eventMonsterChance,eventTreasureChance,eventShopChance],k = 1))
 
     if unknownLocation[0] == 0:
-
+    	active_character[0].show_status(event=True)
     	if rd.randint(0,1) == 0:
     		if helping_functions.gameAct == 1:
     			rd.shuffle(actOneEvents)

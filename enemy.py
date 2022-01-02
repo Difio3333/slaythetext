@@ -9,14 +9,10 @@ class Enemy():
 	def __init__(self, name, max_health,intentions,
 		
 		intention_logic:list = None, on_hit_or_death:list = None, block: int = 0,
-		
-		weak: int = 0, vulnerable: int = 0, poison: int = 0,
-
-		strength: int = 0, invulnerable: int = 0,
 
 		ritual: int = 0, artifact: int = 0, metallicize: int = 0, platedArmor: int = 0, barricade: bool=False, regen: int = 0,
 
-		alive: bool = True, minion: bool = False, leader: bool = False, boss: bool = False, fading6 = False, painfullStabs: bool = False, slow: bool = False, intangiblePower: bool = False,
+		leader: bool = False, fading6 = False, painfullStabs: bool = False, slow: bool = False, intangiblePower: bool = False,
 
 		cardTypeToLookOutFor: str = None, modeshift: int = 0, spireBroAttacked: bool = False
 
@@ -42,15 +38,15 @@ class Enemy():
 
 		self.block = block		
 		self.leader = leader
-		self.weak = weak
-		self.vulnerable = vulnerable
-		self.poison = poison
+		self.weak = 0
+		self.vulnerable = 0
+		self.poison = 0
 
-		self.strength = strength
-		self.invulnerable = invulnerable
+		self.strength = 0
+		self.invulnerable = 0
 		self.ritual = ritual
 
-		self.alive = alive
+		self.alive = True
 		self.minion = "I am no minion"
 		self.boss = "I am no boss"
 		
@@ -105,17 +101,17 @@ class Enemy():
 
 		self.move = self.determine_choice(helping_functions.turn_counter)
 
-	def turn(self,turn_counter):
+	def turn(self):
 		
-		self.turnCounter = turn_counter
+		self.turnCounter = helping_functions.turn_counter
 		
 		if self.poison > 0:
 			self.handle_poison()
 		
-		self.specialBegginingOfTurnEffects()
+		if self.alive == True:
 
-		entities.check_if_enemy_dead()
-		if self.alive:
+			self.specialBegginingOfTurnEffects()
+
 			if self.regen > 0:
 				self.heal(self.regen)
 				
@@ -731,11 +727,11 @@ class Enemy():
 					entities.list_of_enemies.append(Enemy(name="Large Acid Slime",max_health=self.health,intentions=[18,"CorrosiveSpit 12/2","Weak 2"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.4,0.3],{0:1,1:2,2:1}))],on_hit_or_death=[["Split","Hit"]]))
 				
 				elif "Spike" in self.name: 
-					entities.list_of_enemies.append(Enemy(name="Medium Spike Slime",max_health=self.health,intentions=["CorrosiveSpit 10/1","Frail 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
-					entities.list_of_enemies.append(Enemy(name="Medium Spike Slime",max_health=self.health,intentions=["CorrosiveSpit 10/1","Frail 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Spike Slime 1",max_health=self.health,intentions=["CorrosiveSpit 10/1","Frail 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Spike Slime 2",max_health=self.health,intentions=["CorrosiveSpit 10/1","Frail 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7],{0:2,1:1}))]))
 				elif "Acid" in self.name:
-					entities.list_of_enemies.append(Enemy(name="Medium Acid Slime",max_health=self.health,intentions=[12,"CorrosiveSpit 8/1","Weak 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
-					entities.list_of_enemies.append(Enemy(name="Medium Acid Slime",max_health=self.health,intentions=[12,"CorrosiveSpit 8/1","Weak 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Acid Slime 1",max_health=self.health,intentions=[12,"CorrosiveSpit 8/1","Weak 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
+					entities.list_of_enemies.append(Enemy(name="Medium Acid Slime 2",max_health=self.health,intentions=[12,"CorrosiveSpit 8/1","Weak 1"],intention_logic=[["Random"],list(helping_functions.nchoices_with_restrictions([0.4,0.4,0.2],{0:2,1:2,2:1}))]))
 				
 
 				self.alive = False
@@ -1168,120 +1164,121 @@ class Enemy():
 			pass
 
 	def attack(self,attack):
-		
-		if self.spireBroAttacked == True:
-			attack += int(attack * 0.5)
+		if self.alive:
+			if self.spireBroAttacked == True:
+				attack += int(attack * 0.5)
 
-		damage = attack + self.strength + self.strengthChange
-		
-		if self.weak > 0:
-			if entities.active_character[0].paperKrane > 0:
-				damage -= (attack + self.strength + self.strengthChange) * 0.4
-			else:
-				damage -= (attack + self.strength + self.strengthChange) * 0.25
+			damage = attack + self.strength + self.strengthChange
+			
+			if self.weak > 0:
+				if entities.active_character[0].paperKrane > 0:
+					damage -= (attack + self.strength + self.strengthChange) * 0.4
+				else:
+					damage -= (attack + self.strength + self.strengthChange) * 0.25
 
 
-		damage = math.floor(damage)
+			damage = math.floor(damage)
 
-		if damage < 0:
-			damage = 0
+			if damage < 0:
+				damage = 0
 
-		ansiprint(self.name,"attacks for",damage)
-		
-		if entities.active_character[0].spikes > 0:
-			self.receive_recoil_damage(entities.active_character[0].spikes)
+			ansiprint(self.name,"attacks for",damage)
+			
+			if entities.active_character[0].spikes > 0:
+				self.receive_recoil_damage(entities.active_character[0].spikes)
 
-		if entities.active_character[0].tempSpikes > 0:
-			self.receive_recoil_damage(entities.active_character[0].tempSpikes)
+			if entities.active_character[0].tempSpikes > 0:
+				self.receive_recoil_damage(entities.active_character[0].tempSpikes)
 
-		return damage
+			return damage
 
 	def blocking(self,blocking):
 		self.block += blocking
 		ansiprint(self.name,"blocks for " + str(blocking) + ".")
 
 	def receive_damage(self,attack_damage):
-		
-		if self.heartVincibility >= 200:
-			attack_damage = 0
-
-		damageToHp = False
-		
-		if self.vulnerable > 0:
-			attack_damage += attack_damage * 0.50
-			attack_damage = math.floor(attack_damage)
-		
 		try:
-			if len(self.on_hit_or_death) > 0:
+			if self.heartVincibility >= 200:
+				attack_damage = 0
+
+			damageToHp = False
 			
-				if "Fly" in self.on_hit_or_death[0][0]:
-					attack_damage /= 2
-					attack_damage = math.floor(attack_damage)
-
-		except Exception as e:
-			#print (e)
-			pass
-
-		try:
-			if self.slow == True:
+			if self.vulnerable > 0:
+				attack_damage += attack_damage * 0.50
+				attack_damage = math.floor(attack_damage)
+			
+			try:
+				if len(self.on_hit_or_death) > 0:
 				
-				attack_damage += math.floor(attack_damage / 100 * entities.active_character[0].card_counter*10)
+					if "Fly" in self.on_hit_or_death[0][0]:
+						attack_damage /= 2
+						attack_damage = math.floor(attack_damage)
+
+			except Exception as e:
+				#print (e)
+				pass
+
+			try:
+				if self.slow == True:
+					
+					attack_damage += math.floor(attack_damage / 100 * entities.active_character[0].card_counter*10)
+					
+			except Exception as e:
+				print(e)
+			
+			if self.intangible > 0:
+				attack_damage = 1
+				ansiprint("Intangible reduces the damage to 1.")
+
+			damage = attack_damage - self.block
+			
+			if damage > 0:
 				
-		except Exception as e:
-			print(e)
-		
-		if self.intangible > 0:
-			attack_damage = 1
-			ansiprint("Intangible reduces the damage to 1.")
+				damageToHp = True
+				
+				if self.block > 0 and entities.active_character[0].handDrill > 0:
+					self.set_vulnerable(2)
+					ansiprint("This happened because you own <<light-red>>Hand Drill</<light-red>>")
 
-		damage = attack_damage - self.block
-		
-		if damage > 0:
-			
-			damageToHp = True
-			
-			if self.block > 0 and entities.active_character[0].handDrill > 0:
-				self.set_vulnerable(2)
-				ansiprint("This happened because you own <<light-red>>Hand Drill</<light-red>>")
+				self.block = 0
 
-			self.block = 0
-
-			for relic in entities.active_character[0].relics:
-				if relic.get("Name") == "The Boot":
+				if entities.active_character[0].theBoot:
 					if damage < 5:
 						damage = 5
 						ansiprint("The damage was increased to 5 because of <light-red>The Boot</light-red>!")
 
-			self.health -= damage
-			
-			if self.health < 1:
-				self.alive = False
-			else:
-				ansiprint("The " + self.name + " ("+str(self.health)+"/"+str(self.max_health)+") has taken", damage,"damage.")
+				self.health -= damage
 				
-				if entities.active_character[0].envenom > 0:
-					self.set_poison(entities.active_character[0].envenom)
-					ansiprint("This happened because",entities.active_character[0].name,"has <blue>Envenom</blue> in play.")
+				if self.health < 1:
+					self.alive = False
+				else:
+					ansiprint("The " + self.name + " ("+str(self.health)+"/"+str(self.max_health)+") has taken <red>"+ str(damage)+" damage</red>.")
+					
+					if entities.active_character[0].envenom > 0:
+						self.set_poison(entities.active_character[0].envenom)
+						ansiprint("This happened because",entities.active_character[0].name,"has <blue>Envenom</blue> in play.")
 
-			if self.platedArmor > 0:
-				self.platedArmor -= 1
-				ansiprint(self.name,"has",self.platedArmor,"Plated Armor left.")
+				if self.platedArmor > 0:
+					self.platedArmor -= 1
+					ansiprint(self.name,"has",self.platedArmor,"Plated Armor left.")
 
-			self.damageCounter += 1
+				self.damageCounter += 1
 
-		else:
-			self.block -= attack_damage
-			ansiprint("The", self.name, "has", self.block,"block left.")
+			else:
+				self.block -= attack_damage
+				ansiprint("The", self.name, "has", self.block,"block left.")
 
-		try:
-			if len(self.on_hit_or_death) > 0:
-				self.react_on_hit_and_death(damage,damageToHp)
+			try:
+				if len(self.on_hit_or_death) > 0:
+					self.react_on_hit_and_death(damage,damageToHp)
+			except Exception as e:
+				#print(e,"Issue in ")
+				pass
+			
+			entities.check_if_enemy_dead()
 		except Exception as e:
-			#print(e,"Issue in ")
-			pass
-		
-		entities.check_if_enemy_dead()
-
+			print(e)
+	
 	def receive_recoil_damage(self,attack_damage):
 		
 		if self.intangible > 0:
@@ -1427,8 +1424,8 @@ class Enemy():
 		self.health -= poison_damage
 		
 		if self.health < 1:
-			ansiprint("The",self.name,"has been defeated")
 			self.alive = False
+
 		else:
 			self.poison -= 1
 			ansiprint("The " + self.name + " ("+str(self.health)+"/"+str(self.max_health)+ ") has taken",poison_damage,"damage and has",self.poison,"poison left.")
@@ -1628,7 +1625,7 @@ class Enemy():
 			displayValue = self.health - self.max_health
 			self.health = self.max_health
 
-			ansiprint(self.name,"heals for", value - displayValue, "and now has",self.health,"Health.")
+			ansiprint(self.name,"heals for", value - displayValue, "and now has <red>"+ str(self.health)+"Health</red>.")
 		else:
 			ansiprint(self.name,"heals for", value, "and now has",self.health,"Health.")
 
@@ -1751,7 +1748,7 @@ class Enemy():
 		self.intangible += value
 		ansiprint("For",self.intangible,"turn",self.name,"will only receive 1 damage per time they take damage.")
 
-	def set_block_by_metallicice (self,value):
+	def set_block_by_metallicice (self):
 		self.block += self.metallicize
 
 		ansiprint(self.name, "received",self.metallicize,"block through metallicize.")
@@ -1770,7 +1767,8 @@ class Enemy():
 	    self.stolenGold += entities.active_character[0].set_gold(value,thievery = True)
 
 	def get_strengthModifier(self):
-		return self.strength + self.strengthChange + self.temp_strength
+		
+		return self.strength + self.strengthChange
 
 	def receive_sadistic_damage(self):
 

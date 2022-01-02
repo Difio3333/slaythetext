@@ -169,6 +169,7 @@ class Char():
 		self.warpedTongs = 0
 		self.centennialPuzzle = 0
 		self.nilrysCodex = 0
+		self.boot = False
 
 		self.randomTarget = 0
 		self.hex = 0
@@ -248,8 +249,15 @@ class Char():
 			
 			
 		while True:
+			
+			optionOne = "Play a <blue>Card</blue>"
+			optionTwo = "Use a <c>Potion</c>"
+			optionThree = "Show <light-red>Relics</light-red>"
+			optionFour = "End Turn"
+			optionFive = "Show All Cards"
+
 			self.show_status()
-			actionlist = ["Play a <blue>Card</blue>","Use a <c>Potion</c>","Update <red>Opponents</red>","Show <light-red>Relics</light-red>","End Turn"]
+			actionlist = [optionOne,optionTwo,optionThree,optionFour,optionFive]
 			
 			if self.runicDome == 0:
 				self.showEnemies(skip=False)
@@ -265,7 +273,7 @@ class Char():
 				if plan not in range(len(actionlist)):
 					continue
 						
-				if actionlist[plan] == "Play a <blue>Card</blue>":
+				if actionlist[plan] == optionOne:
 					if self.velvetChoker > 0 and self.card_counter >= 6:
 						ansiprint("You can't play anymore cards because you own a <light-red>Velvet Choker</light-red>.")
 					elif self.timeWarp == True:
@@ -273,22 +281,19 @@ class Char():
 					else:
 						self.play_card(turn_counter)
 				
-				elif actionlist[plan] == "Use a <c>Potion</c>":
+				elif actionlist[plan] == optionTwo:
 					if self.timeWarp == True:
 						ansiprint("You can't drink anmore <c>Potions</c> this turn because of <red>Time Eater</red>.")
 					else:
 						self.play_potion(turn_counter)
 
-				elif actionlist[plan] == "Update <red>Opponents</red>":
-					if self.runicDome > 0:
-						ansiprint("You can't see what the enemy is doing because you own a <light-red>Runic Dome</light-red>.\n")
-					else:
-						self.showEnemies()
-
-				elif actionlist[plan] == "Show <light-red>Relics</light-red>":
+				elif actionlist[plan] == optionThree:
 					self.showRelics()
 				
-				elif actionlist[plan] == "End Turn":
+				elif actionlist[plan] == optionFive:
+					self.print_all_cards()
+				
+				elif actionlist[plan] == optionFour:
 					print("\n\n")
 					if len(entities.list_of_enemies) > 0:
 						self.powersAtTheEndOfTheTurn()
@@ -556,6 +561,9 @@ class Char():
 				self.set_drawStrength(2)
 				self.set_confused()
 
+			elif relic.get("Name") == "The Boot":
+				self.theBoot = True
+
 			elif relic.get("Name") == "Ring of the Serpent":
 				self.set_drawStrength(1)
 
@@ -785,7 +793,7 @@ class Char():
 
 				except Exception as e:
 					self.explainer_function(card_index)
-					ansiprint ("You have to type on ofe the corresponding numbers. powersAtTheEndOfTheTurn")					
+					ansiprint ("You have to type on of the corresponding numbers. Well Laid Plans powersAtTheEndOfTheTurn")					
 					pass
 		
 		if self.wraithForm > 0:
@@ -818,7 +826,6 @@ class Char():
 			if relic.get("Name") == "Oricalcum":
 				if self.block == 0:
 					self.blocking(6,unaffectedBlock = True)
-
 
 		if self.metallicize > 0:
 			self.set_block_by_metallicice(self.metallicize)
@@ -917,18 +924,16 @@ class Char():
 
 	def card_is_played (self,card,turn_counter,repeat: bool = False):
 		
-		self.card_in_play.append(card)
-
+		self.card_in_play = [card]
 		enemy_check = len(entities.list_of_enemies)
 		
 		if repeat:
 
-			ansiprint(self.card_in_play[0].get("Name"),"was played!")
+			ansiprint(self.card_in_play[0].get("Name"),"was replayed!")
 
 		if self.card_in_play[0]["Owner"] == "Silent":
 			
-			if self.card_in_play[0].get("Name") == "Strike":
-				
+			if self.card_in_play[0].get("Name") == "Strike":				
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
 				
@@ -956,7 +961,6 @@ class Char():
 				if enemy_check == len(entities.list_of_enemies):
 					entities.list_of_enemies[self.target].set_weakness(self.card_in_play[0]["Weakness"])
 
-
 			elif self.card_in_play[0].get("Name") == "Survivor":
 				self.blocking(self.card_in_play[0]["Block"])
 				self.discard(self.card_in_play[0]["Discard"])
@@ -964,7 +968,6 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Survivor +":
 				self.blocking(self.card_in_play[0]["Block"])
 				self.discard(self.card_in_play[0]["Discard"])
-
 
 			elif self.card_in_play[0].get("Name") == "Bane":
 				self.choose_enemy()
@@ -981,7 +984,6 @@ class Char():
 				if enemy_check == len(entities.list_of_enemies):
 					if entities.list_of_enemies[self.target].poison > 0:						
 						self.attack(self.card_in_play[0]["Damage"])
-
 
 			elif self.card_in_play[0].get("Name") == "Dagger Spray":
 				i = 0
@@ -1001,7 +1003,6 @@ class Char():
 					if enemy_check == len(entities.list_of_enemies):
 						i += 1
 
-
 			elif self.card_in_play[0].get("Name") == "Dagger Spray +":
 				i = 0
 				while i < len(entities.list_of_enemies):
@@ -1018,7 +1019,6 @@ class Char():
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check == len(entities.list_of_enemies):
 						i += 1
-
 
 			elif self.card_in_play[0].get("Name") == "Dagger Throw":
 				self.choose_enemy()
@@ -1043,7 +1043,6 @@ class Char():
 				self.attack(self.card_in_play[0]["Damage"])
 				self.energyBoost(self.card_in_play[0]["Energy Gain"])
 
-
 			elif self.card_in_play[0].get("Name") == "Poisoned Stab":
 				enemy_check = len(entities.list_of_enemies)
 				self.choose_enemy()
@@ -1060,7 +1059,6 @@ class Char():
 				if enemy_check == len(entities.list_of_enemies):
 					entities.list_of_enemies[self.target].set_poison(self.card_in_play[0]["Poison"])
 
-
 			elif self.card_in_play[0].get("Name") == "Quick Slash":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
@@ -1071,7 +1069,6 @@ class Char():
 				self.attack(self.card_in_play[0]["Damage"])
 				self.draw(self.card_in_play[0]["Draw"])
 
-
 			elif self.card_in_play[0].get("Name") == "Slice":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
@@ -1079,7 +1076,6 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Slice +":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
-
 
 			elif self.card_in_play[0].get("Name") == "Sneaky Strike":
 				self.choose_enemy()
@@ -1094,7 +1090,6 @@ class Char():
 				
 				if self.discard_counter > 0:
 					self.gainEnergy(self.card_in_play[0]["Energy Gain"])
-
 
 			elif self.card_in_play[0].get("Name") == "Sucker Punch":
 				
@@ -1219,7 +1214,6 @@ class Char():
 						break
 					i+=1
 			
-
 			elif self.card_in_play[0].get("Name") == "Flechettes":
 				self.choose_enemy()
 				k = 0
@@ -1246,7 +1240,6 @@ class Char():
 						break
 					i+=1
 
-
 			elif self.card_in_play[0].get("Name") == "Heel Hook":
 				self.choose_enemy()
 				if entities.list_of_enemies[self.target].weak > 0:
@@ -1260,7 +1253,6 @@ class Char():
 						self.gainEnergy(self.card_in_play[0]["Energy Gain"])
 						self.draw(self.card_in_play[0]["Draw"])
 				self.attack(self.card_in_play[0]["Damage"])
-
 
 			elif self.card_in_play[0].get("Name") == "Masterful Stab":
 				self.choose_enemy()
@@ -1323,6 +1315,7 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Die Die Die":
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check =len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check != len(entities.list_of_enemies):
@@ -1333,6 +1326,7 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Die Die Die +":
 				i = 0
 				while i < len(entities.list_of_enemies):					
+					enemy_check =len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check != len(entities.list_of_enemies):
@@ -1365,6 +1359,7 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Grand Finale":
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check =len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check != len(entities.list_of_enemies):
@@ -1375,6 +1370,7 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Grand Finale +":
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check =len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check != len(entities.list_of_enemies):
@@ -1382,7 +1378,6 @@ class Char():
 					else:
 						i+=1
 				
-
 			elif self.card_in_play[0].get("Name") == "Unload":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
@@ -1451,7 +1446,6 @@ class Char():
 						self.discard_pile.append({"Name":"Shiv","Energy":0,"Damage":4,"Exhaust":True,"Type":"Attack","Rarity": "Common","Owner":"Silent"})
 					i += 1
 
-
 			elif self.card_in_play[0].get("Name") == "Deadly Poison":
 				self.choose_enemy()
 				entities.list_of_enemies[self.target].set_poison(self.card_in_play[0]["Poison"])
@@ -1459,7 +1453,6 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Deadly Poison +":
 				self.choose_enemy()
 				entities.list_of_enemies[self.target].set_poison(self.card_in_play[0]["Poison"])
-
 
 			elif self.card_in_play[0].get("Name") == "Deflect":
 				self.blocking(self.card_in_play[0]["Block"])
@@ -1535,7 +1528,6 @@ class Char():
 				self.discard(len(self.hand), True)
 				self.draw(draw_power)
 
-
 			elif self.card_in_play[0].get("Name") == "Catalyst":
 				self.choose_enemy()
 				entities.list_of_enemies[self.target].multiply_poison(self.card_in_play[0]["Multiplikator"])
@@ -1544,7 +1536,6 @@ class Char():
 				self.choose_enemy()
 				entities.list_of_enemies[self.target].multiply_poison(self.card_in_play[0]["Multiplikator"])
 
-
 			elif self.card_in_play[0].get("Name") == "Concentrate":				
 				self.discard(self.card_in_play[0]["Discard"])
 				self.gainEnergy(self.card_in_play[0]["Energy Gain"])
@@ -1552,7 +1543,6 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Concentrate +":
 				self.discard(self.card_in_play[0]["Discard"])
 				self.gainEnergy(self.card_in_play[0]["Energy Gain"])
-
 
 			elif self.card_in_play[0].get("Name") == "Crippling Cloud":
 				for enemy in entities.list_of_enemies:
@@ -1570,7 +1560,6 @@ class Char():
 					except Exception as e:
 						print("Did the last enemy really just die because of sadistic nature? Nice.")
 
-
 			elif self.card_in_play[0].get("Name") == "Distraction":
 				skill_cards = {k:v for k,v in entities.cards.items() if v.get("Type") == "Skill" and v.get("Owner") == self.name and v.get("Rarity") != "Basic"}
 				card = rd.choices(list(skill_cards.items()))[0][1]				
@@ -1584,7 +1573,6 @@ class Char():
 				card["This turn Energycost changed"] = True
 				card["Energy"] = 0				
 				self.add_CardToHand(card)
-
 
 			elif self.card_in_play[0].get("Name") == "Escape Plan":
 				self.draw(self.card_in_play[0]["Draw"])
@@ -1603,7 +1591,6 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Expertise +":
 				while len(self.hand) < self.card_in_play[0]["Draw"]:
 					self.draw(1)
-
 
 			elif self.card_in_play[0].get("Name") == "Leg Sweep":
 				self.choose_enemy()
@@ -1654,7 +1641,6 @@ class Char():
 				onePotionAlchemize = helping_functions.generatePotionRewards(event = True,amount = 1)[0]
 				self.add_potion(onePotionAlchemize)
 				
-
 			elif self.card_in_play[0].get("Name") == "Alchemize +":
 				onePotionAlchemize = helping_functions.generatePotionRewards(event = True,amount = 1)[0]
 				self.add_potion(onePotionAlchemize)
@@ -1885,6 +1871,7 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Dramatic Entrance":
 				i = 0
 				while i < len(entities.list_of_enemies):					
+					enemy_check = len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play[0]["Damage"])					
 					if enemy_check != len(entities.list_of_enemies):
@@ -1895,6 +1882,7 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Dramatic Entrance +":
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check = len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play[0]["Damage"])
 					if enemy_check != len(entities.list_of_enemies):
@@ -1915,7 +1903,6 @@ class Char():
 						card["Energy changed for the battle"] = True
 						card["Energy"] = 1	
 
-
 			elif self.card_in_play[0].get("Name") == "Finesse":
 				self.blocking(self.card_in_play[0]["Block"])
 				self.draw(self.card_in_play[0]["Draw"])
@@ -1924,7 +1911,6 @@ class Char():
 				self.blocking(self.card_in_play[0]["Block"])
 				self.draw(self.card_in_play[0]["Draw"])
 
-			
 			elif self.card_in_play[0].get("Name") == "Flash of Steel":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
@@ -2181,13 +2167,13 @@ class Char():
 			elif self.card_in_play[0].get("Name") == "Hand of Greed":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
-				if len(entities.list_of_enemies) < enemy.check:
+				if len(entities.list_of_enemies) < enemy_check:
 					self.set_gold(self.card_in_play[0]["Gold"])
 			
 			elif self.card_in_play[0].get("Name") == "Hand of Greed +":
 				self.choose_enemy()
 				self.attack(self.card_in_play[0]["Damage"])
-				if len(entities.list_of_enemies) < enemy.check:
+				if len(entities.list_of_enemies) < enemy_check:
 					self.set_gold(self.card_in_play[0]["Gold"])
 
 			elif self.card_in_play[0].get("Name") == "Magnetism":
@@ -2395,7 +2381,7 @@ class Char():
 						
 
 					else:
-						
+	
 						self.add_CardToDiscardpile(self.card_in_play.pop(0),noMessage=True)
 			
 
@@ -2843,7 +2829,7 @@ class Char():
 						card_index = rd.randint(0,len(self.draw_pile)-1)
 					else:
 						self.show_drawpile()
-						card_index = input("Which card do you want to draw?")
+						card_index = input("Which card do you want to draw?\n")
 						card_index = int(card_index)-1
 					if card_index in range(len(self.draw_pile)):
 						if typeOfCard == None:
@@ -2895,7 +2881,7 @@ class Char():
 						card_index = rd.randint(0,len(self.discard_pile)-1)
 					else:
 						self.show_discardpile()
-						card_index = input("Which card do you want to draw?")
+						card_index = input("Which card do you want to draw?\n")
 						card_index = int(card_index)-1
 					if card_index in range(len(self.discard_pile)):
 						if typeOfCard == None:
@@ -2947,7 +2933,7 @@ class Char():
 						card_index = rd.randint(0,len(self.exhaust_pile)-1)
 					else:
 						self.show_exhaustpile()
-						card_index = input("Which card do you want to draw?")
+						card_index = input("Which card do you want to draw?\n")
 						card_index = int(card_index)-1
 					if card_index in range(len(self.exhaust_pile)):
 						if typeOfCard == None:
@@ -3305,7 +3291,7 @@ class Char():
 				damage = 0
 			
 			entities.list_of_enemies[self.target].receive_damage(damage)
-
+			
 		else:
 			print("shits")
 			pass
@@ -3573,13 +3559,12 @@ class Char():
 	def showRelics(self):
 		for relic in self.relics:
 			if "Counter" in relic:
-				ansiprint("<light-red>"+relic.get("Name")+"</light-red> | Counter:",relic.get("Counter"))
+				ansiprint("<light-red>"+relic.get("Name")+"</light-red> | Counter:",relic.get("Counter"),"| Effect:",relic.get("Info"))
 			else:
-				ansiprint("<light-red>"+relic.get("Name")+"</light-red>")
+				ansiprint("<light-red>"+relic.get("Name")+"</light-red>","| Effect:",relic.get("Info"))
 
 	def showHand(self):
 		ansiprint("This is your Hand:\n")
-
 
 		i = 0
 		for card in self.hand:
@@ -3606,59 +3591,33 @@ class Char():
 				print(e,"Show Hand")
 
 			i = i + 1
-	def showDeck(self,noUpgrades:bool = False):
+	def showDeck(self,noUpgrades:bool = False,remove:bool = False):
 		
-		if noUpgrades == True:
-			ansiprint("This is your Deck:\n")
+		i = 0
+		for card in self.deck:
+			if i+1 < 10:
+				numberSpacing = "  "
+			else:
+				numberSpacing = " "
 			
-			i = 0
-			for card in self.deck:
-				if i+1 < 10:
-					numberSpacing = "  "
-				else:
-					numberSpacing = " "
-				
-				lineSpacing = " " * (20-len(card.get("Name")))
-				if card.get("Upgraded") == True:
-					i += 1 
-				else:
-					if card.get("Type") == "Attack":
-						ansiprint(str(i+1)+"."+numberSpacing+"<red>"+card.get("Name")+"</red>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-					elif card.get("Type") == "Skill":
-						ansiprint(str(i+1)+"."+numberSpacing+"<green>"+card.get("Name")+"</green>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-					elif card.get("Type") == "Power":
-						ansiprint(str(i+1)+"."+numberSpacing+"<blue>"+card.get("Name")+"</blue>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-					elif card.get("Type") == "Curse":
-						ansiprint(str(i+1)+"."+numberSpacing+"<m>"+card.get("Name")+"</m>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-					elif card.get("Type") == "Status":
-						ansiprint(str(i+1)+"."+numberSpacing+"<light-cyan>"+card.get("Name")+"</light-cyan>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-					i += 1			
-
-		else:
-			i = 0
-			for card in self.deck:
-				if i+1 < 10:
-					numberSpacing = "  "
-				else:
-					numberSpacing = " "
-				
-				lineSpacing = " " * (20-len(card.get("Name")))
-				
-				if card.get("Type") == "Attack":
-					ansiprint(str(i+1)+"."+numberSpacing+"<red>"+card.get("Name")+"</red>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-				elif card.get("Type") == "Skill":
-					ansiprint(str(i+1)+"."+numberSpacing+"<green>"+card.get("Name")+"</green>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-				elif card.get("Type") == "Power":
-					ansiprint(str(i+1)+"."+numberSpacing+"<blue>"+card.get("Name")+"</blue>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-				elif card.get("Type") == "Curse":
-					ansiprint(str(i+1)+"."+numberSpacing+"<m>"+card.get("Name")+"</m>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-				elif card.get("Type") == "Status":
-					ansiprint(str(i+1)+"."+numberSpacing+"<light-cyan>"+card.get("Name")+"</light-cyan>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
-				i = i + 1
+			lineSpacing = " " * (20-len(card.get("Name")))
+			if noUpgrades == True and (card.get("Upgraded") == True or card.get("Type") == "Curse"):
+				pass
+			elif card.get("Type") == "Attack":
+				ansiprint(str(i+1)+"."+numberSpacing+"<red>"+card.get("Name")+"</red>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
+			elif card.get("Type") == "Skill":
+				ansiprint(str(i+1)+"."+numberSpacing+"<green>"+card.get("Name")+"</green>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
+			elif card.get("Type") == "Power":
+				ansiprint(str(i+1)+"."+numberSpacing+"<blue>"+card.get("Name")+"</blue>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
+			elif card.get("Type") == "Curse":
+				ansiprint(str(i+1)+"."+numberSpacing+"<m>"+card.get("Name")+"</m>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
+			elif card.get("Type") == "Status":
+				ansiprint(str(i+1)+"."+numberSpacing+"<light-cyan>"+card.get("Name")+"</light-cyan>"+lineSpacing+"<yellow>"+str(card.get("Energy"))+"</yellow>")
+			i = i + 1
 	
 	def showPotions(self,skip=False):
 		try:
-			ansiprint("These are your Potions:\n")
+			
 			potions = ""
 			i = 0
 			for potion in self.potionBag:
@@ -3666,6 +3625,8 @@ class Char():
 				i = i + 1
 			if skip and len(self.potionBag)>0:
 				potions += str(i+1)+".) Skip"
+			elif skip == False and len(self.potionBag) == 0:
+				ansiprint("You don't have any <c>Potions</c>.")
 			ansiprint(potions)
 		except Exception as e:
 			print(e)
@@ -3689,7 +3650,7 @@ class Char():
 			if opponent.strength != 0:
 				gegner += " |<red> Strength: "+str(opponent.strength)+"</red>"
 			if opponent.ritual > 0:
-				gegner += " |<red> Ritual: "+str(opponent.ritual)+"</red>"
+				gegner += " |<light-blue> Ritual: "+str(opponent.ritual)+"</light-blue>"
 			if opponent.modeshift > 0:
 				gegner += " |<light-blue> Modeshift: "+str(opponent.modeshift)+"</light-blue>"
 			if opponent.invulnerable > 0:
@@ -3742,7 +3703,7 @@ class Char():
 		elif "Thrash" in entities.list_of_enemies[index].move:
 
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
-			previewString = "Attacks for "+str(damage)+". Blocks"
+			previewString = "Attacks for <red>"+str(damage)+"</red>. Blocks"
 
 		elif "Blocking" in entities.list_of_enemies[index].move:
 
@@ -4509,7 +4470,22 @@ class Char():
 		self.draw_pile = copy.deepcopy(self.deck)
 		self.shuffleDrawPile()
 
+	def print_all_cards(self):
+		i = 0
+		for card in self.hand:
+			print(i+1,card.get("Name"))
+			i+=1
+		for card in self.discard_pile:
+			print(i+1,card.get("Name"))
+			i+=1
+		for card in self.draw_pile:
+			print(i+1,card.get("Name"))
+			i+=1
+		for card in self.exhaust_pile:
+			print(i+1,card.get("Name"))
+			i+=1
 	def add_CardToDeck(self,card,index=None,silence=False):
+		card = card.copy()
 		omamori = False
 		darkstonePeriapt = False
 		for relic in self.relics:
@@ -4531,7 +4507,7 @@ class Char():
 						i+=1
 			
 				if i < len(self.deck):
-					print("Snap")
+					print("A generated Unique ID was identical to one in your deck. That's not bad as long as this prompt is not spammed to you endlessly.")
 					continue
 				else:
 					break
@@ -4545,19 +4521,20 @@ class Char():
 					self.relics[omamoriIndex]["Counter"] -= 1
 					ansiprint("You did not add <m>"+card.get("Name")+"</m> to the Deck because you have an <light-red>Omamori</light-red>. This works",self.relics[omamoriIndex]["Counter"],"more time(s).")
 			else:
-				ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m>", "to the deck.\n")
+				if silence == False:
+					ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m>", "to the deck.\n")
 				if darkstonePeriapt:
 					self.set_maxHealth(6)
 					ansiprint("You increased your <red>Max HP by 6<red> because of adding a Curse to the deck while owning <light-red>Darkstone Periapt</light-red>.")
 
-				self.deck.insert(index,card.copy())
+				self.deck.insert(index,card)
 
 		else:
 			
-			self.deck.insert(index,card.copy())
+			self.deck.insert(index,card)
 			if silence == False:
 				ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue>", "to the deck.\n")
-			if card.get("Upgraded") != True and card.get("Type") != "Curse":
+			if card.get("Upgraded") != True:
 				for relic in self.relics:
 					if relic.get("Name") == "Molten Egg" and card.get("Type") == "Attack":
 						helping_functions.upgradeCard(self.deck.pop(index),place = "Deck")
@@ -4567,70 +4544,90 @@ class Char():
 						helping_functions.upgradeCard(self.deck.pop(index),place = "Deck")
 
 	def add_CardToHand(self,card,index:int=None,repeat:bool=False,silent:bool=False):
+		try:
+			card = card.copy()
+			if index == None:
+				index = len(self.hand)
 
-		if index == None:
-			index = len(self.hand)
-
-		if len(self.hand) == 10:
-			self.add_CardToDiscardpile(card.copy())
-			if card["Type"] == "Curse" or card["Type"] == "Status":
-				ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m> to the Discardpile because the Hand was full.\n")
+			if len(self.hand) == 10:
+				self.add_CardToDiscardpile(card)
+				if card.get("Type") == "Curse" or card.get("Type") == "Status":
+					ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m> to the Discardpile because the Hand was full.\n")
+				else:
+					ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue> to the Discardpile because the Hand was full.\n")
 			else:
-				ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue> to the Discardpile because the Hand was full.\n")
-		else:
-			if self.confused > 0:
-				card["Energy changed for the battle"] = True
-				card["Energy"] = rd.randint(0,3)
+				if self.confused > 0 and type(card.get("Energy")) == int:
+					
+					card["Energy changed for the battle"] = True
+					card["Energy"] = rd.randint(0,3)
 
-			self.hand.insert(index,card.copy())
-			if silent == True:
-				ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue>", "to the hand.\n")
+				self.hand.insert(index,card)
+				if silent == True:
+					ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue>", "to the hand.\n")
 
-			if repeat == False:
-				if "Agony" in card.get("Name"):
-					self.add_CardToHand(card,repeat= True)
+				if repeat == False:
+					if "Agony" in card.get("Name"):
+						self.add_CardToHand(card,repeat= True)
+		except Exception as e:
+			print(e,"Card To Hand")
+
 
 	def add_CardToDrawpile(self,card,index:int=None):
+		try:
+			card = card.copy()
+			if index == None:
+				index = rd.randint(0,len(self.draw_pile))
 
-		if index == None:
-			index = rd.randint(0,len(self.draw_pile))
+			self.draw_pile.insert(index,card)
 
-		self.draw_pile.insert(index,card.copy())
+			if card["Type"] == "Curse" or card["Type"] == "Status":
+				ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m>", "to the Drawpile.\n")
+			else:
+				ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue>", "to the Drawpile.\n")
+		except Exception as e:
+			print(e,"Card To Drawpile")
 
-		if card["Type"] == "Curse" or card["Type"] == "Status":
-			ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m>", "to the Drawpile.\n")
-		else:
-			ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue>", "to the Drawpile.\n")
 
 	def add_CardToDiscardpile(self,card,index=None,noMessage=False):
-		if index == None:
-			index = len(self.discard_pile)
-		
-		self.discard_pile.insert(index,card.copy())
+		try:
+			card = card.copy()
+			if index == None:
+				index = len(self.discard_pile)
+			
+			self.discard_pile.insert(index,card)
 
-		if noMessage == True:
-			pass
-		else:
-			if card["Type"] == "Curse" or card["Type"] == "Status":
-				ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m>", "to the Discardpile.\n")
+			if noMessage == True:
+				pass
 			else:
-				ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue>", "to the Discardpile.\n")
+				if card["Type"] == "Curse" or card["Type"] == "Status":
+					ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m>", "to the Discardpile.\n")
+				else:
+					ansiprint(self.displayName, "added", "<blue>"+card.get("Name")+"</blue>", "to the Discardpile.\n")
+		except Exception as e:
+			print(e,"Card To Discardpile")
 
 	def add_CardToExhaustpile(self,card,index=None):
-		if index == None:
-			index = len(self.exhaust_pile)
+		try:
+			card = card.copy()
+			if index == None:
+				index = len(self.exhaust_pile)
 
-		if self.strangeSpoon > 0 and rd.randint(0,1) == 0:
-			add_CardToDiscardpile(card,index)
-			ansiprint("<blue>"+card.get("Name")+"</blue> was discarded instead of exhausted because of <light-red>Strange Spoon</light-red>.")
-		else:
-			self.exhaust_pile.insert(index,card.copy())
+			if card.get("Name") == "Necronomicurse":
+				ansiprint("<c>"+card.get("Name")+ "</c> can't be removed!")
+				self.add_CardToHand(card)
+			else:
+				if self.strangeSpoon > 0 and rd.randint(0,1) == 0:
+					add_CardToDiscardpile(card,index)
+					ansiprint("<blue>"+card.get("Name")+"</blue> was discarded instead of exhausted because of <light-red>Strange Spoon</light-red>.")
+				else:
+					self.exhaust_pile.insert(index,card)
 
-			ansiprint("<blue>"+card.get("Name")+"</blue> is now exhausted and removed from play.\n")
-			if self.deadBranch > 0:
-				randomCard = {k:v for k,v in entities.cards.items() if v.get("Owner") == self.name and v.get("Upgraded") == None}
-				self.add_CardToHand(rd.choices(list(randomCard.items()))[0][1])
-
+					ansiprint("<blue>"+card.get("Name")+"</blue> is now exhausted and removed from play.\n")
+					if self.deadBranch > 0:
+						randomCard = {k:v for k,v in entities.cards.items() if v.get("Owner") == self.name and v.get("Upgraded") == None}
+						self.add_CardToHand(rd.choices(list(randomCard.items()))[0][1])
+		except Exception as e:
+			print(e,"Card to ExhaustPile")
 	def add_potion(self,potion):
 		
 		sozu = False
@@ -4646,7 +4643,7 @@ class Char():
 			
 			if len(self.potionBag) == self.potionBagSize:
 				ansiprint("You can't have more than",self.potionBagSize,"<c>Potions</c> in your <c>Potion Bag</c>.\n")
-				ansiprint("These are your current <c>Potions</c>:")
+				
 				self.showPotions()
 
 				choice = input("Do you want to discard one of your current potions?(Yes/No)\n")
@@ -5248,20 +5245,22 @@ class Char():
 			else:
 				if removeType == "Upgrade":
 					self.showDeck(noUpgrades = True)
+				elif removeType == "Remove":
+					self.showDeck(remove = True)
 				else:
 					self.showDeck()
 				try:
 					if removeType == "Transform":
-						choice = input("Which card do you want to transform?")
+						choice = input("Which card do you want to transform?\n")
 
 					elif removeType == "Upgrade":
-						choice = input("Which card do you want to upgrade?")
+						choice = input("Which card do you want to upgrade?\n")
 					
 					elif removeType == "Remove":
-						choice = input("Which card do you want to remove from your deck?")
+						choice = input("Which card do you want to remove from your deck?\n")
 
 					elif removeType == "Duplicate":
-						choice = input("Which card do you want to duplicate?")
+						choice = input("Which card do you want to duplicate?\n")
 
 					else:
 						print(removeType,"<-- What is this?\n")
@@ -5283,19 +5282,20 @@ class Char():
 							continue
 						elif self.deck[choice].get("Type") == "Curse":
 							ansiprint("<m>Curses</m> can't be upgraded.")
+							continue
 						else:
 							ansiprint("<blue>"+self.deck[choice]["Name"]+"</blue> is upgraded.")
 							helping_functions.upgradeCard(self.deck.pop(choice),"Deck",index)
 
 					elif removeType == "Remove":
-						
+
+						if self.deck[choice].get("Irremovable") == True:
+							ansiprint("<m>"+self.deck[choice].get("Name")+"</m> can't be removed.")
+							continue
+
 						if self.deck[choice]["Name"] == "Parasite":
 							ansiprint("<m>The Parasite</m> reeks and wretches as you attempt to <light-blue>remove it from your body</light-blue>. At the end you manage... but at what <red>price</red>?\n")
 							self.set_maxHealth(-3)
-
-						if self.deck[choice]["Name"] == "Curse of the Bell":
-							ansiprint("<m>Curse of the Bell</m> can't be removed.")
-							continue
 
 						if purpleFire:
 							ansiprint("<blue>"+self.deck[choice]["Name"]+"</blue> is removed from the deck.")
@@ -5451,31 +5451,32 @@ class Char():
 				print(e,"This is neither a Card, a <light-red>Relic</light-red> or a <c>Potion</c>.")
 				pass
 
-	def show_status(self):
-		status = "\n{} (<red>{}</red>/<red>{}</red>) | <yellow>Energy</yellow>: {}".format(self.displayName,self.health,self.max_health,self.energy)
-		
-		if self.block > 0:
-			status += " |<green> Block: "+str(self.block)+"</green>"
-		if self.weak > 0:
-			status += " |<light-cyan> Weakness: "+str(self.weak)+"</light-cyan>"
-		if self.vulnerable > 0:
-			status += " |<light-cyan> Vulnerable: "+str(self.vulnerable)+"</light-cyan>"
-		if self.frail > 0:
-			status += " |<light-cyan> Frail: "+str(self.frail)+"</light-cyan>"
-		if self.strength != 0:
-			status += " |<red> Strength: "+str(self.strength)+"</red>"
-		if self.dexterity != 0:
-			status += " |<green> Dexterity: "+str(self.dexterity)+"</green>"
-		if self.ritual > 0:
-			status += " |<red> Ritual: "+str(self.ritual)+"</red>"
-		if self.invulnerable > 0:
-			status += " |<light-blue> Invulnerable: "+str(self.invulnerable)+"</light-blue>"
-		if self.intangible > 0:
-			status += " |<light-blue> Invincible: "+str(self.intangible)+"</light-blue>"
-		if self.artifact > 0:
-			status += " |<light-blue> Artifact: "+str(self.artifact)+"</light-blue>"
-		if len(self.doubleDamage) > 0:
-			status += " | Attacks deal Double Damage."
+	def show_status(self,event = False):
+		status = "\n{} (<red>{}</red>/<red>{}</red>)".format(self.displayName,self.health,self.max_health)
+		if event == False:
+			status += " |<yellow> Energy: "+ str(self.energy)+"</yellow>"
+			if self.block > 0:
+				status += " |<green> Block: "+str(self.block)+"</green>"
+			if self.weak > 0:
+				status += " |<light-cyan> Weakness: "+str(self.weak)+"</light-cyan>"
+			if self.vulnerable > 0:
+				status += " |<light-cyan> Vulnerable: "+str(self.vulnerable)+"</light-cyan>"
+			if self.frail > 0:
+				status += " |<light-cyan> Frail: "+str(self.frail)+"</light-cyan>"
+			if self.strength != 0:
+				status += " |<red> Strength: "+str(self.strength)+"</red>"
+			if self.dexterity != 0:
+				status += " |<green> Dexterity: "+str(self.dexterity)+"</green>"
+			if self.ritual > 0:
+				status += " |<red> Ritual: "+str(self.ritual)+"</red>"
+			if self.invulnerable > 0:
+				status += " |<light-blue> Invulnerable: "+str(self.invulnerable)+"</light-blue>"
+			if self.intangible > 0:
+				status += " |<light-blue> Invincible: "+str(self.intangible)+"</light-blue>"
+			if self.artifact > 0:
+				status += " |<light-blue> Artifact: "+str(self.artifact)+"</light-blue>"
+			if len(self.doubleDamage) > 0:
+				status += " | Attacks deal Double Damage."
 		# if self.metallicize > 0:
 		# 	status += " |<light-blue> Metallicize: "+str(self.metallicize)+"</light-blue>"
 		# if self.barricade == True:
@@ -5534,7 +5535,7 @@ class Char():
 		self.afterImage = 0
 		self.envenom = 0
 		self.toolsOfTheTrade = 0
-		
+		self.theBoot = False
 		self.buffer = 0
 		self.wraithForm = 0
 		self.burst = 0

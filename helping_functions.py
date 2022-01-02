@@ -288,7 +288,7 @@ def afterEventBattleRewardScreen(gold: int = None,potion:dict = None,cards: list
             ansiprint(str(i+1)+".",reward)
             i += 1
         try:
-            snap = input("What do you want to do?")
+            snap = input("What do you want to do?\n")
             snap = int(snap)-1
             if snap not in range(len(eventBattleRewards)):
                 print("You have to type one of the corresponding numbers.")
@@ -1222,7 +1222,7 @@ def displayShop(shoplist):
             i+=1
 
         try:
-            snap = input("What do you want to buy? Type the corresponding number")
+            snap = input("What do you want to buy? Type the corresponding number\n")
             snap = int(snap)-1
             if snap not in range (len(shoplist)):
                 continue

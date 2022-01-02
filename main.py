@@ -17,14 +17,17 @@ colorama.init()
 #events are not following any rules yet.
 #no tutorial
 #no proper error logging yet.
+#escape plan blocks for 5?
+#when an enemy at dies by poison no enemy afterwards does anything. Yay.
+#needs colorcoding in enemy
 
 
 ansiprint("Slay the Spire is a registered trademark by Mega Crit, LLC")
 ansiprint("Please consider supporting the Developers by purchasing Slay the Spire on Steam/Gog/Epic etc.\n\n")
 ansiprint("This game likely requires a base understanding of Slay the Spire.")
-ansiprint("If you don't know what a <blue>Card</blue> or <light-red>Relic</light-red> does just type out its name wherever you are and you should get a short explanation of it.")
+ansiprint("If you don't know what a <blue>Card</blue>, <light-red>Relic</light-red> or <c>Potion</c> does just type out its name wherever you are and you should get a short explanation of it.")
 ansiprint("In 99 out of 100 cases you can navigate the game by typing in the corresponding numbers of the options presented to you.")
-ansiprint("You can Save only during battles by tyimping \"Save\" and hitting \"Enter\" afterwards.\n\n")
+ansiprint("You can Save only during battles by typing \"Save\" and hitting \"Enter\" afterwards.\n\n")
 
 try:
 	save_handlery.the_question_of_safety()
@@ -44,17 +47,21 @@ try:
 			helping_functions.turn_counter = helping_functions.count_up(helping_functions.turn_counter)
 			entities.active_character[0].turn(helping_functions.turn_counter)
 			
-			for enemy in entities.list_of_enemies:
-				enemy.turn(helping_functions.turn_counter)
+			i = 0
+			while i < len(entities.list_of_enemies):
+				enemyDeadCheck = len(entities.list_of_enemies)
+				entities.list_of_enemies[i].turn()
+				if enemyDeadCheck <= len(entities.list_of_enemies):
+					i+=1
 
-			if len(entities.active_character) == 0:
+			if entities.active_character[0].alive == False:
 				running = False
 
 			entities.check_if_enemy_dead()
 		
 		helping_functions.afterBattleScreen()
 
-	output = subprocess.check_output()
+
 
 	if helping_functions.gameAct == 5:
 		print("You won and beat the Heart!!")
