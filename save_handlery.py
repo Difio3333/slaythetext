@@ -27,7 +27,7 @@ def the_question_of_safety():
 				entities.active_character[0].set_deck(entities.silent_deck)
 				#entities.active_character[0].add_relic({"Name":"Art of War","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you do not play any <red>Attacks</red> during your turn, gain <yellow>1 extra Energy</yellow> next turn."})
 				#entities.active_character[0].add_potion({"Name": "Smoke Bomb","Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"Escape from a non-boss combat. Receive no rewards."})
-				#entities.active_character[0].add_CardToDeck({"Name": "Dagger Spray +", "Damage":6,"Upgraded": True,"Energy": 1, "Type":"Attack","Rarity":"Common","Owner":"Silent","Info":"Deal <red>6 damage</red> to ALL enemies twice."})
+				#entities.active_character[0].add_CardToDeck({"Name": "Burst", "Burst":1, "Energy": 1,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"This turn, your next <green>Skill</green> is played twice."})
 				break
 				
 		except TypeError:

@@ -1664,7 +1664,7 @@ def neowBlesses():
 
     vantagePairingsPick = rd.sample(vantagePairsList,k=1)[0]
 
-    blessings = [positives[0],positives[1],vantagePairingsPick,"<green>Obtain random boss relic</green>. <red>Loose your starting relic</red>."]
+    blessings = [positives[0],positives[1],vantagePairingsPick,"<green>Obtain random boss relic</green>. <red>Lose your starting relic</red>."]
     
     while True:
         i = 0

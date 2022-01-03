@@ -1164,34 +1164,36 @@ class Enemy():
 			pass
 
 	def attack(self,attack):
+		
+		if self.spireBroAttacked == True:
+			attack += int(attack * 0.5)
+
+		damage = attack + self.strength + self.strengthChange
+		
+		if self.weak > 0:
+			if entities.active_character[0].paperKrane > 0:
+				damage -= (attack + self.strength + self.strengthChange) * 0.4
+			else:
+				damage -= (attack + self.strength + self.strengthChange) * 0.25
+
+
+		damage = math.floor(damage)
+
+		if damage < 0:
+			damage = 0
+
+		ansiprint(self.name,"attacks for",damage)
+		
+		if entities.active_character[0].spikes > 0:
+			self.receive_recoil_damage(entities.active_character[0].spikes)
+
+		if entities.active_character[0].tempSpikes > 0:
+			self.receive_recoil_damage(entities.active_character[0].tempSpikes)
+
 		if self.alive:
-			if self.spireBroAttacked == True:
-				attack += int(attack * 0.5)
-
-			damage = attack + self.strength + self.strengthChange
-			
-			if self.weak > 0:
-				if entities.active_character[0].paperKrane > 0:
-					damage -= (attack + self.strength + self.strengthChange) * 0.4
-				else:
-					damage -= (attack + self.strength + self.strengthChange) * 0.25
-
-
-			damage = math.floor(damage)
-
-			if damage < 0:
-				damage = 0
-
-			ansiprint(self.name,"attacks for",damage)
-			
-			if entities.active_character[0].spikes > 0:
-				self.receive_recoil_damage(entities.active_character[0].spikes)
-
-			if entities.active_character[0].tempSpikes > 0:
-				self.receive_recoil_damage(entities.active_character[0].tempSpikes)
-
 			return damage
-
+		else:
+			return 0
 	def blocking(self,blocking):
 		self.block += blocking
 		ansiprint(self.name,"blocks for " + str(blocking) + ".")
@@ -1266,7 +1268,7 @@ class Enemy():
 
 			else:
 				self.block -= attack_damage
-				ansiprint("The", self.name, "has", self.block,"block left.")
+				ansiprint("The", self.name, "has <green>"+ str(self.block)+"Block</green> left.")
 
 			try:
 				if len(self.on_hit_or_death) > 0:
