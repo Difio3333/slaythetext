@@ -18,7 +18,7 @@ class Char():
 
 		draw_strength: int = 5, block: int = 0, gold: int = 0,
 
-		relics: list = [], position: list = [0,0],
+		relics: list = [],
 
 		alive: bool = True
 
@@ -55,7 +55,7 @@ class Char():
 		#positiv statuses
 		
 		self.smokeBomb = False
-		self.position = position
+		self.position = [0,0]
 		self.alive = alive
 		
 		#inFigtThings
@@ -3710,7 +3710,7 @@ class Char():
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
 
-			previewString = "Attacks "+amount+" times for <red>"+damage+"</red>"
+			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>."
 
 		elif "Thrash" in entities.list_of_enemies[index].move:
 
@@ -3760,7 +3760,7 @@ class Char():
 		elif "Suck" in entities.list_of_enemies[index].move:
 
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1]),index)
-			previewString = "Attacks for "+str(damage)+" damage. Buffs itself"
+			previewString = "Attacks for <red>"+str(damage)+" damage</red>. Buffs itself"
  		
 		elif "CenturionDefendAlly" in entities.list_of_enemies[index].move:
 
@@ -3799,7 +3799,7 @@ class Char():
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
 
-			previewString = "Attacks "+amount+" times for "+damage+" damage. Buffs itself"
+			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>. Buffs itself"
 
 		elif "Haste" in entities.list_of_enemies[index].move:
 
@@ -3810,18 +3810,18 @@ class Char():
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("/")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
 
-			previewString = "Attacks "+amount+" times for "+damage+" damage. Applies a negative effect"
+			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies a negative effect"
 
 		elif "Divider" in entities.list_of_enemies[index].move:
 			damage = self.determine_damage_to_character(6,index)
-			previewString = "Attacks"+ int(self.health // 12 + 1) *"times for <red>"+ str(damage)+"</red>"
+			previewString = "Attacks"+ str(int(self.health // 12 + 1)) *"times for <red>"+ str(damage)+"</red>"
 
 		elif "Inferno" in entities.list_of_enemies[index].move:
 			
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
 
-			previewString = "Attacks "+amount+" times for "+damage+" damage. Applies Debuff"
+			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>. Applies Debuff"
 
 		elif "Enrage" in entities.list_of_enemies[index].move:
 
@@ -4293,7 +4293,7 @@ class Char():
 	def set_strength(self,value):
 
 		self.strength += value
-		ansiprint(self.displayName,"has",self.strength,"Strength.")
+		ansiprint(self.displayName,"has <red>"+str(self.strength)+" Strength</red>.")
 
 	def set_dexterityDecrease(self, value):
 
@@ -4535,7 +4535,7 @@ class Char():
 					ansiprint(self.displayName, "added", "<m>"+card.get("Name")+"</m>", "to the deck.\n")
 				if darkstonePeriapt:
 					self.set_maxHealth(6)
-					ansiprint("You increased your <red>Max HP by 6<red> because of adding a Curse to the deck while owning <light-red>Darkstone Periapt</light-red>.")
+					ansiprint("You increased your <red>Max HP by 6</red> because of adding a <m>Curse</m> to the deck while owning <light-red>Darkstone Periapt</light-red>.")
 
 				self.deck.insert(index,card)
 
@@ -5322,6 +5322,10 @@ class Char():
 						self.add_CardToDeck(self.deck[choice])
 					i+=1
 
+					elif removeType == "Transform":
+						if self.deck[choice].get("Irremovable") == True:
+							ansiprint("<m>"+self.deck[choice].get("Name")+"</m> can't be removed.")
+							continue
 				else:
 					print("Type the number of one of the cards in your deck shown.")
 					pass

@@ -185,7 +185,7 @@ def afterBattleScreen():
                 pickCard(potentialCardWinnings)
                 if len(entities.active_character[0].deck) > deckCheck:
                     afterBattleOptions.pop(snap)
-                elif healthCheck > entities.active_character[0].max_health:
+                elif healthCheck < entities.active_character[0].max_health:
                     afterBattleOptions.pop(snap)
             
             elif afterBattleOptions[snap] == "<blue>Card Reward 2</blue>":                
@@ -735,7 +735,6 @@ def pickCard(cardPrize: list,place:str = "Deck"):
                 entities.active_character[0].set_maxHealth(2)
                 break
             if card_index in range(len(cardPrize)):
-
                 break
             else:
                 ansiprint ("You don't have this card!")
@@ -758,7 +757,7 @@ def pickCard(cardPrize: list,place:str = "Deck"):
         entities.active_character[0].add_CardToHand(cardPrize[card_index])
     
     else:
-        print("What's that-->",cardPrize[card_index])
+        print("Please let me know what is written here:-->",cardPrize[card_index])
 
 def pickPotion(potionPrize: list):
 

@@ -1580,7 +1580,7 @@ def visit_treasureChest():
     else:
         chestType = "Large Chest"
 
-    ansiprint("You're standing in front of a",chestType+". <light-red>Let's wonder what's insinde!</light-red>.")
+    ansiprint("You're standing in front of a",chestType+". <light-red>You wonder what's insinde</light-red>.")
     if nlothsHungryFace == False:
         chestRelic = helping_functions.generateRelicRewards(place=chestType)
         if blueKey == False:
@@ -1656,7 +1656,7 @@ def neowBlesses():
         for disadvantage in disadvantages:
             if advantage == "Gain 250 Gold" and disadvantage == "Lose all Gold":
                 pass
-            elif advantage == "Max HP + 12" and disadvantage == "Lose 6 max health":
+            elif advantage == "Max HP + 12" and disadvantage == "Lose 6 Max HP":
                 pass
             else:
                 vantagePairsList.append([advantage,disadvantage])
@@ -1677,7 +1677,7 @@ def neowBlesses():
                 ansiprint(str(i+1)+". <green>"+blessing[0]+"</green>. <red>"+blessing[1]+"</red>.")
             i+=1          
         try:
-            choice = input("Which blessing do you want to receive?")
+            choice = input("Which blessing do you want to receive?\n")
             choice = int(choice)-1
             if choice in range(len(blessings)):
                 break
@@ -1755,7 +1755,7 @@ def neowBlesses():
         active_character[0].set_maxHealth(6)
 
     elif blessings[choice] == "Enemies in the next three combat will have one health":
-        active_character[0].add_relic({"Name":"Neow's Lament","Counter":3,"Rarity":"Event","Owner":"The Spire","Type":"Relic"})
+        active_character[0].add_relic({"Name":"Neow's Lament","Counter":3,"Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"Enemies in your first 3 combats will have <red>1 HP</red>."})
 
     elif blessings[choice] == "Remove a card":
         active_character[0].removeCardsFromDeck(1)
@@ -1887,7 +1887,7 @@ def event_PurpleFireSpirits():
 
     elif offeredCard["Rarity"] == "Curse":
         ansiprint("However, the spirits aren't happy that you offered a Curse... The card fizzles a meek black smoke. You receive a... something in return.")
-        active_character[0].add_relic({"Name":"Spirit Poop","Rarity":"Event","Owner":"The Spire","Type":"Relic"})
+        active_character[0].add_relic({"Name":"Spirit Poop","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"It's unpleasant."})
 
     else:
         print(offeredCard,"<--Which rarity and other things does this card have?")
