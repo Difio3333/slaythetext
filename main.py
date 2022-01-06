@@ -20,9 +20,6 @@ colorama.init()
 #needs colorcoding in some more enemy intentions
 
 
-
-
-
 def main():
 	try:
 		ansiprint("Slay the Spire is a registered trademark by Mega Crit, LLC")
@@ -57,7 +54,7 @@ def main():
 					if enemyDeadCheck <= len(entities.list_of_enemies):
 						i+=1
 
-				print(entities.active_character[0].alive)
+				
 				if entities.active_character[0].alive == False:
 					break
 

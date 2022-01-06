@@ -1674,7 +1674,7 @@ class Enemy():
 				value+=1
 
 			self.poison += value
-			ansiprint(self.name, "now has",self.poison,"poison.")
+			ansiprint(self.name, "now has <green>"+str(self.poison)+" Poison</green>.")
 		
 	def multiply_poison(self,value):
 		if self.artifact > 0:
@@ -1683,7 +1683,7 @@ class Enemy():
 			if self.sadisticNature > 0:
 				self.receive_sadistic_damage()
 			self.poison *= value
-			ansiprint(self.name, "now has",self.poison,"poison.")
+			ansiprint(self.name, "now has <green>"+str(self.poison)+" Poison</green>.")
 
 	def set_corpseExplosion(self,value):
 		if self.artifact > 0:
@@ -1693,7 +1693,7 @@ class Enemy():
 				self.receive_sadistic_damage()	
 			
 			self.corpseExploding += value
-			ansiprint(self.name, "will deal its Max HP as damage to all other enemies on death.")
+			ansiprint(self.name, "will deal its Max HP as damage to all other Enemies on death.")
 
 	def set_choke (self,value):
 		if self.artifact > 0:
@@ -1703,21 +1703,21 @@ class Enemy():
 				self.receive_sadistic_damage()
 			
 			self.choke += value
-			ansiprint(self.name, "receives",self.choke,"damage everytime you play a card this turn.")
+			ansiprint(self.name, "receives <red>"+str(self.choke)+" Damage</red> everytime you play a card this turn.")
 
 	def set_sadisticNature(self,value):
 		self.sadisticNature += value
-		ansiprint(self.name, "receives",self.sadisticNature,"damage everytime you they receive a debuff.")
+		ansiprint(self.name, "receives <red>"+str(self.sadisticNature)+" Damage</red> everytime you they receive a debuff.")
 
 	def set_ritual(self,value):
 
 		self.ritual += value
-		ansiprint(self.name, "now has",self.ritual,"ritual.")
+		ansiprint(self.name, "now has <light-blue>"+str(self.ritual)+" Ritual</light-blue>.")
 
 	def set_strength(self,value):
 
 		self.strength += value
-		ansiprint(self.name, "now has",self.strength,"strength.")
+		ansiprint(self.name, "now has <red>"+str(self.strength)+" Strength</red>.")
 
 	def set_artifact (self,value):
 
@@ -1726,12 +1726,12 @@ class Enemy():
 		if value > 0:
 			ansiprint(self.name, "gains", self.artifact, "artifact and now has",self.artifact,"artifact.")
 		else: 	
-			ansiprint(self.name, "loses one artifact and now has",self.artifact,"artifact left.")
+			ansiprint(self.name, "loses one artifact and now has <light-blue>"+str(self.artifact)+" Artifact</light-blue> left.")
 
 	def set_platedArmor(self,value):
 
 		self.platedArmor += value
-		ansiprint(self.name, "now has",self.platedArmor,"plated Armor and will receive as much <green>Block</green> per turn.")
+		ansiprint(self.name, "now has",self.platedArmor,"Plated Armor and will receive as much <green>Block</green> per turn.")
 
 	def set_maxHealth (self,value):
 		
@@ -1753,16 +1753,16 @@ class Enemy():
 	def set_block_by_metallicice (self):
 		self.block += self.metallicize
 
-		ansiprint(self.name, "received",self.metallicize,"block through metallicize.")
+		ansiprint(self.name, "received",self.metallicize,"Block through metallicize.")
 
 	def set_metallicice(self,value):
 		self.metallicize += value
 
-		ansiprint(self.name, "receives",self.metallicize,"block at the start of each turn.")
+		ansiprint(self.name, "receives <green>"+str(self.metallicize)+" Block</green> at the start of each turn.")
 
 	def set_regen(self,value):
 		self.regen += value
-		ansiprint(self.name,"regenerates",self.regen,"HP per turn.")
+		ansiprint(self.name,"regenerates <red>"+self.regen+" HP</red> per turn.")
 
 	def steal_gold(self,value):
 	    

@@ -3735,15 +3735,15 @@ class Char():
 
 		elif "Ritual" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Grow" in entities.list_of_enemies[index].move:
 		
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Bellow" in entities.list_of_enemies[index].move:
 			
-			previewString = "Will <green>Block</green> and Buff itself"
+			previewString = "Will <green>Block</green> and <light-blue>Buff</light-blue> itself"
 
 		elif "GoopSpray" in entities.list_of_enemies[index].move:
 
@@ -3751,7 +3751,7 @@ class Char():
 
 		elif "Support Automaton" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Entangle" in entities.list_of_enemies[index].move:
 
@@ -3764,15 +3764,15 @@ class Char():
  		
 		elif "CenturionDefendAlly" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "MysticBuff" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "MysticHeal" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "SmokeBomb" in entities.list_of_enemies[index].move:
 
@@ -3792,7 +3792,7 @@ class Char():
 
 		elif "DefensiveMode" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "TwinSlam" in entities.list_of_enemies[index].move:
 			
@@ -3803,7 +3803,7 @@ class Char():
 
 		elif "Haste" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "TimeSlam" in entities.list_of_enemies[index].move:
 
@@ -3825,7 +3825,7 @@ class Char():
 
 		elif "Enrage" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Hex" in entities.list_of_enemies[index].move:
 			
@@ -3841,7 +3841,7 @@ class Char():
 
 		elif "Encourage" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Ripple" in entities.list_of_enemies[index].move:
 
@@ -3860,15 +3860,15 @@ class Char():
 
 		elif "Gloat" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "ChampAnger" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "DefensiveStance" in entities.list_of_enemies[index].move:
 			
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Roar" in entities.list_of_enemies[index].move:
 
@@ -3880,7 +3880,7 @@ class Char():
 			
 		elif "TorchBuff" in entities.list_of_enemies[index].move:
 			
-			previewString = "Will <green>Block</green> and Buff"
+			previewString = "Will <green>Block</green> and <light-blue>Buff</light-blue>"
 
 		elif "BearHug" in entities.list_of_enemies[index].move:
 
@@ -3888,7 +3888,7 @@ class Char():
 
 		elif "SpikeUp" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Repulse" in entities.list_of_enemies[index].move:
 
@@ -3911,7 +3911,7 @@ class Char():
 
 		elif "Fortify" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "BurnStrike" in entities.list_of_enemies[index].move:
 
@@ -3929,7 +3929,7 @@ class Char():
 
 		elif "SquareOfDeca" in entities.list_of_enemies[index].move:
 			
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Debilitate" in entities.list_of_enemies[index].move:
 
@@ -3937,7 +3937,7 @@ class Char():
 
 		elif "HeartBuff" in entities.list_of_enemies[index].move:
 
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		elif "Transientattack" in entities.list_of_enemies[index].move:
 
@@ -3951,7 +3951,7 @@ class Char():
 
 		elif "|" in entities.list_of_enemies[index].move:
 			
-			previewString = "Buff"
+			previewString = "<light-blue>Buff</light-blue>"
 
 		else:
 
@@ -5320,12 +5320,14 @@ class Char():
 					elif removeType == "Duplicate":
 						ansiprint("<blue>"+self.deck[choice]["Name"]+"</blue> is duplicated!")
 						self.add_CardToDeck(self.deck[choice])
-					i+=1
+					
 
 					elif removeType == "Transform":
 						if self.deck[choice].get("Irremovable") == True:
 							ansiprint("<m>"+self.deck[choice].get("Name")+"</m> can't be removed.")
 							continue
+
+					i+=1
 				else:
 					print("Type the number of one of the cards in your deck shown.")
 					pass

@@ -151,6 +151,7 @@ def afterBattleScreen():
 
     
     afterBattleOptions.append("Show Deck")
+    afterBattleOptions.append("Show Relics")
     afterBattleOptions.append("Display Map")
     afterBattleOptions.append("Next Floor")
     
@@ -209,8 +210,8 @@ def afterBattleScreen():
             elif "Show Deck" in afterBattleOptions[snap]:
                 entities.active_character[0].showDeck()
             
-            elif "Artifact" in afterBattleOptions[snap]:
-                print("Artifacts are not implemented yet.")
+            elif "Show Relics" in afterBattleOptions[snap]:
+                entities.active_character[0].showRelics()
             
             elif "Next Floor" in afterBattleOptions[snap]:
                 acts.show_map(game_map,game_map_dict)
@@ -226,7 +227,6 @@ def generateGoldReward(monster: str = None):
     for relic in entities.active_character[0].relics:
         if relic.get("Name") == "Golden Idol":
             goldenIdol = True
-
 
     if monster:
         if monster == "Creep":
@@ -1321,7 +1321,7 @@ def nchoices_with_restrictions(weights=None, restrictions=None,k = 100):
 def nchoices_with_restrictions_minions(weightsAndRestrictions,k = None):
     if k == None:
         k = 100
-    print("weightsAndRestrictions:",weightsAndRestrictions)
+    #print("weightsAndRestrictions:",weightsAndRestrictions)
     weights = weightsAndRestrictions[0]
     if len(weightsAndRestrictions) == 1:
         restrictions = {}

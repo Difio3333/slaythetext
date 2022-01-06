@@ -56,8 +56,8 @@ def move_after_combat(game_map,game_map_dict):
 
 
 def nchoices_with_restrictions(weights=None, restrictions=None,k = 100):
-	if restrictions == None:
-		restrictions = {}
+    if restrictions == None:
+        restrictions = {}
     N = 0 # count how many values we have yielded so far
     last_value = None # last value that was yielded
     repeat_count = 0 # how often it has been yielded in a row
