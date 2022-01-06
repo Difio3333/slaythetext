@@ -888,8 +888,8 @@ cards = {
     "Discovery" :{"Name": "Discovery","Energy": 1,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Choose 1 of 3 random cards to add into your hand. It costs 0 this turn. <BLUE>Exhaust</BLUE>."},
     "Discovery +" :{"Name": "Discovery +","Energy": 0,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Choose 1 of 3 random cards to add into your hand. It costs 0 this turn. <BLUE>Exhaust</BLUE>."},
 
-    "Dramatic Entrance": {"Name": "Dramatic Entrance","Damage":8,"Energy": 0,"Innate":True,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>8 damage</red> to ALL enemies. <BLUE>Innate.</BLUE>. <BLUE>Exhaust</BLUE>."},
-    "Dramatic Entrance +": {"Name": "Dramatic Entrance","Damage":12,"Energy": 0,"Innate":True,"Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>12 damage</red> to ALL enemies. <BLUE>Innate.</BLUE>. <BLUE>Exhaust</BLUE>."},
+    "Dramatic Entrance": {"Name": "Dramatic Entrance","Damage":8,"Energy": 0,"Innate":True,"Exhaust":True,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>8 damage</red> to ALL enemies. <BLUE>Innate.</BLUE>. <BLUE>Exhaust</BLUE>."},
+    "Dramatic Entrance +": {"Name": "Dramatic Entrance","Damage":12,"Energy": 0,"Innate":True,"Exhaust":True,"Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>12 damage</red> to ALL enemies. <BLUE>Innate.</BLUE>. <BLUE>Exhaust</BLUE>."},
     
     "Enlightenment": {"Name": "Enlightenment","Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Reduce the cost of all cards in your hand to <yellow>1 Energy</yellow> this turn."},
     "Enlightenment +": {"Name": "Enlightenment","Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Reduce the cost of all cards in your hand to <yellow>1 Energy</yellow> for the rest of the battle."},
