@@ -1032,7 +1032,7 @@ potions = {
     "Entropic Brew": {"Name": "Entropic Brew","Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"Fill all your empty <c>potion slots</c> with <c>random potions</c>."},
     
     "Essence of Steel": {"Name": "Essence of Steel","Potion Yield": 4,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Gain <green>4 Plated Armor</green>."},
-    "Explosive Potion": {"Name": "Explosive Potion","Potion Yield": 10,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"<Deal <red>10 damage</red> to all enemies."},
+    "Explosive Potion": {"Name": "Explosive Potion","Potion Yield": 10,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Deal <red>10 damage</red> to all enemies."},
     "Fairy in a Bottle": {"Name": "Fairy in a Bottle","Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"When you would <black>die</black>, <red>heal to 30\% of your Max HP</red> instead and discard this <c>Potion</c>."},
     "Fear Potion": {"Name": "Fear Potion","Potion Yield": 3,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Apply <light-cyan>3 Vulnerable</light-cyan>."},
     "Fire Potion": {"Name": "Fire Potion","Potion Yield": 20,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Deal <red>20 damage</red> to target enemy."},

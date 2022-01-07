@@ -2592,7 +2592,6 @@ class Char():
 					self.card_is_played(self.draw_pile.pop(0),turn_counter)
 					i += 1
 
-
 		elif potion_in_play[0]["Name"] == "Duplication Potion":
 			self.set_duplication(potion_in_play[0]["Potion Yield"])
 			if sacredBark:
@@ -5486,6 +5485,8 @@ class Char():
 				status += " |<green> Dexterity: "+str(self.dexterity)+"</green>"
 			if self.ritual > 0:
 				status += " |<red> Ritual: "+str(self.ritual)+"</red>"
+			if self.regen > 0:
+				status += " |<red> Regen: "+str(self.regen)+"</red>"
 			if self.invulnerable > 0:
 				status += " |<light-blue> Invulnerable: "+str(self.invulnerable)+"</light-blue>"
 			if self.intangible > 0:

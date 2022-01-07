@@ -17,7 +17,7 @@ colorama.init()
 #events are not following any rules.
 #no tutorial
 #no proper error logging yet.
-#needs colorcoding in some more enemy intentions
+#no double boss at the end of act 3
 
 
 def main():
