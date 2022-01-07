@@ -6,10 +6,10 @@ The game is still in Alpha so there a lot of bugs and weird messagings in the ga
 Download:
 
 Windows:
-https://github.com/Difio3333/slaythetext/releases/download/v0.5.1/slaythetext.exe
+https://github.com/Difio3333/slaythetext/releases/download/v0.6/slaythetext.exe
 
 Mac:
-https://github.com/Difio3333/slaythetext/releases/download/v0.5.0/slaythetext
+https://github.com/Difio3333/slaythetext/releases/download/v0.6/slaythetext
 
 Linux:
 I currently don't have an executable but you can just clone the repo and install the dependencies manually and then just run main.py.
