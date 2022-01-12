@@ -11,6 +11,8 @@ from ansimarkup import parse, ansiprint
 # 6 = boss_fight
 # 7 = start
 
+testAct = 0
+
 def move_after_combat(game_map,game_map_dict):
 	spots = []
 	i = 0
@@ -77,7 +79,8 @@ def nchoices_with_restrictions(weights=None, restrictions=None,k = 100):
 
 
 def generate_map(superElite = True):
-	
+	global testAct
+	testAct = 3
 	paths = []
 	i = 0
 	while i < 5:
@@ -154,6 +157,8 @@ def generate_map(superElite = True):
 	final_map.insert(0,["Start"])
 	final_map.insert(len(final_map),["Fires", "Fires", "Fires", "Fires"])
 	final_map.insert(len(final_map),["Boss"])
+	if testAct == 3:
+		final_map.insert(len(final_map),["Boss"])
 
 	y = 0
 	for row in final_map:

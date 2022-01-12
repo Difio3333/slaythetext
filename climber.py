@@ -204,7 +204,7 @@ class Char():
 
 			for enemy in entities.list_of_enemies:
 				if enemy.metallicize > 0:
-					enemy.set_block_by_metallicice(enemy.metallicize)
+					enemy.set_block_by_metallicice()
 				if enemy.platedArmor > 0:
 					enemy.blocking(enemy.platedArmor)
 				
@@ -667,10 +667,8 @@ class Char():
 			while i < len(entities.list_of_enemies):
 				enemy_check = len(entities.list_of_enemies)
 				entities.list_of_enemies[i].receive_recoil_damage(3)
-				if enemy_check != len(entities.list_of_enemies):
-					continue
-				else:
-					i+=1
+				if enemy_check == len(entities.list_of_enemies):
+					i += 1
 
 		if self.incenseBurner > 0:
 			incenseIndex = next((i for i, item in enumerate(self.relics) if item["Name"] == "Incense Burner"), None)
@@ -707,14 +705,14 @@ class Char():
 				
 				three_options = []
 				for card in cards:
-					three_options.append(card[1])
+					three_options.append((copy.deepcopy(card[1])))
 				
 				helping_functions.pickCard(three_options,place="Hand")
 
 			if relic.get("Name") == "Enchiridion":
 				random_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == self.name and v.get("Rarity") == "Rare" and v.get("Upgraded") != True and v.get("Type") == "Power"}
 					
-				card_add = rd.choices(list(random_cards.items()))[0][1]
+				card_add = copy.deepcopy(rd.choices(list(random_cards.items()))[0][1])
 				card_add["This turn Energycost changed"] = True
 				card_add["Energy"] = 0	
 
@@ -1850,7 +1848,7 @@ class Char():
 				for card in cards:
 					card[1]["This turn Energycost changed"] = True
 					card[1]["Energy"] = 0
-					three_options.append(card[1])
+					three_options.append(copy.deepcopy(card[1]))
 
 				helping_functions.pickCard(three_options,"Hand")
 
@@ -1863,7 +1861,7 @@ class Char():
 				for card in cards:
 					card[1]["This turn Energycost changed"] = True
 					card[1]["Energy"] = 0
-					three_options.append(card[1])
+					three_options.append(copy.deepcopy(card[1]))
 
 				helping_functions.pickCard(three_options,"Hand")
 
@@ -1891,16 +1889,18 @@ class Char():
 
 			elif self.card_in_play.get("Name") == "Enlightenment":
 				for card in self.hand:
-					if card["Energy"] > 0:
-						card["This turn Energycost changed"] = True
-						card["Energy"] = 1
+					if type(card.get("Energy")) == int:
+						if card["Energy"] > 0:
+							card["This turn Energycost changed"] = True
+							card["Energy"] = 1
 
 			
 			elif self.card_in_play.get("Name") == "Enlightenment +":
 				for card in self.hand:
-					if card["Energy"] > 0:
-						card["Energy changed for the battle"] = True
-						card["Energy"] = 1	
+					if type(card.get("Energy")) == int:
+						if card["Energy"] > 0:
+							card["Energy changed for the battle"] = True
+							card["Energy"] = 1	
 
 			elif self.card_in_play.get("Name") == "Finesse":
 				self.blocking(self.card_in_play["Block"])
@@ -2493,14 +2493,14 @@ class Char():
 				
 				three_options = []
 				for card in cards:
-					three_options.append(card[1])
+					three_options.append(copy.deepcopy(card[1]))
 
-				i = 0
+				
 				print("") #just for readability
 				for card in three_options:
-					i += 1
-					card["This turn Energycost changed"] = True
-					card["Energy"] = 0
+					if type(card.get("Energy")) == int:
+						card["This turn Energycost changed"] = True
+						card["Energy"] = 0
 					
 				
 				helping_functions.pickCard(three_options,"Hand")
@@ -2533,7 +2533,7 @@ class Char():
 			
 			three_options = []
 			for card in cards:
-				three_options.append(card[1])
+				three_options.append(copy.deepcopy(card[1]))
 
 			i = 0
 			print("") #just for readability
@@ -2714,12 +2714,11 @@ class Char():
 			
 			three_options = []
 			for card in cards:
-				three_options.append(card[1])
+				three_options.append(copy.deepcopy(card[1]))
 
-			i = 0
+			
 			print("") #just for readability
 			for card in three_options:
-				i += 1
 				card["This turn Energycost changed"] = True
 				card["Energy"] = 0
 			
@@ -2737,14 +2736,14 @@ class Char():
 			
 			three_options = []
 			for card in cards:
-				three_options.append(card[1])
+				three_options.append(copy.deepcopy(card[1]))
 
-			i = 0
+			
 			print("") #just for readability
 			for card in three_options:
-				i += 1
-				card["This turn Energycost changed"] = True
-				card["Energy"] = 0
+				if type(card.get("Energy")) == int:
+					card["This turn Energycost changed"] = True
+					card["Energy"] = 0
 				
 			
 			helping_functions.pickCard(three_options,"Hand")
@@ -3108,25 +3107,34 @@ class Char():
 			print(e,"changeEnergyCostAfterPlayed")
 
 	def changeEnergyCostAfterTurn(self):
-		for card in self.hand:
-			if card.get("This turn Energycost changed") == True:
-				card.pop("This turn Energycost changed",None)
-				card["Energy"] = entities.cards[card.get("Name")].get("Energy")
+		try:
 
-		for card in self.draw_pile:
-			if card.get("This turn Energycost changed") == True:
-				card.pop("This turn Energycost changed",None)
-				card["Energy"] = entities.cards[card.get("Name")].get("Energy")
-
-		for card in self.discard_pile:
-			if card.get("This turn Energycost changed") == True:
-				card.pop("This turn Energycost changed",None)
-				card["Energy"] = entities.cards[card.get("Name")].get("Energy")
-
-		for card in self.exhaust_pile:
-			if card.get("This turn Energycost changed") == True:
-				card.pop("This turn Energycost changed",None)
-				card["Energy"] = entities.cards[card.get("Name")].get("Energy")
+			for card in self.hand:
+				if card.get("This turn Energycost changed") == True:
+					print(card)
+					card.pop("This turn Energycost changed",None)
+					card["Energy"] = entities.cards[card.get("Name")].get("Energy")
+					print(entities.cards[card.get("Name")].get("Energy"))
+			for card in self.draw_pile:
+				if card.get("This turn Energycost changed") == True:
+					print(card)
+					card.pop("This turn Energycost changed",None)
+					card["Energy"] = entities.cards[card.get("Name")].get("Energy")
+					print(entities.cards[card.get("Name")].get("Energy"))
+			for card in self.discard_pile:
+				if card.get("This turn Energycost changed") == True:
+					print(card)
+					card.pop("This turn Energycost changed",None)
+					card["Energy"] = entities.cards[card.get("Name")].get("Energy")
+					print(entities.cards[card.get("Name")].get("Energy"))
+			for card in self.exhaust_pile:
+				if card.get("This turn Energycost changed") == True:
+					print(card)
+					card.pop("This turn Energycost changed",None)
+					card["Energy"] = entities.cards[card.get("Name")].get("Energy")
+					print(entities.cards[card.get("Name")].get("Energy"))
+		except Exception as e:
+			print(e)
 
 	def set_attackCounter(self):
 		self.attack_counter += 1
@@ -3205,8 +3213,6 @@ class Char():
 				if relic.get("Counter") % 10 == 0:
 					self.draw(1)
 					ansiprint("You draw a card because you played 10 cards while owning an <light-red>Ink Bottle</light-red>.")
-
-
 
 	def choose_enemy(self):
 		
@@ -3666,7 +3672,7 @@ class Char():
 			if opponent.invulnerable > 0:
 				gegner += " |<light-blue> Invulnerable: "+str(opponent.invulnerable)+"</light-blue>"
 			if opponent.intangible > 0:
-				gegner += " |<light-blue> Invincible: "+str(opponent.intangible)+"</light-blue>"
+				gegner += " |<light-blue> Intangible: "+str(opponent.intangible)+"</light-blue>"
 			if opponent.artifact > 0:
 				gegner += " |<light-blue> Artifact: "+str(opponent.artifact)+"</light-blue>"
 			if opponent.metallicize > 0:
@@ -3680,8 +3686,11 @@ class Char():
 			if opponent.slow > 0:
 				gegner += " |<light-blue> Slow: "+str(opponent.slow)+"</light-blue>"
 			for effect in opponent.on_hit_or_death:
-				if "Curl" in effect[0]:
-					gegner += " |<light-blue> Curl: "+effect[0].split(" ")[1]+"</light-blue>"
+				if type(effect[0]) == str:
+					if "Curl" in effect[0]:
+						gegner += " |<light-blue> Curl: "+effect[0].split(" ")[1]+"</light-blue>"
+				elif type(effect[0]) == int:
+					gegner += " |<light-blue> Spikes: "+str(effect[0])+"</light-blue>"
 
 			if opponent.move:
 				gegner += " | "+ self.enemy_preview(i)
@@ -3917,14 +3926,14 @@ class Char():
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
 
-			previewString = "Attacks "+amount+" times for "+damage+" damage. Applies Debuff"
+			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies Debuff"
 
 		elif "DazeBeam" in entities.list_of_enemies[index].move:
 
 			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
 			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
 
-			previewString = "Attacks "+amount+" times for "+damage+" damage. Applies Debuff"
+			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies Debuff"
 
 		elif "SquareOfDeca" in entities.list_of_enemies[index].move:
 			
@@ -3940,7 +3949,7 @@ class Char():
 
 		elif "Transientattack" in entities.list_of_enemies[index].move:
 
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1])+(helping_functions.turnCounter-1)*10,index)
+			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1])+(helping_functions.turn_counter-1)*10,index)
 			previewString = "Attacks for <red>"+str(damage)+"</red>"
 
 		elif "/" in entities.list_of_enemies[index].move:
@@ -4754,7 +4763,8 @@ class Char():
 
 			five_options = []
 			for potion in fivePotions:
-				three_options.append(potion[1])
+				three_options.append(copy.deepcopy(card[1]))
+
 
 			helping_functions.pickPotion(five_options)
 	

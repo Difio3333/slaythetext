@@ -334,7 +334,7 @@ def fill_enemy_list():
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
             encounterList.append(miniList)
         return encounterList
-            #Continue Here https://slay-the-spire.fandom.com/wiki/Act_2
+            
     elif helping_functions.gameAct == 3:
         encounterList = []
         checklist = [1,2,3]
@@ -398,7 +398,7 @@ def fill_enemy_list():
             
             elif setup == 1:
                 enemy = "The Maw"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intention_logic = enemies[enemy].get("Intentions_Logic")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = None,intention_logic = enemies[enemy].get("Intentions_Logic")))
             
             elif setup == 2:
                 forms = 0
@@ -525,7 +525,7 @@ def fill_elite_list():
                 enemy = "Dagger"
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic")))
                 enemy = "Raptomancer"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intention_logic = enemies[enemy].get("Intentions_Logic"),leader=enemies[enemy].get("Leader")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = None,intention_logic = enemies[enemy].get("Intentions_Logic"),leader=enemies[enemy].get("Leader")))
                 enemy = "Dagger"
                 miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic")))
 
@@ -576,11 +576,11 @@ def fill_boss_list(act):
 
             elif setup == 1:
                 enemy = "The Champ"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
+                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions= None,intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
             
             elif setup == 2:
                 enemy = "The Collector"
-                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death"),leader=True))
+                miniList.append(Enemy(name = enemies[enemy].get("Name"),max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions= None,intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death"),leader=True))
 
 
             encounterList.append(miniList)
@@ -1233,31 +1233,31 @@ relics = {
 
     }
 
-# silent_deck = [ {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
-#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
-#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
-#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
-#                 {"Name": "Deadly Poison +","Poison":30,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
-#                 {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent","Unique ID":6},
-#                 {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent","Unique ID":7}
-                
-#                 ]
-
-silent_deck = [ {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>."}
+silent_deck = [ {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+				
                 ]
+
+# silent_deck = [ {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>."}
+#                 ]
 
 
 #ACT 1 Encounter
@@ -1790,18 +1790,18 @@ def neowBlesses():
 
         helping_functions.pickCard(uncommonColorlessCards,place = "Deck")
 
-    elif blessings[choice] == "<green>Obtain random boss relic</green>. <red>Loose your starting relic</red>.":
+    elif blessings[choice] == "<green>Obtain random boss relic</green>. <red>Lose your starting relic</red>.":
 
         active_character[0].remove_Relic("Ring of the Snake")
 
         randomBossRelic = rd.randint(0,20)
 
         if randomBossRelic == 0:
-            active_character[0].add_relic({"Name":"Astrolabe","Rarity":"Boss","Owner":"Silent","Type":"Relic"})  
+            active_character[0].add_relic({"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."})  
         elif randomBossRelic == 1:
-            active_character[0].add_relic({"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."})
         elif randomBossRelic == 2:
-            active_character[0].add_relic({"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."})
         elif randomBossRelic == 3:
             active_character[0].add_relic({"Name":"Calling Bell","Rarity":"Boss","Owner":"Silent","Type":"Relic"})  
         elif randomBossRelic == 4:
@@ -1819,11 +1819,11 @@ def neowBlesses():
         elif randomBossRelic == 10:
             active_character[0].add_relic({"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
         elif randomBossRelic == 11:
-            active_character[0].add_relic({"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. ALL enemies start with <red>1 Strength</red>."})
         elif randomBossRelic == 12:
-            active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer see enemy Intents."})
         elif randomBossRelic == 13:
-            active_character[0].add_relic({"Name":"Runic Pyramid","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Runic Pyramid","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"At the end of your turn, you no longer discard your hand."})
         elif randomBossRelic == 14:
             active_character[0].add_relic({"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
         elif randomBossRelic == 15:
@@ -1831,7 +1831,7 @@ def neowBlesses():
         elif randomBossRelic == 16:
             active_character[0].add_relic({"Name":"Slaver's Collar","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
         elif randomBossRelic == 17:
-            active_character[0].add_relic({"Name":"Sozu","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Sozu","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer obtain <c>Potions</c>."})
         elif randomBossRelic == 18:
             active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
         elif randomBossRelic == 19:
@@ -1860,7 +1860,7 @@ def neowBlesses():
         helping_functions.pickPotion(threePotions)
     
     else:
-        print("What is written here?:",blessings[choice])
+        print("What is written here?:",blessings[choice],type(blessings[choice]))
 
 
 def event_PurpleFireSpirits():

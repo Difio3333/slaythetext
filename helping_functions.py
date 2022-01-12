@@ -14,6 +14,7 @@ encounter_counter = 0
 floor_counter = 0
 
 gameAct = 1
+actThreeFirstBossBeaten = False
 
 game_map = acts.generate_map()
 game_map_dict = acts.generate_connections(game_map)
@@ -60,7 +61,8 @@ def afterBattleScreen():
     global gameAct
     global game_map
     global game_map_dict
-
+    global actThreeFirstBossBeaten
+    
     afterBattleOptions = []
     goldGain = 0
     print("\n\n")
@@ -70,13 +72,9 @@ def afterBattleScreen():
         pass
 
     elif entities.active_character[0].get_floor() == "Boss":
-        gameAct += 1
-        
-        entities.enemyEncounters = entities.fill_enemy_list()
-        entities.eliteEncounters = entities.fill_elite_list()
-        entities.bossEncounters = entities.fill_boss_list(gameAct)
-        
-        if gameAct < 3:
+        gameAct += 1      
+        if gameAct <= 3:
+            
             potentialCardWinnings = generateCardRewards(bossReward=True)
             afterBattleOptions.append("<blue>Card Reward</blue>")
 
@@ -85,8 +83,11 @@ def afterBattleScreen():
 
             goldGain = generateGoldReward()
             afterBattleOptions.append("<yellow>Gain "+str(goldGain)+" Gold</yellow>")  
-
-        if gameAct < 4:
+            entities.enemyEncounters = entities.fill_enemy_list()
+            entities.eliteEncounters = entities.fill_elite_list()
+            entities.bossEncounters = entities.fill_boss_list(gameAct)
+            entities.active_character[0].set_position([0,0])
+            
             if entities.active_character[0].greenKey == False:
 
                 game_map = acts.generate_map(superElite=True)
@@ -96,15 +97,22 @@ def afterBattleScreen():
 
                 game_map = acts.generate_map(superElite=False)
                 game_map_dict = acts.generate_connections(game_map)
-        
-        elif gameAct > 3 and entities.active_character[0].allKeys == True:
-            game_map = acts.generate_act4Map()
-            game_map_dict = acts.generate_act4ConnectionDict(game_map)
-        
-        else:
-            print("The game should be over now but I don't know how to do that.")
 
-        entities.active_character[0].set_position([0,0])
+        elif gameAct == 4 and actThreeFirstBossBeaten == False:
+            gameAct = 3            
+            actThreeFirstBossBeaten = True
+            
+        elif gameAct == 4 and actThreeFirstBossBeaten == True:
+            
+            if entities.active_character[0].allKeys == True:
+                gameAct += 1
+                game_map = acts.generate_act4Map()
+                game_map_dict = acts.generate_act4ConnectionDict(game_map)
+                entities.active_character[0].set_position([0,0])            
+            else:
+                print("The game should be over now but I don't know how to do that.")
+
+            
     
 
     elif entities.active_character[0].get_floor() == "Event":
@@ -382,8 +390,9 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
                     entities.active_character[0].relics[matryoshkaIndex]["Counter"] -= 1
         
         elif relic.get("Name") == "Black Star":
-            if place == "Elite Fight":
+            if place == "Elite Fight" or place == "Super":
                 relicAmount += 1
+
 
     if place == "Elite Fight":
         commonRelicChance = 0.5
@@ -908,51 +917,79 @@ def upgradeCard(card,place: str = "Deck",index = None):
 
 def getRandomSpecifiedCardIndex(specifics,place: str = "Deck"):
     #thisNeedsToBe updated at some point to handle removing random cards as well.
-
+    #shuffle list
     index = None
+
+    test = [card for card in entities.active_character[0].deck if card.get("Upgraded") != True and card.get("Type") != "Curse"]
+        
+    attackUpgradedTest = [card for card in entities.active_character[0].deck if card.get("Upgraded") != True and card.get("Type") == "Attack"]
+    skillUpgradedTest = [card for card in entities.active_character[0].deck if card.get("Upgraded") != True and card.get("Type") == "Skill"]
+    attackTest = [card for card in entities.active_character[0].deck if card.get("Type") == "Attack"]
+    skillTest = [card for card in entities.active_character[0].deck if card.get("Type") == "Skill"]
+    powerTest = [card for card in entities.active_character[0].deck if card.get("Type") == "Power"]
 
     while True:
         if place == "Deck":
             index = rd.randint(0,len(entities.active_character[0].deck)-1)
-
-        test = [card for card in entities.active_character[0].deck if card.get("Upgraded") != True and card.get("Type") != "Curse"]
         
-        if len(list(test)) == 0:
-            index = None
-            break
-
+        
         if specifics == "Upgrade":
-
+            if len(list(test)) == 0:
+                index = None
+                break
+            
             if entities.active_character[0].deck[index].get("Upgraded") != True and entities.active_character[0].deck[index].get("Type") != "Curse":
                 break
             else:
                 continue
 
-        elif specifics == "Skill Upgrade":
-            if entities.active_character[0].deck[index].get("Upgraded") != True and entities.active_character[0].deck[index].get("Type") == "Skill":
-                break
-            else:
-                continue
-
         elif specifics == "Attack Upgrade":
+            
+            if len(list(attackUpgradedTest)) == 0:
+                index = None
+                break
+            
             if entities.active_character[0].deck[index].get("Upgraded") != True and entities.active_character[0].deck[index].get("Type") == "Attack":
                 break
             else:
                 continue
 
+
+        elif specifics == "Skill Upgrade":
+            
+            if len(list(skillUpgradedTest)) == 0:
+                index = None
+                break
+            
+            if entities.active_character[0].deck[index].get("Upgraded") != True and entities.active_character[0].deck[index].get("Type") == "Skill":
+                break
+            else:
+                continue
+
         elif specifics == "Attack":
+            if len(list(attackTest)) == 0:
+                index = None
+                break
+
             if entities.active_character[0].deck[index].get("Type") == "Attack":
                 break
             else:
                 continue
 
         elif specifics == "Skill":
+            if len(list(skillTest)) == 0:
+                index = None
+                break
+
             if entities.active_character[0].deck[index].get("Type") == "Skill":
                 break
             else:
                 continue
 
         elif specifics == "Power":
+            if len(list(powerTest)) == 0:
+                index = None
+                break
             if entities.active_character[0].deck[index].get("Type") == "Power":
                 break
             else:

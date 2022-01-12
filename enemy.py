@@ -6,9 +6,9 @@ from ansimarkup import parse, ansiprint
 import copy
 
 class Enemy():
-	def __init__(self, name, max_health,intentions,
+	def __init__(self, name, max_health,intentions = None,
 		
-		intention_logic:list = None, on_hit_or_death:list = None, block: int = 0,
+		intention_logic:list = None, on_hit_or_death:list = None, block: int = 0, strength:int = 0,
 
 		ritual: int = 0, artifact: int = 0, metallicize: int = 0, platedArmor: int = 0, barricade: bool=False, regen: int = 0,
 
@@ -24,7 +24,10 @@ class Enemy():
 		self.max_health = max_health
 		self.health = self.max_health
 		
-		self.intentions = copy.deepcopy(intentions)
+		if intentions == None:
+			self.intentions= []
+		else:
+			self.intentions = copy.deepcopy(intentions)
 		
 		if intention_logic == None:
 			self.intention_logic = []
@@ -36,13 +39,14 @@ class Enemy():
 		else:
 			self.on_hit_or_death = copy.deepcopy(on_hit_or_death)
 
+		self.strength = strength
 		self.block = block		
 		self.leader = leader
 		self.weak = 0
 		self.vulnerable = 0
 		self.poison = 0
 
-		self.strength = 0
+		
 		self.invulnerable = 0
 		self.ritual = ritual
 
@@ -100,6 +104,7 @@ class Enemy():
 			
 
 		self.move = self.determine_choice(helping_functions.turn_counter)
+		self.split_check()
 
 	def turn(self):
 		
@@ -107,7 +112,8 @@ class Enemy():
 		
 		if self.poison > 0:
 			self.handle_poison()
-		
+			self.split_check()
+
 		if self.alive == True:
 
 			self.specialBegginingOfTurnEffects()
@@ -1268,7 +1274,7 @@ class Enemy():
 
 			else:
 				self.block -= attack_damage
-				ansiprint("The", self.name, "has <green>"+ str(self.block)+"Block</green> left.")
+				ansiprint("The", self.name, "has <green>"+ str(self.block)+" Block</green> left.")
 
 			try:
 				if len(self.on_hit_or_death) > 0:
@@ -1434,6 +1440,21 @@ class Enemy():
 		
 		entities.check_if_enemy_dead()
 
+
+	def split_check(self):
+		try:
+			for effect in self.on_hit_or_death:
+				if effect[1] == "Hit":
+					if effect[0] == "Split":
+						ansiprint(self.name, "is splitting!")
+							
+						self.move = "Split"
+						self.intentions = ["Split"]
+						self.intention_logic = [["Random"],[0]*100]
+		
+		except Exception as e:
+			pass
+
 	def react_on_hit_and_death(self,damage,damageToHp):
 		try:
 			for effect in self.on_hit_or_death:
@@ -1442,7 +1463,7 @@ class Enemy():
 					
 					if type(effect[0]) == int:
 
-						ansiprint(entities.active_character[0].name, "is hit by spiky recoil damage!")
+						ansiprint(entities.active_character[0].name, "is hit by recoil damage!")
 						entities.active_character[0].receive_recoil_damage(effect[0])
 
 					elif "Curl" in effect[0]:
@@ -1485,8 +1506,7 @@ class Enemy():
 					elif "Malleable" in effect[0]:
 						if damageToHp:
 							blockAmount = int(self.on_hit_or_death[0][0].split(" ")[1])+self.damageCounter-1
-							self.blocking(blockAmount)
-						
+							self.blocking(blockAmount)						
 
 					elif "Modeshift" in effect[0]:
 						self.modeshift -= damage
