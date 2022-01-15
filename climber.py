@@ -4013,7 +4013,7 @@ class Char():
 				attack *= 2
 
 		if self.weak > 0:
-			attack = (attack + self.strength) - int((attack + self.strength) * 0.25)
+			attack = math.floor((attack + self.strength) - (attack + self.strength) * 0.25)
 		else:
 			attack = (attack + self.strength)
 
@@ -4799,15 +4799,8 @@ class Char():
 					i+=1
 
 		elif relic.get("Name") == "Tiny House":
-			random_potions = {k:v for k,v in potions.items() if v.get("Owner") == self.name or v.get("Owner") == "The Spire"}
-			onePotion = rd.choices(list(random_potions.items()),k=5)
-
-			one_option = []
-			for potion in onePotion:
-				one_option.append(potion[1])
-
-			helping_functions.pickPotion(one_option)
-
+			onePotion = helping_functions.generatePotionRewards(event=True,amount=1)
+			self.add_potion(onePotion[0])
 			self.set_gold(50)
 			self.set_maxHealth(5)
 
@@ -4842,7 +4835,7 @@ class Char():
 
 				except Exception as e:
 					self.explainer_function(snap)
-					print("You have to type a number. Astrolabe get")
+					print("You have to type a number.")
 					
 
 			for index in transformList:

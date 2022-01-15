@@ -1164,8 +1164,8 @@ relics = {
 	"Tungsten Rod":{"Name":"Tungsten Rod","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
 	"Turnip":{"Name":"Turnip","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
 	"Unceasing Top":{"Name":"Unceasing Top","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you have no Cards in hand during your turn, draw a Card."},
-	"Astrolabe":{"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."},
 	
+	"Astrolabe":{"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."},	
     "Black Star":{"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."},
     "Busted Crown":{"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."},
     "Calling Bell":{"Name":"Calling Bell","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, obtain a unique <m>Curse</m> and <light-red>3 Relics</light-red>."},
@@ -1184,6 +1184,7 @@ relics = {
     "Slaver's Collar":{"Name":"Slaver's Collar","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"During <black>Boss</black> and Elite combats, gain <yellow>1 Energy</yellow> at the start of your turn."},
     "Sozu":{"Name":"Sozu","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer obtain <c>Potions</c>."},
     "Snecko Eye":{"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."},
+    "Tiny House":{"Name":"Tiny House","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Obtain <c>1 Potion</c>. Gain <yellow>50 Gold</yellow>. Raise your <red>Max HP by 5</red>. Obtain 1 Card. Upgrade 1 Random Card."},
     "Velvet Choker":{"Name":"Velvet Choker","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You cannot play more than 6 Cards per turn."},
     "Wrist Blade":{"Name":"Wrist Blade","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"<red>Attacks</red> that cost <yellow>0 Energy</yellow> deal <red>4 additional damage</red>."},
 
@@ -1233,31 +1234,30 @@ relics = {
 
     }
 
-silent_deck = [ {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-				
-                ]
-
-# silent_deck = [ {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent"},
-#                 {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>."}
+# silent_deck = [ {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+#                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
 #                 ]
+
+silent_deck = [ {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent"},
+                {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>."}
+                ]
 
 
 #ACT 1 Encounter
@@ -1803,21 +1803,21 @@ def neowBlesses():
         elif randomBossRelic == 2:
             active_character[0].add_relic({"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."})
         elif randomBossRelic == 3:
-            active_character[0].add_relic({"Name":"Calling Bell","Rarity":"Boss","Owner":"Silent","Type":"Relic"})  
+            active_character[0].add_relic({"Name":"Calling Bell","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, obtain a unique <m>Curse</m> and <light-red>3 Relics</light-red>."})  
         elif randomBossRelic == 4:
-            active_character[0].add_relic({"Name":"Cursed Key","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Cursed Key","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Whenever you open a non-boss chest, obtain a <m>Curse</m>."})
         elif randomBossRelic == 5:
-            active_character[0].add_relic({"Name":"Coffee Dripper","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Coffee Dripper","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer <blue>Rest at Rest Sites</blue>."})
         elif randomBossRelic == 6:
-            active_character[0].add_relic({"Name":"Ectoplasm","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Ectoplasm","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer gain <yellow>Gold</yellow>."})
         elif randomBossRelic == 7:
-            active_character[0].add_relic({"Name":"Empty Cage","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Empty Cage","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, remove 2 Cards from your Deck."})
         elif randomBossRelic == 8:
-            active_character[0].add_relic({"Name":"Fusion Hammer","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Fusion Hammer","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer Smith at <blue>Rest Sites</blue>."})
         elif randomBossRelic == 9:
-            active_character[0].add_relic({"Name":"Hovering Kite","Rarity":"Boss","Owner":"Silent","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Hovering Kite","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"The first time you discard a Card each turn, gain <yellow>1 Energy</yellow>."})
         elif randomBossRelic == 10:
-            active_character[0].add_relic({"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Transform all <red>Strikes</red> and <green>Defends</green>."})
         elif randomBossRelic == 11:
             active_character[0].add_relic({"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. ALL enemies start with <red>1 Strength</red>."})
         elif randomBossRelic == 12:
@@ -1825,19 +1825,19 @@ def neowBlesses():
         elif randomBossRelic == 13:
             active_character[0].add_relic({"Name":"Runic Pyramid","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"At the end of your turn, you no longer discard your hand."})
         elif randomBossRelic == 14:
-            active_character[0].add_relic({"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Double the effectiveness of most <c>Potions</c>."})
         elif randomBossRelic == 15:
-            active_character[0].add_relic({"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Tiny House","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Obtain <c>1 Potion</c>. Gain <yellow>50 Gold</yellow>. Raise your <red>Max HP by 5</red>. Obtain 1 Card. Upgrade 1 Random Card."})
         elif randomBossRelic == 16:
-            active_character[0].add_relic({"Name":"Slaver's Collar","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Slaver's Collar","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"During <black>Boss</black> and Elite combats, gain <yellow>1 Energy</yellow> at the start of your turn."})
         elif randomBossRelic == 17:
             active_character[0].add_relic({"Name":"Sozu","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer obtain <c>Potions</c>."})
         elif randomBossRelic == 18:
-            active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})
         elif randomBossRelic == 19:
-            active_character[0].add_relic({"Name":"Velvet Choker","Rarity":"Boss","Owner":"The Spire","Type":"Relic"})
+            active_character[0].add_relic({"Name":"Velvet Choker","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You cannot play more than 6 Cards per turn."})
         elif randomBossRelic == 20:
-            active_character[0].add_relic({"Name":"Wrist Blade","Rarity":"Boss","Owner":"Silent","Type":"Relic"})  
+            active_character[0].add_relic({"Name":"Wrist Blade","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"<red>Attacks</red> that cost <yellow>0 Energy</yellow> deal <red>4 additional damage</red>."})  
 
 
     elif blessings[choice] == "Obtain a random rare card":

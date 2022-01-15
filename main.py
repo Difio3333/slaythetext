@@ -18,10 +18,11 @@ colorama.init()
 #no tutorial
 #no proper error logging yet.
 #fire needs display status as well, like shops
-#game currently crashes in case of a double boss battle / no
-#strikes deal 5 damage instead of 4 when being weak, implying weak math is different to the game. not sure if bug 
+#game currently crashes in case of a double boss battle / fixed
+#fixed weakness rounding errors.
 #Skipping Black Star second artifact makes it inaccessible. Also blacks star doesn work on supers
-#you can also skip green key forever I think
+#you can also skip green key forever I think 
+#fixed tiny house
 
 #just saw 4 shops in a row.
 

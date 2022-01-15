@@ -25,7 +25,7 @@ def the_question_of_safety():
 			elif loader[snap] == "No":
 				snap = "No"
 				entities.active_character[0].set_deck(entities.silent_deck)
-				#entities.active_character[0].add_relic({"Name":"War Paint","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pickup upgrade <green>2 random Skills</green>."})
+				#entities.active_character[0].add_relic({"Name":"Astrolabe","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Obtain <c>1 Potion</c>. Gain <yellow>50 Gold</yellow>. Raise your <red>Max HP by 5</red>. Obtain 1 Card. Upgrade 1 Random Card."})
 				#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
 				#entities.active_character[0].add_CardToDeck({"Name": "Burst", "Burst":1, "Energy": 1,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"This turn, your next <green>Skill</green> is played twice."})
 				break
