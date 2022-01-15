@@ -1054,7 +1054,7 @@ potions = {
     "Flex Potion": {"Name": "Flex Potion","Potion Yield":5,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Gain <red>5 Strength</red>. At the end of your turn lose <red>5 Strength</red>."},
     "Swift Potion": {"Name": "Swift Potion","Potion Yield": 3,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Draw 3 Cards."},
     "Weak Potion": {"Name": "Weak Potion","Potion Yield": 3,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Apply <light-cyan>3 Weak</light-cyan>."},
-    #"Blood Potion": {"Name": "Blood Potion","Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"<red>Heal for 20%</red> of your <red>Max HP</red>."},
+    "Blood Potion": {"Name": "Blood Potion","Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"<red>Heal for 20%</red> of your <red>Max HP</red>."}
     }
 
 potionNames = ["Ancient Potion","Attack Potion","Blessing of the Forge","Block Potion","Blood Potion","Colorless Potion","Cultist Potion",
@@ -1429,7 +1429,7 @@ def visit_campfire():
     sleepOrUpgrade = ["Sleep","Upgrade"]
 
 
-
+    active_character[0].show_status(event=True)
     for relic in active_character[0].relics:
         if relic.get("Name") == "Fusion Hammer":
             fusionHammer = True
@@ -3970,7 +3970,6 @@ def visit_event():
     	x = active_character[0].position[1]
     	helping_functions.game_map[y][x] = "Creep"        
     	helping_functions.game_map_dict[("Creep",y,x)] = helping_functions.game_map_dict[(floor,y,x)]
-
 
     elif unknownLocation[0] == 2:
 

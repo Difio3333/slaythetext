@@ -12,17 +12,12 @@ from ansimarkup import parse, ansiprint
 colorama.init()
 
 #KNOWN ISSUES:
-#bottle relics should only be offered if you have a corresponding card to bottle.
-#guardian modeshift seems broken. maybe fixed.
+#bottle relics should only be offered if you have a corresponding card to bottle. | should be fixed
 #events are not following any rules.
 #no tutorial
 #no proper error logging yet.
-#fire needs display status as well, like shops
-#game currently crashes in case of a double boss battle / fixed
-#fixed weakness rounding errors.
 #Skipping Black Star second artifact makes it inaccessible. Also blacks star doesn work on supers
 #you can also skip green key forever I think 
-#fixed tiny house
 
 #just saw 4 shops in a row.
 

@@ -490,6 +490,27 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
             rewardRelics = []
             continue
 
+        if relic.get("Name") == "Bottled Flame":
+            attackCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Attack"]
+            if len(list(attackCheck)) == 0:
+                rewardRelics = []
+                continue
+
+        elif relic.get("Name") == "Bottled Lightning":
+            skillCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Skill"]
+            if len(list(skillCheck)) == 0:
+                rewardRelics = []
+                continue
+
+        elif relic.get("Name") == "Bottled Tornado":
+            powerCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Power"]
+            if len(list(powerCheck)) == 0:
+                rewardRelics = []
+                continue
+        
+        
+
+
 
         try:
 
