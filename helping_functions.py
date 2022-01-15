@@ -480,33 +480,37 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
                 rewardRelics.append(rd.choices(list(relic_shop.items()))[0][1])
 
         
-        
         for relic in rewardRelics:
+            
             if relic.get("Name") in entities.relics_seen_list:
                 ansiprint(relic.get("Name"),"has already been generated.")
-                alreadySeen = True
+                
+            elif relic.get("Name") == "Bottled Flame":
+                attackCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Attack"]
+                print(attackCheck)
+                if len(list(attackCheck)) == 0:
+                    rewardRelics = []                    
+                    alreadySeen = True
+
+            elif relic.get("Name") == "Bottled Lightning":
+                skillCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Skill"]
+                if len(list(skillCheck)) == 0:
+                    rewardRelics = []
+                    alreadySeen = True
+
+            elif relic.get("Name") == "Bottled Tornado":
+                powerCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Power"]
+                if len(list(powerCheck)) == 0:
+                    rewardRelics = []
+                    alreadySeen = True
 
         if alreadySeen:
             rewardRelics = []
             continue
-
-        if relic.get("Name") == "Bottled Flame":
-            attackCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Attack"]
-            if len(list(attackCheck)) == 0:
-                rewardRelics = []
-                continue
-
-        elif relic.get("Name") == "Bottled Lightning":
-            skillCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Skill"]
-            if len(list(skillCheck)) == 0:
-                rewardRelics = []
-                continue
-
-        elif relic.get("Name") == "Bottled Tornado":
-            powerCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Power"]
-            if len(list(powerCheck)) == 0:
-                rewardRelics = []
-                continue
+        
+        
+        
+        
         
         
 
