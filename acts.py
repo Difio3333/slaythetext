@@ -15,7 +15,7 @@ testAct = 0
 
 def move_after_combat(game_map,game_map_dict):
 	spots = []
-	i = 0
+	
 	
 	mawBank = False
 	for relic in entities.active_character[0].relics:
@@ -24,15 +24,31 @@ def move_after_combat(game_map,game_map_dict):
 			mawBankIndex = entities.active_character[0].relics.index(relic)
 
 	
-	for connection in game_map_dict[entities.active_character[0].get_floorAndCoordinates()]["Connections"]:
-		spot = [str(i+1)+". " + connection[0]]
-		print(spot[0])
-		#"\n{}.) {}".format(i+1,active_character[0].position[1]+1)
-		i = i + 1
-
 	while True:
 		try:
+			i = 0
+			entities.active_character[0].show_status(event=True)
+			print("Where do you want to go?\n")
+			for connection in game_map_dict[entities.active_character[0].get_floorAndCoordinates()]["Connections"]:				
+				if "Creep" in connection[0]:
+					ansiprint(str(i+1)+". " + "<red>"+connection[0]+"</red>")
+				elif "Shop$" in connection[0]:
+					ansiprint(str(i+1)+". " + "<yellow>"+connection[0]+"</yellow>")
+				elif "Event" in connection[0]:
+					ansiprint(str(i+1)+". " + "<blue>"+connection[0]+"</blue>")
+				elif "Elite" in connection[0]:
+					ansiprint(str(i+1)+". " + "<m>"+connection[0]+"</m>")
+				elif "Fires" in connection[0]:
+					ansiprint(str(i+1)+". " + "<green>"+connection[0]+"</green>")
+				elif "Boss" in connection[0]:
+					ansiprint(str(i+1)+". " + "<black>"+connection[0]+"</black>")
+				elif "Chest" in connection[0]:
+					ansiprint(str(i+1)+". " + "<light-red>"+connection[0]+"</light-red>")
+				elif "Super" in connection[0]:
+					ansiprint(str(i+1)+". " + "<m>"+connection[0]+"</m>")				
+				i = i + 1
 			
+
 			target = input("\nPick the place you want to go\n")
 			target = int(target)-1
 

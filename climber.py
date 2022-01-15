@@ -1108,20 +1108,20 @@ class Char():
 			elif self.card_in_play.get("Name") == "All-Out Attack":
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check = len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play["Damage"])
-					
 					if enemy_check == len(entities.list_of_enemies):
 						i += 1
-		
+
 				self.discard(self.card_in_play["Discard"],True)
 			
 			elif self.card_in_play.get("Name") == "All-Out Attack +":
 				i = 0
 				while i < len(entities.list_of_enemies):
+					enemy_check = len(entities.list_of_enemies)
 					self.target = i
 					self.attack(self.card_in_play["Damage"])
-					
 					if enemy_check == len(entities.list_of_enemies):
 						i += 1
 		
@@ -5500,12 +5500,15 @@ class Char():
 				status += " |<light-blue> Spikes: "+str(self.spikes)+"</light-blue>"
 			if len(self.doubleDamage) > 0:
 				status += " | Attacks deal Double Damage."
+		else:
+			status += " |<yellow> Gold: "+ str(self.gold)+"</yellow>"
+
 		# if self.metallicize > 0:
 		# 	status += " |<light-blue> Metallicize: "+str(self.metallicize)+"</light-blue>"
 		# if self.barricade == True:
 		# 	status += " |<light-blue> Barricade</light-blue>"
 		
-		ansiprint(status)
+		ansiprint(status,"\n")
 
 	def get_smokebomb(self):
 		

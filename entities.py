@@ -169,6 +169,7 @@ def fill_enemy_list():
 
             elif setup == 2:
                 enemy = "Small Acid Slime"
+                
                 miniList.append(Enemy(name = enemies[enemy].get("Name") +" 1",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
                 miniList.append(Enemy(name = enemies[enemy].get("Name") +" 2",max_health = rd.randint(enemies[enemy].get("Health")[0],enemies[enemy].get("Health")[1]),intentions = enemies[enemy].get("Intentions"),intention_logic = enemies[enemy].get("Intentions_Logic"),on_hit_or_death = enemies[enemy].get("On_hit_or_death")))
 
@@ -1452,7 +1453,7 @@ def visit_campfire():
         elif relic.get("Name") == "Eternal Feather":
             healAmountFeather = math.floor((len(active_character[0].deck)/5)*3)
             active_character[0].heal(healAmountFeather)
-            ansiprint("You healed <red>"+str(healAmountFeather)+"</red>because of <light-red>Eternal Feather</light-red>!")
+            ansiprint("You healed because of <light-red>Eternal Feather</light-red>!")
         elif relic.get("Name") == "Red Key":
             key = True
 
