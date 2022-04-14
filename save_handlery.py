@@ -11,10 +11,20 @@ def the_question_of_safety():
 	while True:
 		
 		try:
+			prodPath = str(Path.cwd())+"/slaythetextSave.dat"
+			devPath = str(Path.cwd())+"/documents/slaythetext/slaythetextSave.dat"
+			f = open(prodPath)
+			f.close()
+		except FileNotFoundError:
+ 			print("Couldn't detect a save file in "+prodPath+".")
+ 			print("Therefore the game will start immediately.\n\n") 			
+ 			break
+
+		try:
 			
 			loader = ["Yes","No"]
 			
-			snap = input("Do you want to load a save game?\n1. Yes\n2. No\n")
+			snap = input("Do you want to load your save game?\n1. Yes\n2. No\n")
 			snap = int(snap)-1
 			
 			if loader[snap] == "Yes":
@@ -24,10 +34,6 @@ def the_question_of_safety():
 			
 			elif loader[snap] == "No":
 				snap = "No"
-				entities.active_character[0].set_deck(entities.silent_deck)
-				#entities.active_character[0].add_relic({"Name":"Astrolabe","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Obtain <c>1 Potion</c>. Gain <yellow>50 Gold</yellow>. Raise your <red>Max HP by 5</red>. Obtain 1 Card. Upgrade 1 Random Card."})
-				#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
-				#entities.active_character[0].add_CardToDeck({"Name": "Burst", "Burst":1, "Energy": 1,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"This turn, your next <green>Skill</green> is played twice."})
 				break
 				
 		except TypeError:
@@ -35,6 +41,14 @@ def the_question_of_safety():
 		except Exception as e:
 			print("Type \"1\" or \"2\".")
 			print(e)
+
+	entities.active_character[0].set_deck(entities.silent_deck)
+	#entities.active_character[0].add_relic({"Name":"Molten Egg","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <red>1 Strength</red>."})
+	#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
+	#entities.active_character[0].add_CardToDeck({"Name": "Enlightenment","Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Reduce the cost of all cards in your hand to <yellow>1 Energy</yellow> this turn."})
+		
+
+
 
 def save_and_rave():
 	

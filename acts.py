@@ -96,7 +96,7 @@ def nchoices_with_restrictions(weights=None, restrictions=None,k = 100):
 
 def generate_map(superElite = True):
 	global testAct
-	testAct = 3
+	#testAct = 3
 	paths = []
 	i = 0
 	while i < 5:

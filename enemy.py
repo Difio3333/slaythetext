@@ -1188,7 +1188,7 @@ class Enemy():
 		if damage < 0:
 			damage = 0
 
-		ansiprint(self.name,"attacks for",damage)
+		ansiprint("\n"+self.name,"attacks for",damage)
 		
 		if entities.active_character[0].spikes > 0:
 			self.receive_recoil_damage(entities.active_character[0].spikes)
@@ -1202,7 +1202,7 @@ class Enemy():
 			return 0
 	def blocking(self,blocking):
 		self.block += blocking
-		ansiprint(self.name,"blocks for " + str(blocking) + ".")
+		ansiprint(self.name,"<green>blocks</green> for <green>" + str(blocking) + "</green>.")
 
 	def receive_damage(self,attack_damage):
 		try:
@@ -1468,9 +1468,10 @@ class Enemy():
 
 					elif "Curl" in effect[0]:
 						if self.health > 0:		
+							ansiprint(self.name, "<light-blue>curles</light-blue>!")
 							self.blocking(int(effect[0].split(" ")[1]))
 							self.on_hit_or_death = []
-							ansiprint(self.name, "<light-blue>curled</light-blue>!")
+							
 					
 					elif "Shifting" in effect[0]:
 						

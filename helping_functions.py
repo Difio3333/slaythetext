@@ -908,8 +908,8 @@ def transformCard(card,place:str = "Deck",index = None):
         print("This is what's wrong helpingfunctiontransformCard()--->",place)
 
 
-def upgradeCard(card,place: str = "Deck",index = None): 
-   
+def upgradeCard(card,place,index=None): 
+    print(index,"upgrade card.")
     upgradePool = {k:v for k,v in entities.cards.items() if v.get("Upgraded") == True and v.get("Name").startswith(card["Name"]) == True}
 
     card_add = rd.choices(list(upgradePool.items()))[0][1]
@@ -917,7 +917,6 @@ def upgradeCard(card,place: str = "Deck",index = None):
     
     if card.get("Name") == "Ritual Dagger":
         card_add["Damage"] = card.get("Damage")
-
 
     if place == "Deck":
         entities.active_character[0].add_CardToDeck(card_add,index)

@@ -829,8 +829,8 @@ cards = {
     "Phantasmal Killer" :{"Name": "Phantasmal Killer","Energy": 1,"DoubleDamage":1 ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Next turn your <red>Attacks</red> deal double damage."},
     "Phantasmal Killer +" :{"Name": "Phantasmal Killer +","Energy": 0,"DoubleDamage":1 ,"Upgraded": True,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Next turn your <red>Attacks</red> deal double damage."},
     
-    "Bullet Time" :{"Name": "Bullet Time","Energy": 3,"Bullet Time":1 ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"You cannot draw additonal Cards this turn. Reduce the cost of all Cards in your hand to 0 this turn."},
-    "Bullet Time +" :{"Name": "Bullet Time +","Energy": 2,"Bullet Time":1 ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"You cannot draw additonal Cards this turn. Reduce the cost of all Cards in your hand to 0 this turn."},
+    "Bullet Time" :{"Name": "Bullet Time","Energy": 3,"Bullet Time":1 ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"You cannot draw additonal Cards this turn. Reduce the cost of all Cards in your hand to <yellow>0 Energy</yellow> this turn."},
+    "Bullet Time +" :{"Name": "Bullet Time +","Energy": 2,"Bullet Time":1 ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"You cannot draw additonal Cards this turn. Reduce the cost of all Cards in your hand to <yellow>0 Energy</yellow> this turn."},
 
     "Storm of Steel" :{"Name": "Storm of Steel","Energy": 1 ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Discard your hand. Add <red>1 Shiv</red> for each card you discarded this way."},
     "Storm of Steel +" :{"Name": "Storm of Steel +","Energy": 1 ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Discard your hand. Add <red>1 Shiv +</red> for each card you discarded this way."},
@@ -865,8 +865,8 @@ cards = {
     "Envenom" :{"Name": "Envenom", "Envenom":1, "Energy": 2,"Type": "Power" ,"Rarity": "Rare","Owner":"Silent","Info":"Whenever an <red>Attack</red> deals unblocked <red>damaged</red>,apply <green>1 Poison</green>."},
     "Envenom +" :{"Name": "Envenom +", "Envenom":1, "Energy": 1,"Type": "Power" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Whenever an <red>Attack</red> deals unblocked <red>damaged</red>,apply <green>1 Poison</green>."},
 
-    "Tools of the Trade" :{"Name": "Tools of the Trade", "Tools":1, "Energy": 1,"Type": "Power" ,"Rarity": "Rare","Owner":"Silent","Info":"At the start of your turn, draw 1 Card. Discard 1 Card."},
-    "Tools of the Trade +" :{"Name": "Tools of the Trade +", "Tools":1, "Energy": 0,"Type": "Power" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"At the start of your turn, draw 1 Card. Discard 1 Card."},
+    "Tools of the Trade" :{"Name": "Tools of the Trade", "Tools":1, "Energy": 1,"Type": "Power" ,"Rarity": "Rare","Owner":"Silent","Info":"At the start of your turn: Draw 1 Card. Discard 1 Card."},
+    "Tools of the Trade +" :{"Name": "Tools of the Trade +", "Tools":1, "Energy": 0,"Type": "Power" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"At the start of your turn: Draw 1 Card. Discard 1 Card."},
 
     "Wraith Form" :{"Name": "Wraith Form", "Wraithness":1,"Intangible":2, "Energy": 3,"Type": "Power" ,"Rarity": "Rare","Owner":"Silent","Info":"Gain <blue>2 Intangible</blue>. At the end of your turn, lose <green>1 Dexterity</green>."},
     "Wraith Form +" :{"Name": "Wraith Form +", "Wraithness":1,"Intangible":3, "Energy": 3,"Upgraded": True,"Type": "Power" ,"Rarity": "Rare","Owner":"Silent","Info":"Gain <blue>3 Intangible</blue>. At the end of your turn, lose <green>1 Dexterity</green>."},
@@ -1636,7 +1636,7 @@ def visit_treasureChest():
 
 
 def neowBlesses():
-    
+    active_character[0].show_status(event = True)
     damageValue = math.floor((active_character[0].health / 10) * 3)
 
     ansiprint("A <light-blue>giant whale</light-blue> approaches you... Choose a <green>blessing</green>.")
@@ -1909,7 +1909,7 @@ def event_theDivineFountain():
         
 
     if snap == "1":
-        ansiprint("As you drink the <blue>water</blue>, you feel a <C>dark</C> grasp loosen.")
+        ansiprint("As you drink the <blue>water</blue>, you feel a <M>dark</M> grasp loosen.")
         i = 0
         while i < len(active_character[0].deck):
             if active_character[0].deck[i]["Rarity"] == "Curse":
@@ -2099,17 +2099,17 @@ def event_MatchAndKeep():
     while i < len(memoryGame):
 
         if moltenEgg == True and memoryGame[i].get("Type") == "Attack":
-            newUpgradedCard = helping_functions.upgradeCard(shoplist[i].pop(i),"External Function")
+            newUpgradedCard = helping_functions.upgradeCard(shoplist[i].pop(i),place="External Function")
             shoplist[i].insert(i,newUpgradedCard)
             
 
         elif toxicEgg == True and memoryGame[i].get("Type") == "Skill":
-            newUpgradedCard = helping_functions.upgradeCard(memoryGame[i].pop(i),"External Function")
+            newUpgradedCard = helping_functions.upgradeCard(memoryGame[i].pop(i),place="External Function")
             memoryGame[i].insert(i,newUpgradedCard)
             
 
         elif frozenEgg == True and memoryGame[i].get("Type") == "Power":
-            newUpgradedCard = helping_functions.upgradeCard(memoryGame[i].pop(i),"External Function")
+            newUpgradedCard = helping_functions.upgradeCard(memoryGame[i].pop(i),place="External Function")
             memoryGame[i].insert(i,newUpgradedCard)
             
        	i+=1
@@ -2217,12 +2217,12 @@ def event_weMeetAgain():
     i = 1
     if len(active_character[0].potionBag) > 0:
         randomPotion = rd.randint(0,len(active_character[0].potionBag)-1)
-        donationOptions.append(str(i)+". [Give Potion] Lose a <c>"+active_character[0].potionBag[randomPotion]["Name"]+"</c>. Receive a Relic.")
+        donationOptions.append(str(i)+". [Give Potion] Lose a <c>"+active_character[0].potionBag[randomPotion]["Name"]+"</c>. Receive a <light-red>Relic</light-red>.")
         i+=1
 
     if active_character[0].gold >= 50:
         randomGold = rd.randint(50,active_character[0].gold)
-        donationOptions.append(str(i)+". [Give Gold] Lose <yellow>"+str(randomGold)+"</yellow>. Receive a Relic.",)
+        donationOptions.append(str(i)+". [Give Gold] Lose <yellow>"+str(randomGold)+"</yellow>. Receive a <light-red>Relic</light-red>.",)
         i+=1
     
     cardCheck = [card for card in active_character[0].deck if card.get("Rarity") != "Basic" and card.get("Type") != "Curse"]
@@ -2233,7 +2233,7 @@ def event_weMeetAgain():
             if active_character[0].deck[randomCard].get("Rarity") == "Basic" or active_character[0].deck[randomCard].get("Type") == "Curse":
                 continue
             else:
-                donationOptions.append(str(i)+". [Give Card] Lose <blue>"+active_character[0].deck[randomCard]["Name"]+"</blue>. Receive a Relic.")
+                donationOptions.append(str(i)+". [Give Card] Lose <blue>"+active_character[0].deck[randomCard]["Name"]+"</blue>. Receive a <light-red>Relic</light-red>.")
                 break
         i+=1
 
@@ -2421,7 +2421,7 @@ def event_bigFish():
     #exclusiveAct1Event
     ansiprint("As you make your way down a long corridor you see a banana, a donut, and a box floating about. No... upon closer inspection they are tied to strings coming from holes in the ceiling. There is a quiet cackling from above as you approach the objects. What do you do?")
     healing = math.floor(active_character[0].max_health/3)
-    fishOptions = ["1. [Banana] Heal <red>"+str(healing)+" Health</red>","2. [Donut] Max HP +5","3. [Box] Receive a Relic. Become <m>Cursed (Regret)</m>"]
+    fishOptions = ["1. [Banana] Heal <red>"+str(healing)+" Health</red>","2. [Donut] Max <red>HP +5</red>","3. [Box] Receive a <light-red>Relic</light-red>. Become <m>Cursed (Regret)</m>"]
     checkNumbers = ["1","2","3"]
 
     for option in fishOptions:

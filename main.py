@@ -16,21 +16,23 @@ colorama.init()
 #events are not following any rules.
 #no tutorial
 #no proper error logging yet.
-#Skipping Black Star second artifact makes it inaccessible. Also blacks star doesn work on supers
+#Skipping Black Star second artifact makes it inaccessible.
 #you can also skip green key forever I think 
 #added colorcoding to map preview options
 #added status to events and campfire
 #just saw 4 shops in a row.
+#you can still transform irremovable cards --> fixed
+#transforming and upgrading cards would move their position --> fixed
+
 
 def main():
 	try:
 		ansiprint("Slay the Spire is a registered trademark by Mega Crit, LLC")
 		ansiprint("Please consider supporting the Developers by purchasing Slay the Spire on Steam/Gog/Epic etc.\n\n")
-		ansiprint("This game likely requires a base understanding of Slay the Spire.")
+		ansiprint("This game requires a base understanding of Slay the Spire.")
 		ansiprint("If you don't know what a <blue>Card</blue>, <light-red>Relic</light-red> or <c>Potion</c> does just type out its name wherever you are and you should get a short explanation of it.")
 		ansiprint("In 99 out of 100 cases you can navigate the game by typing in the corresponding numbers of the options presented to you.")
 		ansiprint("You can Save only during battles by typing \"Save\" and hitting \"Enter\" afterwards.\n\n")
-
 
 		save_handlery.the_question_of_safety()
 
@@ -55,7 +57,6 @@ def main():
 					entities.list_of_enemies[i].turn()
 					if enemyDeadCheck <= len(entities.list_of_enemies):
 						i+=1
-
 				
 				if entities.active_character[0].alive == False:
 					break
