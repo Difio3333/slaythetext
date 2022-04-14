@@ -811,8 +811,8 @@ cards = {
     "Terror" :{"Name": "Terror", "Vulnerable":99, "Energy": 1 ,"Type": "Skill" ,"Exhaust":True ,"Rarity": "Uncommon","Owner":"Silent","Info":"Apply <light-cyan>99 Vulnerable</light-cyan>."},
     "Terror +" :{"Name": "Terror +", "Vulnerable":99, "Energy": 0 ,"Type": "Skill" ,"Exhaust":True ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Apply <light-cyan>99 Vulnerable</light-cyan>."},
 
-    "Adrenaline" :{"Name": "Adrenaline","Draw":2,"Energy": 0,"Energy Gain":1,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Draw 2 Cards. Gain <yellow>1 Energy</yellow>. <BLUE>Exhaust<BLUE>."},
-    "Adrenaline +" :{"Name": "Adrenaline +","Draw":2,"Energy": 0,"Energy Gain":2,"Exhaust":True ,"Upgraded": True,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Draw 2 Cards. Gain <yellow>2 Energy</yellow>. <BLUE>Exhaust<BLUE>."},
+    "Adrenaline" :{"Name": "Adrenaline","Draw":2,"Energy": 0,"Energy Gain":1,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Draw 2 Cards. Gain <yellow>1 Energy</yellow>. <BLUE>Exhaust</BLUE>."},
+    "Adrenaline +" :{"Name": "Adrenaline +","Draw":2,"Energy": 0,"Energy Gain":2,"Exhaust":True ,"Upgraded": True,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Draw 2 Cards. Gain <yellow>2 Energy</yellow>. <BLUE>Exhaust</BLUE>."},
 
     "Alchemize" :{"Name": "Alchemize","Potion":1,"Energy": 1,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Obtain a random <c>Potion</c>. <BLUE>Exhaust</BLUE>."},
     "Alchemize +" :{"Name": "Alchemize +","Potion":1,"Energy": 0,"Exhaust":True ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Obtain a random <c>Potion</c>. <BLUE>Exhaust</BLUE>."},
@@ -823,8 +823,8 @@ cards = {
     "Doppelganger" :{"Name": "Doppelganger","Energy": "X","Exhaust":True ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Next turn, draw X Cards and gain <yellow>X Energy</yellow>."},
     "Doppelganger +" :{"Name": "Doppelganger +","Energy": "X","Exhaust":True ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Next turn, draw X+1 Cards and gain <yellow>X+1 Energy</yellow>."},
     
-    "Malaise" :{"Name": "Malaise","Energy": "X","Exhaust":True ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Enemy loses <red>X Stength</red>. Apply <light-cyan>X Weak<light-cyan>. <BLUE>Exhaust</BLUE>."},
-    "Malaise +" :{"Name": "Malaise +","Energy": "X","Exhaust":True ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Enemy loses <red>X+1 Stength</red>. Apply <light-cyan>X+1 Weak<light-cyan>. <BLUE>Exhaust</BLUE>."},
+    "Malaise" :{"Name": "Malaise","Energy": "X","Exhaust":True ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Enemy loses <red>X Stength</red>. Apply <light-cyan>X Weak</light-cyan>. <BLUE>Exhaust</BLUE>."},
+    "Malaise +" :{"Name": "Malaise +","Energy": "X","Exhaust":True ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Enemy loses <red>X+1 Stength</red>. Apply <light-cyan>X+1 Weak</light-cyan>. <BLUE>Exhaust</BLUE>."},
     
     "Phantasmal Killer" :{"Name": "Phantasmal Killer","Energy": 1,"DoubleDamage":1 ,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Next turn your <red>Attacks</red> deal double damage."},
     "Phantasmal Killer +" :{"Name": "Phantasmal Killer +","Energy": 0,"DoubleDamage":1 ,"Upgraded": True,"Type": "Skill" ,"Rarity": "Rare","Owner":"Silent","Info":"Next turn your <red>Attacks</red> deal double damage."},
@@ -910,11 +910,11 @@ cards = {
     "Impatience": {"Name": "Impatience","Energy": 0,"Draw":2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"If you have no <red>Attacks</red> in your hand, draw 2 cards."},
     "Impatience +": {"Name": "Impatience +","Energy": 0,"Draw":3,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"If you have no <red>Attacks</red> in your hand, draw 3 cards."},
 
-    "Jack of All Trades": {"Name": "Jack of All Trades","Energy": 0,"Draw":1,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Add 1 random Colorless card into your hand. <BLUE>Exhaust<BLUE>."},
-    "Jack of All Trades +": {"Name": "Jack of All Trades +","Energy": 0,"Draw":2,"Exhaust":True,"Upgraded": True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Add 2 random Colorless card into your hand. <BLUE>Exhaust<BLUE>."},
+    "Jack of All Trades": {"Name": "Jack of All Trades","Energy": 0,"Draw":1,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Add 1 random Colorless card into your hand. <BLUE>Exhaust</BLUE>."},
+    "Jack of All Trades +": {"Name": "Jack of All Trades +","Energy": 0,"Draw":2,"Exhaust":True,"Upgraded": True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Add 2 random Colorless card into your hand. <BLUE>Exhaust</BLUE>."},
 
-    "Madness": {"Name": "Madness","Energy": 1,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Reduce the cost of a random card in your hand to <yellow>0 Energy</yellow> this combat. <BLUE>Exhaust<BLUE>."},
-    "Madness +": {"Name": "Madness","Energy": 0,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Reduce the cost of a random card in your hand to <yellow>0 Energy</yellow> this combat. <BLUE>Exhaust<BLUE>."},
+    "Madness": {"Name": "Madness","Energy": 1,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Reduce the cost of a random card in your hand to <yellow>0 Energy</yellow> this combat. <BLUE>Exhaust</BLUE>."},
+    "Madness +": {"Name": "Madness","Energy": 0,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Reduce the cost of a random card in your hand to <yellow>0 Energy</yellow> this combat. <BLUE>Exhaust</BLUE>."},
 
     "Mind Blast": {"Name": "Mind Blast","Energy": 2,"Innate":True,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"<BLUE>Innate</BLUE>.Deal <red>damage</red> equal to the number of cards in your draw pile."},
     "Mind Blast +": {"Name": "Mind Blast +","Energy": 1,"Innate":True,"Type": "Attack" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"<BLUE>Innate</BLUE>.Deal <red>damage</red> equal to the number of cards in your draw pile."},
@@ -1769,13 +1769,7 @@ def neowBlesses():
 
     elif blessings[choice] == "Choose a card to obtain":
         
-        random_cards = {k:v for k,v in cards.items() if v.get("Owner") == active_character[0].name and v.get("Rarity") != "Special" and v.get("Upgraded") != True and v.get("Rarity") != "Basic"}
-        threeRareCards = rd.choices(list(random_cards.items()),k=3)
-            
-        three_options = []
-        for card in threeRareCards:
-            three_options.append(card[1])
-
+        three_options = helping_functions.generateCardRewards()
         helping_functions.pickCard(three_options)
 
     elif blessings[choice] == "Choose an uncommon colorless card to obtain":
@@ -3333,7 +3327,7 @@ def event_theNest():
 
     if snap == "1":
         ansiprint("You decide to stay in line <m>(out of fear)</m> to see what will happen.\nEventually, you are face-to-face with the leader.\nA well-dressed <red>Cultist</red> hands you an <yellow>Ornate Dagger</yellow>. Like the others before you, you slash your forearm and let the <red>blood drip into a misshapen bowl</red>.\nThe cultists chant and holler for you!\nCultists: \"<light-blue>CAAW CAW CAAAAAAWW</light-blue>!!\"You chant, too. Why not?")
-        active_character[0].add_CardToDeck({"Name": "Ritual Dagger","Energy": 1,"Damage":15,"FatalBonus":3,"Exhaust":True,"Type": "Attack","Rarity": "Special","Owner":"Colorless","Info":"Deal <red>15 damage</red>. If this kills the enemy, permanently increase this Card's <red>damage</red> by 3. <BLUE>Exhaust</BLUE>. UPGRADING THIS CARD IS CURRENLY ILL-ADVISED AS IT'S BUGGED!"})
+        active_character[0].add_CardToDeck({"Name": "Ritual Dagger","Energy": 1,"Damage":15,"FatalBonus":3,"Exhaust":True,"Type": "Attack","Rarity": "Special","Owner":"Colorless","Info":"Deal <red>15 damage</red>. If this kills the enemy, permanently increase this Card's <red>damage</red> by 3. <BLUE>Exhaust</BLUE>."})
         active_character[0].set_health(-6)
 
     elif snap =="2":

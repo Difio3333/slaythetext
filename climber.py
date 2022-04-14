@@ -254,11 +254,11 @@ class Char():
 			optionTwo = "Use a <c>Potion</c>"
 			optionThree = "Show <light-red>Relics</light-red>"
 			optionFour = "End Turn"
-			optionFive = "Show All Cards"
+			# optionFive = "Show All Cards"
 
 			self.show_status()
-			actionlist = [optionOne,optionTwo,optionThree,optionFour,optionFive]
-			
+			#actionlist = [optionOne,optionTwo,optionThree,optionFour,optionFive]
+			actionlist = [optionOne,optionTwo,optionThree,optionFour]
 			if self.runicDome == 0:
 				self.showEnemies(skip=False)
 
@@ -290,8 +290,8 @@ class Char():
 				elif actionlist[plan] == optionThree:
 					self.showRelics()
 				
-				elif actionlist[plan] == optionFive:
-					self.print_all_cards()
+				# elif actionlist[plan] == optionFive:
+				# 	self.print_all_cards()
 				
 				elif actionlist[plan] == optionFour:
 					print("\n\n")

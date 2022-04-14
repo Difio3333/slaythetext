@@ -568,10 +568,8 @@ def generateCardRewards(colorless=False,bossReward=False):
             nlothsGift = True
         elif relic.get("Name") == "Molten Egg":
             moltenEgg = True
-
         elif relic.get("Name") == "Toxic Egg":
             toxicEgg = True
-        
         elif relic.get("Name") == "Frozen Egg":
             frozenEgg = True
 
@@ -740,11 +738,11 @@ def pickCard(cardPrize: list,place:str = "Deck"):
         i = 0
         for card in cardPrize:
             if card.get("Type") == "Attack":
-                ansiprint (str(i+1)+". <red>"+card.get("Name")+"</red>")
+                ansiprint (str(i+1)+". <red>"+card.get("Name")+"</red> | "+card.get("Info"))
             elif card.get("Type") == "Skill":
-                ansiprint (str(i+1)+". <green>"+card.get("Name")+"</green>")
+                ansiprint (str(i+1)+". <green>"+card.get("Name")+"</green> | "+card.get("Info"))
             elif card.get("Type") == "Power":
-                ansiprint (str(i+1)+". <blue>"+card.get("Name")+"</blue>")
+                ansiprint (str(i+1)+". <blue>"+card.get("Name")+"</blue> | "+card.get("Info"))
             i += 1
         
         singingBowl = False
@@ -909,7 +907,7 @@ def transformCard(card,place:str = "Deck",index = None):
 
 
 def upgradeCard(card,place,index=None): 
-    print(index,"upgrade card.")
+    
     upgradePool = {k:v for k,v in entities.cards.items() if v.get("Upgraded") == True and v.get("Name").startswith(card["Name"]) == True}
 
     card_add = rd.choices(list(upgradePool.items()))[0][1]

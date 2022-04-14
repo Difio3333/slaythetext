@@ -18,11 +18,8 @@ colorama.init()
 #no proper error logging yet.
 #Skipping Black Star second artifact makes it inaccessible.
 #you can also skip green key forever I think 
-#added colorcoding to map preview options
-#added status to events and campfire
 #just saw 4 shops in a row.
-#you can still transform irremovable cards --> fixed
-#transforming and upgrading cards would move their position --> fixed
+
 
 
 def main():
@@ -80,7 +77,6 @@ def main():
 
 	except Exception as e:
 		
-
 		crash=["Error on line {}".format(sys.exc_info()[-1].tb_lineno),"\n",e]
 		timeX=str(time.time())
 		devPath = str(Path.cwd())+"/documents/slaythetext/CRASH-"+timeX+".txt"
