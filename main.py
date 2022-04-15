@@ -19,7 +19,7 @@ colorama.init()
 #Skipping Black Star second artifact makes it inaccessible.
 #you can also skip green key forever I think 
 #just saw 4 shops in a row.
-#tori & tungsten rod and regret be wildin see climber 4121 -> fixed
+#
 #fixed Normality restricing you to play 4 cards instead of 3 cards
 #reduced max potions to 2 like in real ascension 20
 #fixed runic dome preview not working properly

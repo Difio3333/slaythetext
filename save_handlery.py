@@ -43,7 +43,7 @@ def the_question_of_safety():
 			print(e)
 
 	entities.active_character[0].set_deck(entities.silent_deck)
-	entities.active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <red>1 Strength</red>."})
+	#entities.active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <red>1 Strength</red>."})
 	#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
 	#entities.active_character[0].add_CardToDeck({"Name": "Regret","Type": "Curse","Rarity": "Curse","Owner":"The Spire","Info":"<RED>Unplayable</RED>. At the end of your turn, lose <red>1 HP</red> for each Card in your hand."})
 		
