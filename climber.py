@@ -47,7 +47,7 @@ class Char():
 		self.gold = gold
 		
 		self.potionBag = []
-		self.potionBagSize = 3
+		self.potionBagSize = 2
 		#negative statuses
 		self.weak = 0
 		self.frail = 0
@@ -259,8 +259,8 @@ class Char():
 			self.show_status()
 			#actionlist = [optionOne,optionTwo,optionThree,optionFour,optionFive]
 			actionlist = [optionOne,optionTwo,optionThree,optionFour]
-			if self.runicDome == 0:
-				self.showEnemies(skip=False)
+			
+			self.showEnemies(skip=False)
 
 			i = 0
 			for action in actionlist:
@@ -529,12 +529,12 @@ class Char():
 					for enemy in entities.list_of_enemies():
 						damage = math.floor(enemy.health/4)
 						enemy.receive_recoil_damage(damage)
-				ansiprint("Preserved Insect did this damage.")
+					ansiprint("<light-red>Preserved Insect</light-red> did this <red>damage</red>.")
 
 			elif relic.get("Name") == "Pantograph":
 				if self.get_floor() == "Boss":
 					self.heal(25)
-				ansiprint("Pantograph Relic heals you for 25 whenever you meet a Boss.")
+					ansiprint("<light-red>Pantograph Relic</light-red> <red>heals</red> you for <red>25</red> whenever you meet a <black>Boss</black>.")
 
 			elif relic.get("Name") == "Ninja Scroll":
 				self.add_CardToHand({"Name":"Shiv","Energy":0,"Damage":4,"Exhaust":True,"Type":"Attack","Rarity": "Common","Owner":"Silent"})
@@ -1153,7 +1153,6 @@ class Char():
 				if enemy_check == len(entities.list_of_enemies):
 					entities.list_of_enemies[self.target].set_choke(self.card_in_play["Choking"])
 
-			
 			elif self.card_in_play.get("Name") == "Dash":
 				self.choose_enemy()
 				self.blocking(self.card_in_play["Block"])
@@ -1191,8 +1190,7 @@ class Char():
 					self.attack(self.card_in_play["Damage"])					
 					if enemy_check != len(entities.list_of_enemies):
 						break
-					i+=1
-		
+					i+=1		
 
 			elif self.card_in_play.get("Name") == "Finisher":
 				self.choose_enemy()				
@@ -1388,7 +1386,6 @@ class Char():
 				self.attack(self.card_in_play["Damage"])
 				self.discard_cards_by_type_opposite(self.card_in_play["DiscardType"])
 
-
 			elif self.card_in_play.get("Name") == "Acrobatics":
 				self.draw(self.card_in_play["Draw"])
 				self.discard(self.card_in_play["Discard"])
@@ -1425,7 +1422,6 @@ class Char():
 						self.add_CardToDiscardpile({"Name":"Shiv","Energy":0,"Damage":4,"Exhaust":True,"Type":"Attack","Rarity": "Common","Owner":"Silent"})
 					i += 1		
 
-
 			elif self.card_in_play.get("Name") == "Cloak and Dagger":
 				self.blocking(self.card_in_play["Block"])
 				i = 0
@@ -1460,7 +1456,6 @@ class Char():
 			elif self.card_in_play.get("Name") == "Deflect +":
 				self.blocking(self.card_in_play["Block"])
 
-
 			elif self.card_in_play.get("Name") == "Dodge and Roll":
 				self.blocking(self.card_in_play["Block"])
 				self.blockingNextTurn(self.card_in_play["Block"])
@@ -1469,13 +1464,11 @@ class Char():
 				self.blocking(self.card_in_play["Block"])
 				self.blockingNextTurn(self.card_in_play["Block"])
 
-
 			elif self.card_in_play.get("Name") == "Outmaneuver":
 				self.energyBoost(self.card_in_play["Energy Gain"])
 
 			elif self.card_in_play.get("Name") == "Outmaneuver +":
 				self.energyBoost(self.card_in_play["Energy Gain"])
-
 
 			elif self.card_in_play.get("Name") == "Piercing Wail":
 				for enemy in entities.list_of_enemies:
@@ -1487,7 +1480,6 @@ class Char():
 					enemy.set_tempStrength(self.card_in_play["Strength Modifier"])
 					enemy.set_strength(-self.card_in_play["Strength Modifier"])
 
-
 			elif self.card_in_play.get("Name") == "Prepared":
 				self.draw(self.card_in_play["Draw"])
 				self.discard(self.card_in_play["Discard"])
@@ -1496,7 +1488,6 @@ class Char():
 				self.draw(self.card_in_play["Draw"])
 				self.discard(self.card_in_play["Discard"])
 
-
 			elif self.card_in_play.get("Name") == "Blur":
 				self.blocking(self.card_in_play["Block"])
 				self.set_dontLoseBlock(self.card_in_play["KeepBlock"])
@@ -1504,7 +1495,6 @@ class Char():
 			elif self.card_in_play.get("Name") == "Blur +":
 				self.blocking(self.card_in_play["Block"])
 				self.set_dontLoseBlock(self.card_in_play["KeepBlock"])
-
 
 			elif self.card_in_play.get("Name") == "Bouncing Flask":
 				i = 0
@@ -2021,7 +2011,6 @@ class Char():
 				while i < self.card_in_play["Exhausting"]:
 					snap = input("Do you want to exhaust another card? (Yes/No)")
 					if snap == "Yes":
-
 						self.exhaust(1)
 						i += 1
 					elif snap == "No":
@@ -2215,8 +2204,7 @@ class Char():
 				self.draw_specific_cards_from_place(self.card_in_play["Draw"],self.card_in_play["Place"],self.card_in_play["Typing"])
 
 			elif self.card_in_play.get("Name") == "Secret Weapon +":
-				self.draw_specific_cards_from_place(self.card_in_play["Draw"],self.card_in_play["Place"],self.card_in_play["Typing"])		
-			
+				self.draw_specific_cards_from_place(self.card_in_play["Draw"],self.card_in_play["Place"],self.card_in_play["Typing"])				
 
 			elif self.card_in_play.get("Name") == "The Bomb":
 				self.set_theBomb(self.card_in_play["Damage"],turn_counter)
@@ -2318,7 +2306,6 @@ class Char():
 		else:
 			print("This is a weird card",self.card_in_play)
 
-
 		if self.card_in_play != None:
 
 			self.check_CardPlayPenalties()
@@ -2413,7 +2400,6 @@ class Char():
 						pass
 					else:
 						i+=1
-
 
 			#this happens after the card has been exhausted so the first burst doesn't duplicate itself.
 			try:
@@ -3695,12 +3681,12 @@ class Char():
 						gegner += " |<light-blue> Curl: "+effect[0].split(" ")[1]+"</light-blue>"
 				elif type(effect[0]) == int:
 					gegner += " |<light-blue> Spikes: "+str(effect[0])+"</light-blue>"
-
-			if opponent.move:
-				gegner += " | "+ self.enemy_preview(i)
-			if self.card_in_play != None:
-				if self.card_in_play.get("Damage"):
-					gegner += " | "+ self.determine_damage_to_enemy(self.card_in_play.get("Damage"),i)
+			if self.runicDome == 0:
+				if opponent.move:
+					gegner += " | "+ self.enemy_preview(i)
+				if self.card_in_play != None:
+					if self.card_in_play.get("Damage"):
+						gegner += " | "+ self.determine_damage_to_enemy(self.card_in_play.get("Damage"),i)
 			
 			i = i + 1
 		if skip:
@@ -3709,265 +3695,268 @@ class Char():
 
 	def enemy_preview(self,index):
 		previewString = ""
-		
-		#removeNames from Intention
-		if type(entities.list_of_enemies[index].move) == int:
-			
-			attackDamage = self.determine_damage_to_character(entities.list_of_enemies[index].move,index)
-
-			previewString = "Attacks for <red>" + str(attackDamage)+"</red>"
-			
-		elif "Multiattack" in entities.list_of_enemies[index].move:
-			
-			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
-
-			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>."
-
-		elif "Thrash" in entities.list_of_enemies[index].move:
-
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
-			previewString = "Attacks for <red>"+str(damage)+"</red>. <green>Blocks</green>"
-
-		elif "Blocking" in entities.list_of_enemies[index].move:
-
-			previewString = "Will <green>Block</green>"
-
-		elif "Weak" in entities.list_of_enemies[index].move:
-			
-			previewString = "Applies Debuff"
-
-		elif "Vulnerable" in entities.list_of_enemies[index].move:
-			
-			previewString = "Applies Debuff"
-
-		elif "Frail" in entities.list_of_enemies[index].move:
-			
-			previewString = "Applies Debuff"
-
-		elif "Ritual" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Grow" in entities.list_of_enemies[index].move:
-		
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Bellow" in entities.list_of_enemies[index].move:
-			
-			previewString = "Will <green>Block</green> and <light-blue>Buff</light-blue> itself"
-
-		elif "GoopSpray" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies strong Debuff"
-
-		elif "Support Automaton" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Entangle" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies Debuff"
-
-		elif "Suck" in entities.list_of_enemies[index].move:
-
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1]),index)
-			previewString = "Attacks for <red>"+str(damage)+" damage</red>. Buffs itself"
- 		
-		elif "CenturionDefendAlly" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "MysticBuff" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "MysticHeal" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "SmokeBomb" in entities.list_of_enemies[index].move:
-
-			previewString = "Will <green>Block</green>"
-
-		elif "CenturionDefendAlly" in entities.list_of_enemies[index].move:
-			
-			previewString = "Will <green>Block</green>"			
-
-		elif "Protect" in entities.list_of_enemies[index].move:
-
-			previewString = "Will <green>Block</green>"
-
-		elif "VentSteam" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies Debuff"
-
-		elif "DefensiveMode" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "TwinSlam" in entities.list_of_enemies[index].move:
-			
-			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
-
-			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>. Buffs itself"
-
-		elif "Haste" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "TimeSlam" in entities.list_of_enemies[index].move:
-
-			amount = entities.list_of_enemies[index].move.split(" ")[1].split("/")[1]
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
-
-			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies a negative effect"
-
-		elif "Divider" in entities.list_of_enemies[index].move:
-			damage = self.determine_damage_to_character(6,index)
-			previewString = "Attacks"+ str(int(self.health // 12 + 1)) *"times for <red>"+ str(damage)+"</red>"
-
-		elif "Inferno" in entities.list_of_enemies[index].move:
-			
-			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
-
-			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>. Applies Debuff"
-
-		elif "Enrage" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Hex" in entities.list_of_enemies[index].move:
-			
-			previewString = "Applies strong Debuff"
-
-		elif "SiphonSoul" in entities.list_of_enemies[index].move:
-			
-			previewString = "Applies strong Debuff"
-
-		elif "Bolt" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies Debuff"
-
-		elif "Encourage" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Ripple" in entities.list_of_enemies[index].move:
-
-			previewString = "Will <green>Block</green> and apply a Debuff"
-
-		elif "BurningDebuff" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies Debuff"
-
-		elif "SnakeStrike" in entities.list_of_enemies[index].move:
-
-			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
-
-			previewString = "Attacks "+amount+" times for <red>"+damage+"</red>. Applies Debuff"
-
-		elif "Gloat" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "ChampAnger" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "DefensiveStance" in entities.list_of_enemies[index].move:
-			
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Roar" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies strong Debuff"
-
-		elif "MegaDebuff" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies strong Debuff"
-			
-		elif "TorchBuff" in entities.list_of_enemies[index].move:
-			
-			previewString = "Will <green>Block</green> and <light-blue>Buff</light-blue>"
-
-		elif "BearHug" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies Debuff"
-
-		elif "SpikeUp" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Repulse" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies Debuff"
-
-		elif "Constrict" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies strong Debuff"
-
-		elif "Implant" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies strong Debuff"
-
-		elif "GiantHead" in entities.list_of_enemies[index].move:
-
-			additionalDamage = entities.list_of_enemies[index].counter * 5
-
-			attackDamage = self.determine_damage_to_character(int(entities.split(" ")[1]) + additionalDamage)
-			previewString = "Attacks for "+str(attackDamage)+" damage"
-
-		elif "Fortify" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "BurnStrike" in entities.list_of_enemies[index].move:
-
-			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
-
-			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies Debuff"
-
-		elif "DazeBeam" in entities.list_of_enemies[index].move:
-
-			amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
-
-			previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies Debuff"
-
-		elif "SquareOfDeca" in entities.list_of_enemies[index].move:
-			
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Debilitate" in entities.list_of_enemies[index].move:
-
-			previewString = "Applies strong Debuff"			
-
-		elif "HeartBuff" in entities.list_of_enemies[index].move:
-
-			previewString = "<light-blue>Buff</light-blue>"
-
-		elif "Transientattack" in entities.list_of_enemies[index].move:
-
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1])+(helping_functions.turn_counter-1)*10,index)
-			previewString = "Attacks for <red>"+str(damage)+"</red>"
-
-		elif "/" in entities.list_of_enemies[index].move:
-			
-			damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
-			previewString = "Attacks for <red>"+str(damage)+"</red>. Applies Debuff"
-
-		elif "|" in entities.list_of_enemies[index].move:
-			
-			previewString = "<light-blue>Buff</light-blue>"
-
-		else:
-
+		if self.runicDome == 1:
 			previewString = "???"
+		
+		else:
+			
+			if type(entities.list_of_enemies[index].move) == int:
+				
+				attackDamage = self.determine_damage_to_character(entities.list_of_enemies[index].move,index)
+
+				previewString = "Attacks for <red>" + str(attackDamage)+"</red>"
+				
+			elif "Multiattack" in entities.list_of_enemies[index].move:
+				
+				amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
+
+				previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>."
+
+			elif "Thrash" in entities.list_of_enemies[index].move:
+
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
+				previewString = "Attacks for <red>"+str(damage)+"</red>. <green>Blocks</green>"
+
+			elif "Blocking" in entities.list_of_enemies[index].move:
+
+				previewString = "Will <green>Block</green>"
+
+			elif "Weak" in entities.list_of_enemies[index].move:
+				
+				previewString = "Applies Debuff"
+
+			elif "Vulnerable" in entities.list_of_enemies[index].move:
+				
+				previewString = "Applies Debuff"
+
+			elif "Frail" in entities.list_of_enemies[index].move:
+				
+				previewString = "Applies Debuff"
+
+			elif "Ritual" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Grow" in entities.list_of_enemies[index].move:
+			
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Bellow" in entities.list_of_enemies[index].move:
+				
+				previewString = "Will <green>Block</green> and <light-blue>Buff</light-blue> itself"
+
+			elif "GoopSpray" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies strong Debuff"
+
+			elif "Support Automaton" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Entangle" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies Debuff"
+
+			elif "Suck" in entities.list_of_enemies[index].move:
+
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1]),index)
+				previewString = "Attacks for <red>"+str(damage)+" damage</red>. Buffs itself"
+	 		
+			elif "CenturionDefendAlly" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "MysticBuff" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "MysticHeal" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "SmokeBomb" in entities.list_of_enemies[index].move:
+
+				previewString = "Will <green>Block</green>"
+
+			elif "CenturionDefendAlly" in entities.list_of_enemies[index].move:
+				
+				previewString = "Will <green>Block</green>"			
+
+			elif "Protect" in entities.list_of_enemies[index].move:
+
+				previewString = "Will <green>Block</green>"
+
+			elif "VentSteam" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies Debuff"
+
+			elif "DefensiveMode" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "TwinSlam" in entities.list_of_enemies[index].move:
+				
+				amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
+
+				previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>. Buffs itself"
+
+			elif "Haste" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "TimeSlam" in entities.list_of_enemies[index].move:
+
+				amount = entities.list_of_enemies[index].move.split(" ")[1].split("/")[1]
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
+
+				previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies a negative effect"
+
+			elif "Divider" in entities.list_of_enemies[index].move:
+				damage = self.determine_damage_to_character(6,index)
+				previewString = "Attacks"+ str(int(self.health // 12 + 1)) *"times for <red>"+ str(damage)+"</red>"
+
+			elif "Inferno" in entities.list_of_enemies[index].move:
+				
+				amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
+
+				previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" Damage</red>. Applies Debuff"
+
+			elif "Enrage" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Hex" in entities.list_of_enemies[index].move:
+				
+				previewString = "Applies strong Debuff"
+
+			elif "SiphonSoul" in entities.list_of_enemies[index].move:
+				
+				previewString = "Applies strong Debuff"
+
+			elif "Bolt" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies Debuff"
+
+			elif "Encourage" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Ripple" in entities.list_of_enemies[index].move:
+
+				previewString = "Will <green>Block</green> and apply a Debuff"
+
+			elif "BurningDebuff" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies Debuff"
+
+			elif "SnakeStrike" in entities.list_of_enemies[index].move:
+
+				amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
+
+				previewString = "Attacks "+amount+" times for <red>"+damage+"</red>. Applies Debuff"
+
+			elif "Gloat" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "ChampAnger" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "DefensiveStance" in entities.list_of_enemies[index].move:
+				
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Roar" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies strong Debuff"
+
+			elif "MegaDebuff" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies strong Debuff"
+				
+			elif "TorchBuff" in entities.list_of_enemies[index].move:
+				
+				previewString = "Will <green>Block</green> and <light-blue>Buff</light-blue>"
+
+			elif "BearHug" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies Debuff"
+
+			elif "SpikeUp" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Repulse" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies Debuff"
+
+			elif "Constrict" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies strong Debuff"
+
+			elif "Implant" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies strong Debuff"
+
+			elif "GiantHead" in entities.list_of_enemies[index].move:
+
+				additionalDamage = entities.list_of_enemies[index].counter * 5
+
+				attackDamage = self.determine_damage_to_character(int(entities.split(" ")[1]) + additionalDamage)
+				previewString = "Attacks for "+str(attackDamage)+" damage"
+
+			elif "Fortify" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "BurnStrike" in entities.list_of_enemies[index].move:
+
+				amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
+
+				previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies Debuff"
+
+			elif "DazeBeam" in entities.list_of_enemies[index].move:
+
+				amount = entities.list_of_enemies[index].move.split(" ")[1].split("*")[1]
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("*")[0]),index)
+
+				previewString = "Attacks "+str(amount)+" times for <red>"+str(damage)+" damage</red>. Applies Debuff"
+
+			elif "SquareOfDeca" in entities.list_of_enemies[index].move:
+				
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Debilitate" in entities.list_of_enemies[index].move:
+
+				previewString = "Applies strong Debuff"			
+
+			elif "HeartBuff" in entities.list_of_enemies[index].move:
+
+				previewString = "<light-blue>Buff</light-blue>"
+
+			elif "Transientattack" in entities.list_of_enemies[index].move:
+
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1])+(helping_functions.turn_counter-1)*10,index)
+				previewString = "Attacks for <red>"+str(damage)+"</red>"
+
+			elif "/" in entities.list_of_enemies[index].move:
+				
+				damage = self.determine_damage_to_character(int(entities.list_of_enemies[index].move.split(" ")[1].split("/")[0]),index)
+				previewString = "Attacks for <red>"+str(damage)+"</red>. Applies Debuff"
+
+			elif "|" in entities.list_of_enemies[index].move:
+				
+				previewString = "<light-blue>Buff</light-blue>"
+
+			else:
+
+				previewString = "???"
 		
 		return previewString
 
@@ -4060,32 +4049,36 @@ class Char():
 	def receive_damage(self,attack_damage):
 		if attack_damage > 0:
 
-			if self.check_buffer():
-
-				if self.vulnerable > 0:
-					
-					if self.oddMushroom > 0:
-						attack_damage += attack_damage * 0.25
-					else:
-						attack_damage += attack_damage * 0.50
-					
-				attack_damage = math.floor(attack_damage)
+			if self.vulnerable > 0:
 				
-				if self.intangible > 0:
-					attack_damage = 1
-					ansiprint("Intangible reduces the damage to 1.")
+				if self.oddMushroom > 0:
+					attack_damage += attack_damage * 0.25
+				else:
+					attack_damage += attack_damage * 0.50
+				
+			attack_damage = math.floor(attack_damage)
+			
+			if self.intangible > 0:
+				attack_damage = 1
+				
 
-				damage = attack_damage - self.block
+			damage = attack_damage - self.block
+				
+			if int(damage) > 0:
+				
+				if self.check_buffer():				
 					
-				if int(damage) > 0:
 					self.block = 0
 					self.damageCounter()
 					
 					if self.torii > 0 and damage <= 5:
-						damage = 1 
+						damage = 1
+						ansiprint(f"<light-red>Torii</light-red> reduced <red>damage</red> to <red>1 damage</red>")
 
 					if self.tungstenRod > 0:
 						damage -= 1
+						ansiprint(f"<light-red>Tungsten Rod</light-red> reduced <red>damage</red> by <red>1</red> to <red>{damage}</red>")
+
 
 					self.health -= int(damage)
 
@@ -4093,48 +4086,70 @@ class Char():
 						self.alive = False
 					else:
 						ansiprint("The",self.displayName,"has taken <red>"+str(damage)+" damage</red> and now has <red>"+str(self.health)+" Health</red> left.")
-
 				else:
-					self.block -= attack_damage
+					self.block = 0
 
-					ansiprint(self.displayName, "has <green>"+str(self.block)+" Block</green> and <red>"+str(self.health)+" Health</red> left.")
-				
-				if self.alive == False:
-					entities.check_if_character_dead()
+			else:
+				self.block -= attack_damage
+
+				ansiprint(self.displayName, "has <green>"+str(self.block)+" Block</green> and <red>"+str(self.health)+" Health</red> left.")
+			
+			if self.alive == False:
+				entities.check_if_character_dead()
 
 	def receive_recoil_damage(self,attack_damage,directDamage: bool = False):
 		#there are some differences between recoil and normal damage. Therefore there are separate functions for that.
 		
 		if attack_damage > 0:
+			
+			if directDamage:
+				damage = attack_damage
+			else:
+				damage = attack_damage - self.block
 
-			if self.check_buffer():
+			if self.intangible > 0:
+				damage = 1			
+			
+			if damage > 0:
 
-				if self.intangible > 0:
-					attack_damage = 1
+				if self.check_buffer():				
+
+					if self.torii > 0 and damage <= 5:
+						damage = 1
+						ansiprint(f"<light-red>Torii</light-red> reduced <red>damage</red> to <red>1 damage</red>")
+
+					if self.tungstenRod > 0:
+						damage -= 1
+						ansiprint(f"<light-red>Tungsten Rod</light-red> reduced <red>damage</red> by <red>1</red> to <red>{damage}</red>")
 				
-				if directDamage:
-					damage = attack_damage
-				else:
-					damage = attack_damage - self.block
-
-				if int(damage) > 0:
-					if directDamage == False:
-						self.block = 0
+					if damage > 0:
+						if directDamage == False:
+							self.block = 0
+						
+						self.damageCounter()
+						self.health -= damage
+						
+						if self.health < 1:
+							ansiprint("The",self.displayName,"has been defeated")
+							self.alive = False
+						else:
+							ansiprint("The",self.displayName,"has taken <red>"+str(damage)+" Damage</red> and now has <red>"+str(self.health)+" Health</red> left.")
 					
-					self.damageCounter()
-					self.health -= int(damage)
-					if self.health < 1:
-						ansiprint("The",self.displayName,"has been defeated")
-						self.alive = False
 					else:
-						ansiprint("The",self.displayName,"has taken <red>"+str(damage)+" Damage</red> and now has <red>"+str(self.health)+" Health</red> left.")
-				
-				else:
-					self.block -= attack_damage
-					ansiprint(self.displayName, "has", self.block,"block left and",self.health,"health left.")
+						self.block -= attack_damage
+						if self.block >= 0:
+							ansiprint(f"{self.displayName} has <green>{self.block} block</green> left and <red>{self.health} health</red> left.")
+						else:
+							ansiprint(f"{self.displayName} has <green>0 block</green> and <red>{self.health} health</red> left.")
 
-				if self.alive == False:
-						entities.check_if_character_dead()
+
+					if self.alive == False:
+							entities.check_if_character_dead()
+
+				else:
+					self.block = 0
+
+
 
 	def set_position(self,new_pos):
 
@@ -4472,7 +4487,7 @@ class Char():
 		
 		if self.buffer > 0:
 			self.buffer -= 1
-			ansiprint("You lose one buffer instead of suffering <red>damager</red>.")
+			ansiprint("You lose one buffer instead of suffering <red>damage</red>.")
 			return False
 		elif self.artifact == 0:
 			return True
@@ -5392,7 +5407,7 @@ class Char():
 	def check_CardPlayRestricions(self):
 
 		for card in self.hand:
-			if card["Name"] == "Normality" and self.card_counter > 3:
+			if card["Name"] == "Normality" and self.card_counter >= 3:
 				ansiprint("While <m>"+card["Name"]+"</m> is in your hand, you can't play more than 3 cards per turn!")
 
 	def cursesEndOfTurn(self):
@@ -5425,6 +5440,7 @@ class Char():
 	def explainer_function(self,searchName,answer=True):
 		if searchName == "San Antonio Spurs":
 			self.set_gold(3000)
+			ansiprint("Death, Taxes and...")
 		elif searchName == "":
 			pass
 		else:
@@ -5435,7 +5451,7 @@ class Char():
 					
 					color = self.get_cardColor(info.get("Type"))
 
-					ansiprint("\n<"+color+">"+info.get("Type")+"</"+color+"> | "+info.get("Name")+":",info.get("Info"),"<yellow>Energy</yellow>:",str(info.get("Energy"))+"\n")
+					ansiprint("\n<"+color+">"+info.get("Type")+"</"+color+"> | "+info.get("Name")+":",info.get("Info"),"| <yellow>Energy</yellow>:",str(info.get("Energy"))+"\n")
 
 				elif searchName in entities.potions:
 					info = {k:v for k,v in entities.potions.items() if v.get("Name") == searchName}
@@ -5457,7 +5473,7 @@ class Char():
 					elif self.get_floor() == "Shop$":
 						ansiprint("<light-blue>You can't save during Shops because they somehow break. Saving during fights works best!</light-blue>")
 					elif self.get_floor() == "Start":
-						ansiprint("<light-blue>You can't save here just because. Saving during fights works best!</light-blue>")
+						ansiprint("<light-blue>You can't save here. Saving during fights works best!</light-blue>")
 					else:
 						save_handlery.save_and_rave()
 						print("The game has been saved to",str(Path.cwd())+"/slaythetextSave.dat")

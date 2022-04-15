@@ -690,8 +690,8 @@ cards = {
     "All-Out Attack": {"Name": "All-Out Attack", "Damage":10,"Energy": 1,"Discard": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>10 damage</red> to ALL enemies. Discard 1 random Card."},
     "All-Out Attack +": {"Name": "All-Out Attack +", "Damage":14,"Energy": 1,"Discard": 1,"Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>14 damage</red> to ALL enemies. Discard 1 random Card."},
 
-    "Backstab": {"Name": "Backstab", "Damage":11,"Energy": 0,"Innate": True,"Exhaust": True, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>11 damage</red>. <BLUE>Exhaust<BLUE>. <BLUE>Innate<BLUE>."},
-    "Backstab +": {"Name": "Backstab +", "Damage":15,"Energy": 0,"Innate": True,"Exhaust": True, "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>15 damage</red>. <BLUE>Exhaust<BLUE>. <BLUE>Innate<BLUE>."},
+    "Backstab": {"Name": "Backstab", "Damage":11,"Energy": 0,"Innate": True,"Exhaust": True, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>11 damage</red>. <BLUE>Exhaust</BLUE>. <BLUE>Innate</BLUE>."},
+    "Backstab +": {"Name": "Backstab +", "Damage":15,"Energy": 0,"Innate": True,"Exhaust": True, "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>15 damage</red>. <BLUE>Exhaust</BLUE>. <BLUE>Innate</BLUE>."},
 
     "Choke": {"Name": "Choke", "Damage":12,"Energy": 2, "Choking": 3, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>12 damage</red>. Whenever you play a Card this turn, the enemy loses <red>3 HP</red>."},
     "Choke +": {"Name": "Choke +", "Damage":12,"Energy": 2, "Choking": 5, "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>12 damage</red>. Whenever you play a Card this turn, the enemy loses <red>5 HP</red>."},
@@ -699,8 +699,8 @@ cards = {
     "Dash": {"Name": "Dash", "Damage":10,"Block":10,"Energy": 2, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Gain <green>10 Block</green. Deal <red>10 damage</red>."},
     "Dash +": {"Name": "Dash +", "Damage":13,"Block":13,"Energy": 2, "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Gain <green>12 Block</green. Deal <red>12 damage</red>."},
 
-    "Endless Agony": {"Name": "Endless Agony", "Damage":4,"Exhaust":True,"Energy": 0, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Whenever you draw this Card, add a copy of it into your hand. Deal <red>4 damage</red>. <BLUE>Exhaust<BLUE>"},
-    "Endless Agony +": {"Name": "Endless Agony +", "Damage":6,"Exhaust":True,"Energy": 0, "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Whenever you draw this Card, add a copy of it into your hand. Deal <red>6 damage</red>. <BLUE>Exhaust<BLUE>"},
+    "Endless Agony": {"Name": "Endless Agony", "Damage":4,"Exhaust":True,"Energy": 0, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Whenever you draw this Card, add a copy of it into your hand. Deal <red>4 damage</red>. <BLUE>Exhaust</BLUE>"},
+    "Endless Agony +": {"Name": "Endless Agony +", "Damage":6,"Exhaust":True,"Energy": 0, "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Whenever you draw this Card, add a copy of it into your hand. Deal <red>6 damage</red>. <BLUE>Exhaust</BLUE>"},
 
     "Eviscerate": {"Name": "Eviscerate", "Damage":7,"Energy": 3, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Costs <yellow>1 Energy</yellow> less for each discarded Card this turn. Deal <red>7 damage</red> 3 times."},
     "Eviscerate +": {"Name": "Eviscerate +", "Damage":9,"Energy": 3, "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Costs <yellow>1 Energy</yellow> less for each discarded Card this turn. Deal <red>9 damage</red> 3 times."},
@@ -726,8 +726,8 @@ cards = {
     "Skewer": {"Name": "Skewer", "Damage":7, "Energy": "X", "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>7 damage</red> <yellow>X</yellow> times."},
     "Skewer +": {"Name": "Skewer +", "Damage":10, "Energy": "X", "Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Deal <red>10 damage</red> <yellow>X</yellow> times."},
 
-    "Die Die Die": {"Name": "Die Die Die","Damage":13,"Energy": 1,"Exhaust":True, "Type": "Attack" ,"Rarity": "Rare","Owner":"Silent","Info":"Deal <red>13 damage</red> to ALL enemies. <BLUE>Exhaust<BLUE>"},
-    "Die Die Die +": {"Name": "Die Die Die +","Damage":17,"Energy": 1,"Exhaust":True, "Type": "Attack" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Deal <red>17 damage</red> to ALL enemies. <BLUE>Exhaust<BLUE>"},
+    "Die Die Die": {"Name": "Die Die Die","Damage":13,"Energy": 1,"Exhaust":True, "Type": "Attack" ,"Rarity": "Rare","Owner":"Silent","Info":"Deal <red>13 damage</red> to ALL enemies. <BLUE>Exhaust</BLUE>"},
+    "Die Die Die +": {"Name": "Die Die Die +","Damage":17,"Energy": 1,"Exhaust":True, "Type": "Attack" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Deal <red>17 damage</red> to ALL enemies. <BLUE>Exhaust</BLUE>"},
     
     "Glass Knife": {"Name": "Glass Knife","Damage":8,"Energy": 1, "Type": "Attack" ,"Rarity": "Rare","Owner":"Silent","Info":"Deal <red>8 damage</red> twice. Decrease the damage of this card by 2 for this combat."},
     "Glass Knife +": {"Name": "Glass Knife +","Damage":12,"Energy": 1, "Type": "Attack" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"Deal <red>8 damage</red> twice. Decrease the damage of this card by 2 for this combat."},
@@ -747,8 +747,8 @@ cards = {
     "Blade Dance": {"Name": "Blade Dance","Shivs":3,"Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Silent","Info":"Add <red>3 Shivs</red> into your hand."},
     "Blade Dance +": {"Name": "Blade Dance +","Shivs":4,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Add <red>4 Shivs</red> into your hand."},
 
-    "Cloak and Dagger": {"Name": "Cloak and Dagger","Block":6,"Shivs":1,"Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Silent","Info":"Gain <green>6 Block</green>. Add <red>1 Shiv<red> to your hand."},
-    "Cloak and Dagger +": {"Name": "Cloak and Dagger +","Block":6,"Shivs":2,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Gain <green>6 Block</green>. Add <red>2 Shiv<red> to your hand."},
+    "Cloak and Dagger": {"Name": "Cloak and Dagger","Block":6,"Shivs":1,"Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Silent","Info":"Gain <green>6 Block</green>. Add <red>1 Shiv</red> to your hand."},
+    "Cloak and Dagger +": {"Name": "Cloak and Dagger +","Block":6,"Shivs":2,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Gain <green>6 Block</green>. Add <red>2 Shiv</red> to your hand."},
 
     "Deadly Poison": {"Name": "Deadly Poison","Poison":5,"Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>5 Poison</green>."},
     "Deadly Poison +": {"Name": "Deadly Poison +","Poison":7,"Energy": 1,"Type": "Skill" ,"Upgraded": True,"Rarity": "Common","Owner":"Silent","Info":"Apply <green>7 Poison</green>."},
@@ -774,7 +774,7 @@ cards = {
     "Bouncing Flask": {"Name": "Bouncing Flask","Poison":3,"Bounces":3,"Energy": 2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Randomly apply <green>3 Poison</green> 3 times."},
     "Bouncing Flask +": {"Name": "Bouncing Flask +","Poison":3,"Bounces":4,"Energy": 2,"Type": "Skill" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Randomly apply <green>3 Poison</green> 4 times."},
     
-    "Calculated Gamble": {"Name": "Calculated Gamble","Exhaust": True,"Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Discard your entire hand. Draw as many cards. <BLUE>Exhaust<BLUE>."},
+    "Calculated Gamble": {"Name": "Calculated Gamble","Exhaust": True,"Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Discard your entire hand. Draw as many cards. <BLUE>Exhaust</BLUE>."},
     "Calculated Gamble +": {"Name": "Calculated Gamble +","Energy": 0,"Type": "Skill" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Discard your entire hand. Draw as many cards."},
 
     "Catalyst": {"Name": "Catalyst","Multiplikator":2,"Energy": 1,"Exhaust": True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Double the enemy's <green>Poison</green>. <BLUE>Exhaust</BLUE>."},
@@ -786,8 +786,8 @@ cards = {
     "Crippling Cloud" :{"Name": "Crippling Cloud","Poison":4,"Weakness": 2,"Energy": 2,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Apply <green>4 Poison</green> and <light-cyan>2 Weak</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},
     "Crippling Cloud +" :{"Name": "Crippling Cloud +","Poison":7,"Weakness": 2,"Energy": 2,"Exhaust":True ,"Upgraded": True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Apply <green>6 Poison</green> and <light-cyan>2 Weak</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},
     
-    "Distraction" :{"Name": "Distraction","Energy": 1,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Add a random <green>Skill</green> into your hand. It costs <yellow>0 Energy<yellow> this turn."},
-    "Distraction +" :{"Name": "Distraction +","Energy": 0,"Exhaust":True ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Add a random <green>Skill</green> into your hand. It costs <yellow>0 Energy<yellow> this turn."},
+    "Distraction" :{"Name": "Distraction","Energy": 1,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Add a random <green>Skill</green> into your hand. It costs <yellow>0 Energy</yellow> this turn."},
+    "Distraction +" :{"Name": "Distraction +","Energy": 0,"Exhaust":True ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Add a random <green>Skill</green> into your hand. It costs <yellow>0 Energy</yellow> this turn."},
     
     "Escape Plan" :{"Name": "Escape Plan","Block":3,"Draw": 1,"Energy": 0 ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Draw 1 Card. If you draw a <green>Skill</green>, gain <green>3 Block</green>."},
     "Escape Plan +" :{"Name": "Escape Plan +","Block":5,"Draw": 1,"Energy": 0 ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Draw 1 Card. If you draw a <green>Skill</green>, gain <green>5 Block</green>."},
@@ -851,7 +851,7 @@ cards = {
     "Footwork +" :{"Name": "Footwork +", "Dexterity":3, "Energy": 1,"Type": "Power" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Gain <green>3 Dexterity</green>."},
 
     "Infinite Blades" :{"Name": "Infinite Blades", "Infinite Blades":1, "Energy": 1,"Type": "Power" ,"Rarity": "Uncommon","Owner":"Silent","Info":"At the start of your turn, add <red>1 Shiv</red> to your hand."},
-    "Infinite Blades +" :{"Name": "Infinite Blades +", "Infinite Blades":1,"Innate": True, "Energy": 1,"Type": "Power" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"At the start of your turn, add <red>1 Shiv</red> to your hand. <BLUE>Innate<BLUE>."},
+    "Infinite Blades +" :{"Name": "Infinite Blades +", "Infinite Blades":1,"Innate": True, "Energy": 1,"Type": "Power" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"At the start of your turn, add <red>1 Shiv</red> to your hand. <BLUE>Innate</BLUE>."},
 
     "NoxiousFumes" :{"Name": "Noxious Fumes", "Noxiousness":2, "Energy": 1,"Type": "Power" ,"Rarity": "Uncommon","Owner":"Silent","Info":"At the start of your turn, apply <green>2 Poison</green> to ALL enemies."},
     "NoxiousFumes +" :{"Name": "Noxious Fumes +", "Noxiousness":3, "Energy": 1,"Type": "Power" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"At the start of your turn, apply <green>3 Poison</green> to ALL enemies."},
@@ -889,8 +889,8 @@ cards = {
     "Discovery" :{"Name": "Discovery","Energy": 1,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Choose 1 of 3 random cards to add into your hand. It costs 0 this turn. <BLUE>Exhaust</BLUE>."},
     "Discovery +" :{"Name": "Discovery +","Energy": 0,"Exhaust":True ,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Choose 1 of 3 random cards to add into your hand. It costs 0 this turn. <BLUE>Exhaust</BLUE>."},
 
-    "Dramatic Entrance": {"Name": "Dramatic Entrance","Damage":8,"Energy": 0,"Innate":True,"Exhaust":True,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>8 damage</red> to ALL enemies. <BLUE>Innate.</BLUE>. <BLUE>Exhaust</BLUE>."},
-    "Dramatic Entrance +": {"Name": "Dramatic Entrance","Damage":12,"Energy": 0,"Innate":True,"Exhaust":True,"Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>12 damage</red> to ALL enemies. <BLUE>Innate.</BLUE>. <BLUE>Exhaust</BLUE>."},
+    "Dramatic Entrance": {"Name": "Dramatic Entrance","Damage":8,"Energy": 0,"Innate":True,"Exhaust":True,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>8 damage</red> to ALL enemies. <BLUE>Innate</BLUE>. <BLUE>Exhaust</BLUE>."},
+    "Dramatic Entrance +": {"Name": "Dramatic Entrance","Damage":12,"Energy": 0,"Innate":True,"Exhaust":True,"Type": "Attack" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Colorless","Info":"Deal <red>12 damage</red> to ALL enemies. <BLUE>Innate</BLUE>. <BLUE>Exhaust</BLUE>."},
     
     "Enlightenment": {"Name": "Enlightenment","Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Reduce the cost of all cards in your hand to <yellow>1 Energy</yellow> this turn."},
     "Enlightenment +": {"Name": "Enlightenment","Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Reduce the cost of all cards in your hand to <yellow>1 Energy</yellow> for the rest of the battle."},
@@ -916,8 +916,8 @@ cards = {
     "Madness": {"Name": "Madness","Energy": 1,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Reduce the cost of a random card in your hand to <yellow>0 Energy</yellow> this combat. <BLUE>Exhaust</BLUE>."},
     "Madness +": {"Name": "Madness","Energy": 0,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Reduce the cost of a random card in your hand to <yellow>0 Energy</yellow> this combat. <BLUE>Exhaust</BLUE>."},
 
-    "Mind Blast": {"Name": "Mind Blast","Energy": 2,"Innate":True,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"<BLUE>Innate</BLUE>.Deal <red>damage</red> equal to the number of cards in your draw pile."},
-    "Mind Blast +": {"Name": "Mind Blast +","Energy": 1,"Innate":True,"Type": "Attack" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"<BLUE>Innate</BLUE>.Deal <red>damage</red> equal to the number of cards in your draw pile."},
+    "Mind Blast": {"Name": "Mind Blast","Energy": 2,"Innate":True,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"<BLUE>Innate</BLUE>. Deal <red>damage</red> equal to the number of cards in your draw pile."},
+    "Mind Blast +": {"Name": "Mind Blast +","Energy": 1,"Innate":True,"Type": "Attack" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"<BLUE>Innate</BLUE>. Deal <red>damage</red> equal to the number of cards in your draw pile."},
 
     "Panacea": {"Name": "Panacea","Energy": 0,"Artifact":1, "Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Colorless","Info":"Gain <light-red>1 Artifact</light-red>. <BLUE>Exhaust</BLUE>."},
     "Panacea +": {"Name": "Panacea +","Energy": 0,"Artifact":2, "Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Colorless","Info":"Gain <light-red>2 Artifact</light-red>. <BLUE>Exhaust</BLUE>."},
@@ -1162,7 +1162,7 @@ relics = {
 	"Tingsha":{"Name":"Tingsha","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever you discard a card during your turn, deal <red>3 damage</red> to a random enemy for each card discarded."},
 	"Torii":{"Name":"Torii","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you would receive <red>5 or less unblocked Attack damage</red>, reduce it to <red>1</red>."},
 	"Tough Bandages":{"Name":"Tough Bandages","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever you discard a Card during your turn, gain <green>3 Block</green>."},
-	"Tungsten Rod":{"Name":"Tungsten Rod","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
+	"Tungsten Rod":{"Name":"Tungsten Rod","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you would lose <red>HP</red>, lose <red>1</red> less.."},
 	"Turnip":{"Name":"Turnip","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
 	"Unceasing Top":{"Name":"Unceasing Top","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you have no Cards in hand during your turn, draw a Card."},
 	
@@ -1510,12 +1510,10 @@ def visit_campfire():
                 continue
             
             active_character[0].removeCardsFromDeck(1,removeType = "Upgrade")
-            break    
-            
+            break                
         
         elif sleepOrUpgrade[choice] == "Train":
             
-
             if active_character[0].relics[giryaIndex].get("Counter") == 3:
                 ansiprint("Training is limited to 3. You have reached the limit!")
                 continue
@@ -1571,7 +1569,6 @@ def visit_treasureChest():
 
     openLeave.extend(["Check Deck","Check Map","Leave"])
     
-
     chestType = rd.randint(1,100)
 
     if chestType <= 50:
@@ -3912,7 +3909,7 @@ def visit_event():
     			eventShopChance = 0
     	elif relic.get("Name") == "Ssserpent Head":
     		active_character[0].set_gold(50)
-    		ansiprint("You received <yellow>50 Gold</yellow> because of <light-blue>Ssserpent Head</light-blue>.")
+    		ansiprint("You received <yellow>50 Gold</yellow> because of <light-red>Ssserpent Head</light-red>.")
 
     eventChance = 1 - eventMonsterChance - eventTreasureChance - eventShopChance
 

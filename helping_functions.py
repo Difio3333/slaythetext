@@ -738,11 +738,11 @@ def pickCard(cardPrize: list,place:str = "Deck"):
         i = 0
         for card in cardPrize:
             if card.get("Type") == "Attack":
-                ansiprint (str(i+1)+". <red>"+card.get("Name")+"</red> | "+card.get("Info"))
+                ansiprint (f"{i+1}. <red>{card.get('Name')}</red> | {card.get('Info')} | <yellow>Energy</yellow>: {card.get('Energy')}")
             elif card.get("Type") == "Skill":
-                ansiprint (str(i+1)+". <green>"+card.get("Name")+"</green> | "+card.get("Info"))
+                ansiprint (f"{i+1}. <green>{card.get('Name')}</green> | {card.get('Info')} | <yellow>Energy</yellow>: {card.get('Energy')}")
             elif card.get("Type") == "Power":
-                ansiprint (str(i+1)+". <blue>"+card.get("Name")+"</blue> | "+card.get("Info"))
+                ansiprint (f"{i+1}. <blue>{card.get('Name')}</blue> | {card.get('Info')} | <yellow>Energy</yellow>: {card.get('Energy')}")
             i += 1
         
         singingBowl = False
