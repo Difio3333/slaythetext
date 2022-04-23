@@ -11,13 +11,37 @@ import copy
 
 list_of_enemies = []
 relics_seen_list = []
-silent = Char("Silent",66,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."}])
-active_character = [silent]
+
+
+active_character = []
 
 eventMonsterChance = 0.1
 eventTreasureChance = 0.02
 eventShopChance = 0.03      
 
+def choose_character():
+    global active_character
+    
+    while True:
+        try:
+            ansiprint("1. <green>Silent</green>\n2. <red>Ironclad</red>")
+            charchoice = input("Pick the Character you want to play.\n")
+            charchoice = int(charchoice)
+
+            if charchoice == 1:
+                active_character.append(Char("Silent",66,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."}]))
+                ansiprint("You chose the <green>Silent</green>.")
+                break
+            elif charchoice == 2:
+                active_character.append(Char("Ironclad",75,deck = [],gold = 99,relics=[{"Name":"Burning Blood","Rarity":"Starter","Owner":"Ironclad","Type":"Relic","Info":"At the end of combat, <red>heal 6 HP</red>."}]))
+                ansiprint("You chose the <red>Ironclad</red>.")
+                break
+            else:
+                ansiprint("You have to type either 1 or 2.")
+        except ValueError:
+            ansiprint("You have to type a number.")
+        except Exception as e:
+            print("Char Choice Error:",e)
 
 def check_if_character_dead():
     global active_character
@@ -27,10 +51,11 @@ def check_if_character_dead():
                 if potion.get("Name") == "Fairy in a Bottle":
                     character.resurrect("Fairy in a Bottle")
             for relic in character.relics:
-                if relic.get("Name") == "Lizard Tale":
+                if relic.get("Name") == "Lizard Tail":
+                    print("")
                     if relic.get("Counter") > 0:
                         relic["Counter"] = 0
-                        character.resurrect("Lizard Tale")                        
+                        character.resurrect("Lizard Tail")                        
                     else:
                         pass
 
@@ -644,7 +669,7 @@ def create_superElite(superElite):
 
 
 cards = {
-    
+    #The Silent
     "Strike": {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent","Info":"Deal <red>6 damage</red>."},
     "Strike +": {"Name": "Strike +","Upgraded": True, "Damage":9, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent","Info":"Deal <red>9 damage</red>."},
 
@@ -798,7 +823,6 @@ cards = {
     "Leg Sweep" :{"Name": "Leg Sweep","Block":11,"Weakness":2,"Energy": 2 ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Apply <light-cyan>2 Weak</light-cyan>. Gain <green>11 Block</green>."},
     "Leg Sweep +" :{"Name": "Leg Sweep +","Block":14,"Weakness":3,"Energy": 2 ,"Type": "Skill" ,"Upgraded": True,"Rarity": "Uncommon","Owner":"Silent","Info":"Apply <light-cyan>3 Weak</light-cyan>. Gain <green>14 Block</green>."},
     
-
     "Reflex" :{"Name": "Reflex","Draw":2 ,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Silent","Info":"<RED>Unplayable</RED>. If this Card is discared, draw 2 Cards."},
     "Reflex +" :{"Name": "Reflex +","Draw":3 ,"Type": "Skill" ,"Rarity": "Uncommon","Upgraded": True,"Owner":"Silent","Info":"<RED>Unplayable</RED>. If this Card is discared, draw 3 Cards."},
     
@@ -870,6 +894,234 @@ cards = {
 
     "Wraith Form" :{"Name": "Wraith Form", "Wraithness":1,"Intangible":2, "Energy": 3,"Type": "Power" ,"Rarity": "Rare","Owner":"Silent","Info":"Gain <blue>2 Intangible</blue>. At the end of your turn, lose <green>1 Dexterity</green>."},
     "Wraith Form +" :{"Name": "Wraith Form +", "Wraithness":1,"Intangible":3, "Energy": 3,"Upgraded": True,"Type": "Power" ,"Rarity": "Rare","Owner":"Silent","Info":"Gain <blue>3 Intangible</blue>. At the end of your turn, lose <green>1 Dexterity</green>."},
+
+    #Ironclad Cards
+
+    "Strike": {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Ironclad","Info":"Deal <red>6 damage</red>."},
+    "Strike +": {"Name": "Strike +","Upgraded": True, "Damage":9, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Ironclad","Info":"Deal <red>9 damage</red>."},
+
+    "Defend": {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Ironclad","Info":"Gain <green>6 Block</green>."},
+    "Defend +": {"Name": "Defend +","Upgraded": True, "Block":8, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Ironclad","Info":"Gain <green>8 Block</green>."},
+
+    "Bash" :{"Name":"Bash","Damage":8, "Vulnerable":2,"Energy":2,"Type":"Attack","Rarity":"Basic","Owner":"Ironclad","Info":"Deal <red>8 damage</red>. Apply <light-blue>2 Vulnerable</light-blue>"},
+    "Bash +" :{"Name":"Bash +","Damage":10, "Vulnerable":3,"Energy":2,"Type":"Attack", "Upgraded":True,"Rarity":"Basic","Owner":"Ironclad","Info":"Deal <red>10 damage</red>. Apply <light-blue>3 Vulnerable</light-blue>"},
+    
+    "Anger" :{"Name":"Anger","Damage":6, "Energy":0,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>6 damage</red>. Add a copy of this card to your Discardpile."},
+    "Anger +" :{"Name":"Anger","Damage":8, "Energy":0,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>8 damage</red>. Add a copy of this card to your Discardpile."},
+
+    "Body Slam" :{"Name":"Body Slam","Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>Damage</red> equal to your <green>Block</green>"},
+    "Body Slam +" :{"Name":"Body Slam +","Energy":0,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>Damage</red> equal to your <green>Block</green>"},
+
+    "Clash" :{"Name":"Clash","Damage": 14,"Energy":0,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>14 Damage</red>. Can only be played if every Card in your Hand is an <red>Attack</red>."},
+    "Clash +" :{"Name":"Clash +","Damage": 18,"Energy":0,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>18 Damage</red>. Can only be played if every Card in your Hand is an <red>Attack</red>."},    
+
+    "Cleave" :{"Name":"Cleave","Damage": 8,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>8 Damage</red> to ALL enemies."},
+    "Cleave +" :{"Name":"Cleave +","Damage": 11,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>11 Damage</red> to ALL enemies."},
+
+    "Clothesline" :{"Name":"Clothesline","Damage": 12,"Weakness":2,"Energy":2,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>12 Damage</red>. Apply <light-blue>2 Weak</light-blue>."},
+    "Clothesline +" :{"Name":"Clothesline +","Damage": 14,"Weakness":3,"Energy":2,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>14 Damage</red>. Apply <light-blue>3 Weak</light-blue>."},
+
+    "Headbutt" :{"Name":"Headbutt","Damage": 9,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>9 damage</red>. Put a card from your Discardpile on top of your Drawpile."},
+    "Headbutt +" :{"Name":"Headbutt +","Damage": 12,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>12 damage</red>. Put a card from your Discardpile on top of your Drawpile."},
+
+    "Heavy Blade" :{"Name":"Heavy Blade","Damage": 14,"StrengthMultiplier":3,"Energy":2,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>14 damage</red>. <red>Strength</red> affects this card 3 times."},
+    "Heavy Blade +" :{"Name":"Heavy Blade +","Damage": 14,"StrengthMultiplier":5,"Energy":2,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>14 damage</red>. <red>Strength</red> affects this card 5 times."},
+
+    "Iron Wave" :{"Name":"Iron Wave","Damage": 5,"Block":5,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>5 damage</red>. Gain <green>5 Block</green>"},
+    "Iron Wave +" :{"Name":"Iron Wave +","Damage": 7,"Block":7,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>7 damage</red>. Gain <green>7 Block</green>"},
+    
+    "Perfected Strike" :{"Name":"Perfected Strike","Damage": 6,"StrikeDamage":2,"Energy":2,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>6 damage</red>. Deals <red>2 additional damage</red> for ALL your cards containing \"Strike\"."},
+    "Perfected Strike +" :{"Name":"Perfected Strike +","Damage": 6,"StrikeDamage":3,"Energy":2,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>6 damage</red>. Deals <red>3 additional damage</red> for ALL your cards containing \"Strike\"."},
+
+    "Pommel Strike" :{"Name":"Pommel Strike","Damage": 9,"Draw":1,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>9 damage</red>. Draw 1 Card."},
+    "Pommel Strike +" :{"Name":"Pommel Strike +","Damage": 10,"Draw":2,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>10 damage</red>. Draw 2 Cards."},
+
+    "Sword Boomerang" :{"Name":"Sword Boomerang","Damage": 3,"Attacks":3,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>3 damage</red> to a random Enemy 3 times.."},
+    "Sword Boomerang +" :{"Name":"Sword Boomerang +","Damage": 4,"Attacks":4,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>3 damage</red> to a random enemy 4 times."},
+    
+    "Thunderclap" :{"Name":"Thunderclap","Damage": 4,"Vulnerable":1,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>4 damage</red> and apply <light-blue>1 Vulnerable</light-blue> to ALL Enemies."},
+    "Thunderclap +" :{"Name":"Thunderclap +","Damage": 7,"Vulnerable":1,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>7 damage</red> to and apply <light-blue>1 Vulnerable</light-blue> to ALL Enemies."},
+    
+    "Twin Strike" :{"Name":"Twin Strike","Damage": 5,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>5 damage</red> twice."},
+    "Twin Strike +" :{"Name":"Twin Strike +","Damage": 7,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>7 damage</red> twice."},
+    
+    "Wild Strike" :{"Name":"Wild Strike","Damage": 12,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>12 damage</red> and shuffle <light-cyan>1 Wound</light-cyan> in your Drawpile."},
+    "Wild Strike +" :{"Name":"Wild Strike +","Damage": 17,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>17 damage</red> and shuffle <light-cyan>1 Wound</light-cyan> in your Drawpile."},
+    
+    "Blood for Blood" :{"Name":"Blood for Blood","Damage": 18,"Energy":4,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Costs <yellow>1 Energy</yellow> less for each time you lose <red>HP</red> this combat. Deal <red>18 damage</red>."},
+    "Blood for Blood +" :{"Name":"Blood for Blood +","Damage": 22,"Energy":3,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Costs <yellow>1 Energy</yellow> less for each time you lose <red>HP</red> this combat. Deal <red>22 damage</red>."},
+    
+    "Carnage" :{"Name":"Carnage","Damage": 20,"Energy":2,"Ethereal":True,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>20 damage</red>. <BLUE>Ethereal</BLUE>"},
+    "Carnage +" :{"Name":"Carnage +","Damage": 28,"Energy":2,"Ethereal":True,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>28 damage</red>. <BLUE>Ethereal</BLUE>"},
+
+    "Dropkick" :{"Name":"Dropkick","Damage": 5,"Draw":1,"Energy Gain":1,"Energy":1,"Ethereal":True,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>5 damage</red>. If the enemy has <light-cyan>Vulnerable</light-cyan>, gain <yellow>1 Energy</yellow> and draw 1 Card."},
+    "Dropkick +" :{"Name":"Dropkick +","Damage": 8,"Energy":1,"Energy Gain":1,"Ethereal":True,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>8 damage</red>. If the enemy has <light-cyan>Vulnerable</light-cyan>, gain <yellow>1 Energy</yellow> and draw 1 card."},
+
+    "Hemokinesis" :{"Name":"Hemokinesis","Damage": 15,"Selfhurt":2,"Energy":1,"Ethereal":True,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Lose <red>2 HP</red>. Deal <red>15 damage</red>."},
+    "Hemokinesis +" :{"Name":"Hemokinesis +","Damage": 20,"Selfhurt":2,"Energy":1,"Energy Gain":1,"Ethereal":True,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Lose <red>2 HP</red>. Deal <red>20 damage</red>."},
+    
+    "Pummel" :{"Name":"Pummel","Damage": 2,"Energy":1,"Attacks":4,"Exhaust":True,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>2 damage</red> 4 times. <BLUE>Exhaust</BLUE>."},
+    "Pummel +" :{"Name":"Pummel +","Damage": 2,"Energy":1,"Attacks":5,"Exhaust":True,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>2 damage</red> 5 times. <BLUE>Exhaust</BLUE>."},
+    
+    "Rampage" :{"Name":"Rampage","Damage": 8,"Energy":1,"Damage Gain":5,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>8 damage</red>. Increase this card's <red>damage</red> by <red>5</red> this combat"},
+    "Rampage +" :{"Name":"Rampage +","Damage": 8,"Energy":1,"Damage Gain":8,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>8 damage</red>. Increase this card's <red>damage</red> by <red>5</red> this combat"},
+    
+    "Reckless Charge" :{"Name":"Reckless Charge","Damage": 7,"Energy":0,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>7 damage</red>. Shuffle a <light-cyan>Dazed</light-cyan> into your Drawpile."},
+    "Reckless Charge +" :{"Name":"Reckless Charge +","Damage": 10,"Energy":0,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>10 damage</red>. Shuffle a <light-cyan>Dazed</light-cyan> into your Drawpile."},
+
+    "Searing Blow" :{"Name":"Searing Blow","Damage": 12,"Damage Gain":4,"Energy":2,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>12 damage</red>. Can be Upgraded any number of times."},
+    
+    "Sever Soul" :{"Name":"Sever Soul","Damage": 16,"Energy":2,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> all non-Attack cards in your hand. <red>Deal 16 damage</red>."},
+    "Sever Soul +" :{"Name":"Sever Soul +","Damage": 20,"Energy":2,"Upgraded":True,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> all non-Attack cards in your hand. <red>Deal 20 damage</red>."},   
+
+    "Uppercut" :{"Name":"Uppercut","Damage": 13,"Vulnerable":1,"Weakness":1,"Energy":2,"Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>7 damage</red>. Shuffle a <light-cyan>Dazed</light-cyan> into your Drawpile."},
+    "Uppercut +" :{"Name":"Uppercut +","Damage": 13,"Vulnerable":2,"Weakness":2,"Energy":2,"Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>10 damage</red>. Shuffle a <light-cyan>Dazed</light-cyan> into your Drawpile."},
+
+    "Whirlwind" :{"Name":"Whirlwind","Damage": 5,"Energy":"X","Type":"Attack","Rarity":"Uncommon","Owner":"Ironclad","Info":"Deal <red>5 damage</red> to ALL enemies X times."},
+    "Whirlwind +" :{"Name":"Whirlwind +","Damage": 8,"Energy":"X","Type":"Attack","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>8 damage</red> to ALL enemies X times."},
+
+    "Bludgeon" :{"Name":"Bludgeon","Damage": 32,"Energy":3,"Type":"Attack","Rarity":"Rare","Owner":"Ironclad","Info":"Deal <red>32 damage</red>."},
+    "Bludgeon +" :{"Name":"Bludgeon +","Damage": 42,"Energy":3,"Type":"Attack","Rarity":"Rare","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>42 damage</red>."},
+
+    "Feed" :{"Name":"Feed","Damage": 10,"Energy":1,"MaxHealth Gain":3,"Exhaust":True,"Type":"Attack","Rarity":"Rare","Owner":"Ironclad","Info":"Deal <red>10 damage</red>. If Fatal, raise your <red>Max HP</red> by <red>3</red>. <BLUE>Exhaust</BLUE>."},
+    "Feed +" :{"Name":"Feed +","Damage": 12,"Energy":1,"MaxHealth Gain":4,"Exhaust":True,"Type":"Attack","Rarity":"Rare","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>14 damage</red>. If Fatal, raise your <red>Max HP</red> by <red>4</red>. <BLUE>Exhaust</BLUE>."},
+
+    "Fiend Fire" :{"Name":"Fiend Fire","Damage": 7,"Energy":2,"Exhaust":True,"Type":"Attack","Rarity":"Rare","Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> all Cards in your hand. Deal <red>7 damage</red> for each Exhausted card. <BLUE>Exhaust</BLUE>."},
+    "Fiend Fire +" :{"Name":"Fiend Fire +","Damage": 10,"Energy":2,"Exhaust":True,"Type":"Attack","Rarity":"Rare","Upgraded":True,"Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> all Cards in your hand. Deal <red>10 damage</red> for each Exhausted card. <BLUE>Exhaust</BLUE>."},
+
+    "Immolate" :{"Name":"Immolate","Damage": 21,"Energy":2,"Type":"Attack","Rarity":"Rare","Owner":"Ironclad","Info":"Deal <red>21 damage</red> to ALL enemies. Add a <light-cyan>Burn</light-cyan> into your Discardpile."},
+    "Immolate +" :{"Name":"Immolate +","Damage": 28,"Energy":2,"Type":"Attack","Rarity":"Rare","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>28 damage</red> to ALL enemies. Add a <light-cyan>Burn</light-cyan> into your Discardpile."},
+
+    "Reaper" :{"Name":"Reaper","Damage": 4,"Energy":2,"Exhaust":True,"Type":"Attack","Rarity":"Rare","Owner":"Ironclad","Info":"Deal <red>4 damage</red> to ALL enemies. Heal <red>HP</red> equal to unblocked <red>damage</red>. <BLUE>Exhaust</BLUE>."},
+    "Reaper +" :{"Name":"Reaper +","Damage": 5,"Energy":2,"Exhaust":True,"Type":"Attack","Rarity":"Rare","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>5 damage</red> to ALL enemies. Heal <red>HP</red> equal to unblocked <red>damage</red>. <BLUE>Exhaust</BLUE>."},
+
+    "Armaments" :{"Name":"Armaments","Block":5, "Energy":1,"Type":"Skill","Rarity":"Common","Owner":"Ironclad","Info":"Gain <green>5 Block</green>. Upgrade a Card in your hand for the rest of combat."},
+    "Armaments +" :{"Name":"Armaments +","Attack":5, "Energy":1,"Type":"Skill","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Gain <green>5 Block</green>. Upgrade ALL Cards in your hand for the rest of combat."},
+
+    "Flex" :{"Name":"Flex","Strength":2, "Energy":0,"Type":"Skill","Rarity":"Common","Owner":"Ironclad","Info":"Gain <red>2 Strength</red>. At the end of this turn, lose <red>2 Strength</red>."},
+    "Flex +" :{"Name":"Flex +","Strength":4, "Energy":0,"Type":"Skill","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Gain <red>4 Strength</red>. At the end of this turn, lose <red>4 Strength</red>."},
+
+    "Havoc" :{"Name":"Havoc","Draw":1, "Energy":1,"Type":"Skill","Rarity":"Common","Owner":"Ironclad","Info":"Play the top card of your draw pile and <BLUE>Exhaust</BLUE> it."},
+    "Havoc +" :{"Name":"Havoc +","Draw":1, "Energy":0,"Type":"Skill","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Play the top card of your draw pile and <BLUE>Exhaust</BLUE> it."},
+
+    "Shrug It Off" :{"Name":"Shrug It Off","Block":8,"Energy":1, "Draw":1,"Type":"Skill","Rarity":"Common","Owner":"Ironclad","Info":"Gain <green>8 Block</green>. Draw 1 Card."},
+    "Shrug It Off +" :{"Name":"Shrug It Off +","Block":11,"Energy":1,"Draw":1,"Type":"Skill","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Gain <green>11 Block</green>. Draw 1 Card."},
+
+    "True Grit" :{"Name":"True Grit","Block":7,"Energy":1,"Type":"Skill","Rarity":"Common","Owner":"Ironclad","Info":"Gain <green>7 Block</green>. <BLUE>Exhaust</BLUE> 1 random Card."},
+    "True Grit +" :{"Name":"True Grit +","Block":9,"Energy":1,"Type":"Skill","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Gain <green>9 Block</green>. <BLUE>Exhaust</BLUE> 1 Card."},
+
+    "War Cry" :{"Name":"War Cry","Draw":1, "Exhaust": True,"Energy":0,"Type":"Skill","Rarity":"Common","Owner":"Ironclad","Info":"Draw 1 Card. Put a Card from your hand onto the top of your Drawpile. <BLUE>Exhaust</BLUE>."},
+    "War Cry +" :{"Name":"War Cry +","Draw":2, "Exhaust":True,"Energy":0,"Type":"Skill","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Draw 2 Cards. Put a Card from your hand onto the top of your Drawpile. <BLUE>Exhaust</BLUE>."},
+
+    "Battle Trance" :{"Name":"Battle Trance","Draw":3,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Draw 3 Cards. You cannot draw additional Cards this turn."},
+    "Battle Trance +" :{"Name":"Battle Trance +","Draw":4,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Draw 4 Cards. You cannot draw additional Cards this turn."},
+
+    "Bloodletting" :{"Name":"Bloodletting","Energy Gain":2,"Selfhurt":3,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Lose <red>3 HP</red>. Gain <yellow>2 Energy</yellow>."},
+    "Bloodletting +" :{"Name":"Bloodletting +","Energy Gain":3,"Selfhurt":3,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Lose <red>3 HP</red>. Gain <yellow>3 Energy</yellow>."},
+
+    "Burning Pact" :{"Name":"Burning Pact","Draw":2,"Exhaustion Amount":1,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> 1 card. Draw 2 cards."},
+    "Burning Pact +" :{"Name":"Burning Pact +","Draw":3,"Exhaustion Amount":1,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> 1 card. Draw 3 cards."},
+
+    "Disarm" :{"Name":"Disarm","Strength":-2,"Exhaust":True,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> 1 card. Draw 2 cards."},
+    "Disarm +" :{"Name":"Disarm +","Strength":-3,"Exhaust":True,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> 1 card. Draw 3 cards."},
+
+    "Dual Wield" :{"Name":"Dual Wield","Copy Amount":1,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Choose an <red>Attack</red> or <blue>Power</blue> card. Add a copy of that Card into your hand."},
+    "Dual Wield +" :{"Name":"Dual Wield +","Copy Amount":2,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Choose an <red>Attack</red> or <blue>Power</blue> card. Add 2 copies of that Card into your hand."},
+
+    "Entrench" :{"Name":"Entrench","Energy":2,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Double your <green>Block</green>"},
+    "Entrench +" :{"Name":"Entrench +","Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Double your <green>Block</green>"},
+
+    "Flame Barrier" :{"Name":"Flame Barrier","Block":12,"Spikes":4,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <green>12 Block</green>. Whenever you are attacked this turn, deal <red>4 damage</red> back."},
+    "Flame Barrier +" :{"Name":"Flame Barrier +","Block":16,"Spikes":6,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Gain <green>16 Block</green>. Whenever you are attacked this turn, deal <red>6 damage</red> back."},
+
+    "Ghostly Armor" :{"Name":"Ghostly Armor","Block":10,"Ethereal":True,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <green>10 Block</green>. <BLUE>Ethereal</BLUE>"},
+    "Ghostly Armor +" :{"Name":"Ghostly Armor +","Block":13,"Ethereal":True,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Gain <green>13 Block</green>. <BLUE>Ethereal</BLUE>"},
+
+    "Infernal Blade" :{"Name":"Infernal Blade","Exhaust":True,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Add a random <red>Attack</red> into your hand. It costs <yellow>0 Energy</yellow> this turn. <BLUE>Exhaust</BLUE>."},
+    "Infernal Blade +" :{"Name":"Infernal Blade +","Exhaust":True,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Add a random <red>Attack</red> into your hand. It costs <yellow>0 Energy</yellow> this turn. <BLUE>Exhaust</BLUE>."},
+
+    "Intimidate" :{"Name":"Intimidate","Weakness":1,"Exhaust":True,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Apply <light-cyan>1 Weak</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},
+    "Intimidate +" :{"Name":"Intimidate +","Weakness":2,"Exhaust":True,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Apply <light-cyan>2 Weak</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},
+
+    "Power Through" :{"Name":"Power Through","Block":15,"Wounds":2,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Add <light-cyan>2 Wounds</light-cyan> into your hand. Gain <green>15 Block</green>."},
+    "Power Through +" :{"Name":"Power Through +","Block":20,"Wounds":2,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Add <light-cyan>2 Wounds</light-cyan> into your hand. Gain <green>20 Block</green>."},
+
+    "Rage" :{"Name":"Rage","Block":3,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Whenever you play an <red>Attack</red> this turn, gain <green>3 Block</green>."},
+    "Rage +" :{"Name":"Rage +","Block":5,"Energy":0,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Whenever you play an <red>Attack</red> this turn, gain <green>5 Block</green>."},
+
+    "Second Wind" :{"Name":"Second Wind","Block":5,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> all non-Attack cards in your hand. Gain <green>5 Block</green> for each card <BLUE>Exhausted</BLUE>."},
+    "Second Wind +" :{"Name":"Second Wind +","Block":7,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"<BLUE>Exhaust</BLUE> all non-Attack cards in your hand. Gain <green>7 Block</green> for each card <BLUE>Exhausted</BLUE>."},
+
+    "Seeing Red" :{"Name":"Seeing Red","Energy Gain":2,"Energy":1,"Exhaust":True,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <yellow>2 Energy</yellow>. <BLUE>Exhaust</BLUE>."},
+    "Seeing Red +" :{"Name":"Seeing Red +","Energy Gain":2,"Energy":0,"Exhaust":True,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Gain <yellow>2 Energy</yellow>. <BLUE>Exhaust</BLUE>."},
+
+    "Sentinel" :{"Name":"Sentinel","Block":5,"Energy Gain":2,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <green>5 Block</green>. If this card is <BLUE>Exhausted</BLUE>,gain <yellow>2 Energy</yellow>."},
+    "Sentinel +" :{"Name":"Sentinel +","Block":8,"Energy Gain":3,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Gain <green>8 Block</green>. If this card is <BLUE>Exhausted</BLUE>,gain <yellow>3 Energy</yellow>."},    
+
+    "Shockwave" :{"Name":"Shockwave","Weakness":3,"Vulnerable":3,"Exhaust":True,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Apply <light-cyan>3 Weak</light-cyan> and <light-cyan>5 Vulnerable</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},
+    "Shockwave +" :{"Name":"Shockwave +","Weakness":5,"Vulnerable":5,"Exhaust":True,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Apply <light-cyan>5 Weak</light-cyan> and <light-cyan>5 Vulnerable</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},
+
+    "Spot Weakness" :{"Name":"Spot Weakness","Strength":3,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"If the enemy intends to attack, gain <red>3 Strength</red>."},
+    "Spot Weakness +" :{"Name":"Spot Weakness +","Strength":4,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"If the enemy intends to attack, gain <red>4 Strength</red>."},
+
+    "Double Tap" :{"Name":"Double Tap","Tap":1,"Energy":1,"Type":"Skill","Rarity":"Rare","Owner":"Ironclad","Info":"This turn, your next <red>Attack</red> is played twice."},
+    "Double Tap +" :{"Name":"Double Tap +","Tap":2,"Energy":1,"Type":"Skill","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"This turn, your next <red>2 Attacks</red> is played twice."},
+
+    "Exhume" :{"Name":"Exhume","Energy":1,"Exhaust":True,"Type":"Skill","Rarity":"Rare","Owner":"Ironclad","Info":"Put a card from your <BLUE>Exhaust</BLUE> pile into your hand. <BLUE>Exhaust</BLUE>."},
+    "Exhume +" :{"Name":"Exhume +","Energy":0,"Exhaust":True,"Type":"Skill","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"Put a card from your <BLUE>Exhaust</BLUE> pile into your hand. <BLUE>Exhaust</BLUE>."},
+
+    "Impervious" :{"Name":"Impervious","Block":20,"Energy":2,"Exhaust":True,"Type":"Skill","Rarity":"Rare","Owner":"Ironclad","Info":"Gain <green>30 Block</green>. <BLUE>Exhaust</BLUE>."},
+    "Impervious +" :{"Name":"Impervious +","Block":30,"Energy":2,"Exhaust":True,"Type":"Skill","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"Gain <green>40 Block</green>. <BLUE>Exhaust</BLUE>."},
+
+    "Limit Break" :{"Name":"Limit Break","Energy":1,"Exhaust":True,"Type":"Skill","Rarity":"Rare","Owner":"Ironclad","Info":"Double your <red>Strength</red>. <BLUE>Exhaust</BLUE>."},
+    "Limit Break +" :{"Name":"Limit Break +","Energy":1,"Type":"Skill","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"Double your <red>Strength</red>."},
+
+    "Offering" :{"Name":"Offering","Draw":3,"Selfhurt":6,"Energy Gain":2,"Energy":0,"Exhaust":True,"Type":"Skill","Rarity":"Rare","Owner":"Ironclad","Info":"Lose <red>6 HP</red>. Gain <yellow>3 Energy</yellow>. Draw 3 cards. <BLUE>Exhaust</BLUE>."},
+    "Offering +" :{"Name":"Offering +","Draw":5,"Selfhurt":6,"Energy Gain":2,"Energy":0,"Exhaust":True,"Type":"Skill","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"Lose <red>6 HP</red>. Gain <yellow>3 Energy</yellow>. Draw 5 cards. <BLUE>Exhaust</BLUE>."},
+
+    "Combust" :{"Name":"Combust","Damage":5,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"At the end of your turn, lose <red>1 HP</red> and deal <red>5 damage</red> to ALL enemies."},
+    "Combust +" :{"Name":"Combust +","Damage":7,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"At the end of your turn, lose <red>1 HP</red> and deal <red>7 damage</red> to ALL enemies."},
+
+    "Dark Embrace" :{"Name":"Dark Embrace","Draw":1,"Energy":2,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"Whenever a Card is <BLUE>Exhausted</BLUE>, draw 1 Card."},
+    "Dark Embrace +" :{"Name":"Dark Embrace +","Draw":1,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Whenever a Card is <BLUE>Exhausted</BLUE>, draw 1 Card."},
+
+    "Evolve" :{"Name":"Evolve","Draw":1,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"Whenever you draw a <light-cyan>Status</light-cyan>, draw 1 Card."},
+    "Evolve +" :{"Name":"Evolve +","Draw":2,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Whenever you draw a <light-cyan>Status</light-cyan>, draw 2 Card."},
+
+    "Feel No Pain" :{"Name":"Feel No Pain","Block":3,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"Whenever a card is <BLUE>Exhausted</BLUE>, gain <green>3 Block</green>."},
+    "Feel No Pain +" :{"Name":"Feel No Pain +","Block":4,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Whenever a card is <BLUE>Exhausted</BLUE>, gain <green>4 Block</green>."},
+
+    "Fire Breathing" :{"Name":"Fire Breathing","Damage":6,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"Whenever you draw a <light-cyan>Status</light-cyan> or <m>Curse</m> card, deal <red>6 damage</red> to ALL enemies."},
+    "Fire Breathing +" :{"Name":"Fire Breathing +","Damage":10,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Whenever you draw a <light-cyan>Status</light-cyan> or <m>Curse</m> card, deal <red>10 damage</red> to ALL enemies."},
+
+    "Inflame" :{"Name":"Inflame","Strength":2,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <red>2 Strength</red>"},
+    "Inflame +" :{"Name":"Inflame +","Strength":3,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Gain <red>3 Strength</red>"},
+
+    "Metallicize" :{"Name":"Metallicize","Block":3,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"At the end of your turn, gain <green>3 Block</green>."},
+    "Metallicize +" :{"Name":"Metallicize +","Block":4,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"At the end of your turn, gain <green>4 Block</green>."},
+
+    "Rupture" :{"Name":"Rupture","Strength":1,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Ironclad","Info":"Whenever you lose <red>HP</red> from a Card, gain <red>1 Strength</red>."},
+    "Rupture +" :{"Name":"Rupture +","Strength":2,"Energy":1,"Type":"Power","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Whenever you lose <red>HP</red> from a Card, gain <red>2 Strength</red>."},
+
+    "Barricade" :{"Name":"Barricade","Energy":3,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"<green>Block</green> is not removed at the start of the turn."},
+    "Barricade +" :{"Name":"Barricade +","Energy":2,"Type":"Power","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"<green>Block</green> is not removed at the start of the turn."},
+
+    "Berserk" :{"Name":"Berserk","Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"Gain <light-cyan>2 Vulnerable</light-cyan>. At the start of your turn, gain <yellow>1 Energy</yellow>."},
+    "Berserk +" :{"Name":"Berserk +","Vulnerable":1,"Energy":0,"Type":"Power","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"Gain <light-cyan>1 Vulnerable</light-cyan>. At the start of your turn, gain <yellow>1 Energy</yellow>."},
+
+    "Brutality" :{"Name":"Brutality","Draw":1,"Selfhurt":1,"Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card."},
+    "Brutality +" :{"Name":"Brutality +","Draw":1,"Selfhurt":1,"Innate":True,"Energy":0,"Type":"Power","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card. <BLUE>Innate</BLUE>"},
+
+    "Corruption" :{"Name":"Corruption","Energy":3,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"<green>Skills</green> cost <yellow>0 Energy</yellow>. Whenever you play a <green>Skill</green>, <BLUE>Exhaust</BLUE> it."},
+    "Corruption +" :{"Name":"Corruption +","Energy":2,"Type":"Power","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"<green>Skills</green> cost <yellow>0 Energy</yellow>. Whenever you play a <green>Skill</green>, <BLUE>Exhaust</BLUE> it."},
+
+    "Demon Form" :{"Name":"Demon Form","Energy":3,"Strength":2,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, gain <red>2 Strength</red>."},
+    "Demon Form +" :{"Name":"Demon Form +","Energy":3,"Strength":3,"Type":"Power","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"At the start of your turn, gain <red>3 Strength</red>."},
+
+    "Juggernaut" :{"Name":"Juggernaut","Damage":5,"Energy":2,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"Whenever you gain <green>Block</green>, deal <red>5 damage</red> to a random enemy."},
+    "Juggernaut +" :{"Name":"Juggernaut +","Damage":7,"Energy":2,"Type":"Power","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"Whenever you gain <green>Block</green>, deal <red>5 damage</red> to a random enemy."},
+
+    #Neutral Cards
 
     "Bandage Up": {"Name": "Bandage Up","Heal": 4, "Energy": 0, "Exhaust": True, "Type": "Skill", "Rarity": "Uncommon", "Owner":"Colorless","Info":"<red>Heal 4 HP</red>.<BLUE>Exhaust</BLUE>."},
     "Bandage Up +": {"Name": "Bandage Up +","Heal": 6, "Energy": 0, "Exhaust": True, "Type": "Skill","Upgraded": True, "Rarity": "Uncommon", "Owner":"Colorless","Info":"<red>Heal 6 HP</red>.<BLUE>Exhaust</BLUE>."},
@@ -1012,7 +1264,7 @@ cards = {
     
     "Curse of the Bell": {"Name": "Curse of the Bell","Type": "Curse","Rarity": "Special","Irremovable":True,"Owner":"The Spire","Info":"<RED>Unplayable</RED>. Cannot be removed from your deck."},
     "Necronomicurse": {"Name": "Necronomicurse","Type": "Curse","Rarity": "Special","Irremovable":True,"Owner":"The Spire","Info":"<RED>Unplayable</RED>. Cannot be removed from your deck."},
-    "Ascender's Bane": {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>. Can't be removed from the Deck."},
+    "Ascender's Bane": {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>. Can't be removed from the Deck."}
     }
 
 potions = {
@@ -1040,12 +1292,12 @@ potions = {
     "Fruit Juice": {"Name": "Fruit Juice","Potion Yield": 5,"Rarity": "Rare","Owner":"The Spire","Type": "Potion","Info":"Gain <red>5 Max HP</red>."},
     "Gamblers Brew": {"Name": "Gamblers Brew","Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Discard any number of Cards, then draw that many."},
 
-    "Ghost in a Jar": {"Name": "Ghost in a Jar","Potion Yield": 1,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Gain <blue>1 Intangible</blue>."},
+    "Ghost in a Jar": {"Name": "Ghost in a Jar","Potion Yield": 1,"Rarity": "Uncommon","Owner":"Silent","Type": "Potion","Info":"Gain <blue>1 Intangible</blue>."},
     "Liquid Bronze": {"Name": "Liquid Bronze","Potion Yield": 3,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Gain <blue>3 Thorns</blue>."},
     
     "Liquid Memories": {"Name": "Liquid Memories","Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Choose a card in your Discardpile and return it to your hand. It costs <yellow>0 Energy</yellow> this turn."},
     
-    "Poison Potion": {"Name": "Poison Potion","Potion Yield":6,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Apply <green>6 Poison</green> to target enemy."},
+    "Poison Potion": {"Name": "Poison Potion","Potion Yield":6,"Rarity": "Common","Owner":"Silent","Type": "Potion","Info":"Apply <green>6 Poison</green> to target enemy."},
     "Power Potion": {"Name": "Power Potion","Potion Yield":1,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Add 1 of 3 random <blue>Power Cards</blue> to your hand, it costs <yellow> 0 Energy</yellow> this turn."},
     "Regen Potion": {"Name": "Regen Potion","Potion Yield":5,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Gain <green>6 Regeneration</green>."},
     "Skill Potion": {"Name": "Skill Potion","Potion Yield":1,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of 3 <green>random Skill</green> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."},
@@ -1055,19 +1307,24 @@ potions = {
     "Flex Potion": {"Name": "Flex Potion","Potion Yield":5,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Gain <red>5 Strength</red>. At the end of your turn lose <red>5 Strength</red>."},
     "Swift Potion": {"Name": "Swift Potion","Potion Yield": 3,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Draw 3 Cards."},
     "Weak Potion": {"Name": "Weak Potion","Potion Yield": 3,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Apply <light-cyan>3 Weak</light-cyan>."},
-    "Blood Potion": {"Name": "Blood Potion","Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"<red>Heal for 20%</red> of your <red>Max HP</red>."}
+    
+    "Blood Potion": {"Name": "Blood Potion","Rarity": "Common","Owner":"Ironclad","Type": "Potion","Info":"<red>Heal for 20%</red> of your <red>Max HP</red>."},    
+    "Elixir": {"Name": "Elixir","Rarity": "Common","Owner":"Ironclad","Type": "Potion","Info":"Exhaust any number of cards in your hand."},
+    "Heart Of Iron": {"Name": "Heart Of Iron","Potion Yield":6,"Rarity": "Rare","Owner":"Ironclad","Type": "Potion","Info":"Gain 6 Metallicize."},
+
     }
 
 potionNames = ["Ancient Potion","Attack Potion","Blessing of the Forge","Block Potion","Blood Potion","Colorless Potion","Cultist Potion",
 "Cunning Potion","Dexterity Potion","Strength Potion","Distilled Chaos","Duplication Potion","Energy Potion","Entropic Brew","Essence of Steel",
 "Explosive Potion","Fairy in a Bottle","Fear Potion","Fire Potion","Fruit Juice","Gamblers Brew","Ghost in a Jar","Liquid Bronze","Liquid Memories",
-"Poison Potion","Power Potion","Regen Potion","Skill Potion","Smoke Bomb","Snecko Oil","Speed Potion","Flex Potion","Swift Potion","Weak Potion"]
+"Poison Potion","Power Potion","Regen Potion","Skill Potion","Smoke Bomb","Snecko Oil","Speed Potion","Flex Potion","Swift Potion","Weak Potion","Elixir","Heart Of Iron",]
 
 
 relics = {
-	
+	"Burning Blood":{"Name":"Burning Blood","Rarity":"Starter","Owner":"Ironclad","Type":"Relic","Info":"At the end of combat, <red>heal 6 HP</red>."},
 	"Ring of the Snake": {"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."},
-	"Akabeko":{"Name":"Akabeko","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Your first attack each combat deals <red>8 additional damage</red>"},
+	
+    "Akabeko":{"Name":"Akabeko","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Your first attack each combat deals <red>8 additional damage</red>"},
 	"Anchor":{"Name":"Anchor","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Start each combat with <green>10 Block</green>."},
 	"Ancient Tea Set":{"Name":"Ancient Tea Set","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you enter a <blue>Rest Site</blue>, start the next combat with <yellow>2 extra Energy</yellow>."},
 	"Art of War":{"Name":"Art of War","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you do not play any <red>Attacks</red> during your turn, gain <yellow>1 extra Energy</yellow> next turn."},
@@ -1075,10 +1332,12 @@ relics = {
 	"Bag of Preparation":{"Name":"Bag of Preparation","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."},
 	"Blood Vial":{"Name":"Blood Vial","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, <red>heal 2 HP</red>."},
 	"Bronze Scales":{"Name":"Bronze Scales","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Start each combat with <blue>3 Thorns</blue>."},
-	"Centennial Puzzle":{"Name":"Centennial Puzzle","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"The first time you lose HP each combat, draw 3 cards."},
+	"Champion Belt":{"Name":"Champion Belt","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"Whenever you apply <light-cyan>Vulnerable</light-cyan>, also apply <light-cyan>1 Weak</light-cyan>."},
+    "Charon's Ashes":{"Name":"Charon's Ashes","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"Whenever you <BLUE>Exhaust</BLUE> a card, deal <red>3 damage</red> to ALL enemies."},
+    "Centennial Puzzle":{"Name":"Centennial Puzzle","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"The first time you lose HP each combat, draw 3 cards."},
 	"Ceramic Fish":{"Name":"Ceramic Fish","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you add a Card to your deck, gain <yellow>9 gold</yellow>."},
 	"Dream Catcher":{"Name":"Dream Catcher","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you <blue>rest</blue>, you may add a Card to your deck."},
-	"Happy Flower":{"Name":"Happy Flower","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every 3 turns, gain <yellow>1 Energy</yellow>."},
+	"Happy Flower":{"Name":"Happy Flower","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every 3 turns, gain <yellow>1 Energy</yellow>."},
 	"Juzu Bracelet":{"Name":"Juzu Bracelet","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Regular enemy combats are no longer encountered in <blue>Event rooms</blue>."},
 	"Lantern":{"Name":"Lantern","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> on the first turn of each combat."},
 	"Maw Bank":{"Name":"Maw Bank","Working":True,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you climb a floor, gain <yellow>12 Gold</yellow>. No longer works when you spend any Gold at the <yellow>Shop$</yellow>."},
@@ -1087,7 +1346,8 @@ relics = {
 	"Oddly Smooth Stone":{"Name":"Oddly Smooth Stone","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <green>1 Dexterity</green>."},
 	"Omamori":{"Name":"Omamori","Counter":2,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Negate the next <m>2 Curses</m> you obtain."},
 	"Orichalcum":{"Name":"Orichalcum","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you end your turn without <green>Block</green>, gain <green>6 Block</green>."},
-	
+	"Red Skull":{"Name":"Red Skull","Rarity":"Common","Owner":"Ironclad","Type":"Relic","Info":"While your <red>HP</red> is at or below 50\%, you have <red>3</red> additional <red>Strength</red>."},
+
 	"Pen Nib":{"Name":"Pen Nib","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every <red>10th Attack</red> you play deals double damage."},
 	
 	"Potion Belt":{"Name":"Potion Belt","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, gain <c>2 Potion slots</c>."},
@@ -1120,14 +1380,16 @@ relics = {
 	"Mercury Hourglass":{"Name":"Mercury Hourglass","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of your turn, deal <red>3 damage</red> to ALL enemies."},
 	"Molten Egg":{"Name":"Molten Egg","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you add an <red>Attack</red> to your deck, it is Upgraded."},
 	"Mummified Hand":{"Name":"Mummified Hand","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you play a <blue>Power</blue>, a random card in your hand costs <yellow>0 Energy</yellow> for the turn."},
-	"Ninja Scroll":{"Name":"Ninja Scroll","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Start each combat with <red>3 Shivs</red> in hand."},
+	"Ninja Scroll":{"Name":"Ninja Scroll","Rarity":"Uncommon","Owner":"Silent","Type":"Relic","Info":"Start each combat with <red>3 Shivs</red> in hand."},
 	"Ornamental Fan":{"Name":"Ornamental Fan","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <green>4 Block</green>."},
 	
 	"Pantograph":{"Name":"Pantograph","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of <black>Boss</black> combats, <red>heal 25 HP</red>."},
 	"Paper Krane":{"Name":"Paper Krane","Rarity":"Uncommon","Owner":"Silent","Type":"Relic","Info":"Enemies with <light-cyan>Weak</light-cyan> deal 50\% less damage rather than 25\%."},
-	"Pear":{"Name":"Pear","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Raise your <red>Max HP by 10</red>."},
+	"Paper Phrog":{"Name":"Paper Phrog","Rarity":"Uncommon","Owner":"Ironclad","Type":"Relic","Info":"Enemies with <light-cyan>Vulnerable</light-cyan> take 75\% more <red>damage</red> rather than 50\%."},
+    "Pear":{"Name":"Pear","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Raise your <red>Max HP by 10</red>."},
 	"Question Card":{"Name":"Question Card","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"On future Card Reward screens you have 1 additional Card to choose from."},
-	"Shuriken":{"Name":"Shuriken","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <red>1 Strength</red>."},
+	"Self-Forming Clay":{"Name":"Self-Forming Clay","Rarity":"Uncommon","Owner":"Ironclad","Type":"Relic","Info":"Whenever you lose <red>HP</red> in combat, gain <green>3 Block</green> next turn."},
+    "Shuriken":{"Name":"Shuriken","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <red>1 Strength</red>."},
 	"Singing Bowl":{"Name":"Singing Bowl","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"When adding Cards to your deck, you may gain <red>+2 Max HP</red> instead."},
 	"Strike Dummy":{"Name":"Strike Dummy","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Cards containing \"Strike\" deal <red>3 additional damage</red>."},
 	"Sundial":{"Name":"Sundial","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every 3 times you shuffle your Drawpile, gain <yellow>2 Energy</yellow>."},
@@ -1148,7 +1410,8 @@ relics = {
     "Girya":{"Name":"Girya","Counter":3,"Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can now gain <red>Strength</red> at <blue>Rest Sites</blue>. (3 times max)"},
 	"Ice Cream":{"Name":"Ice Cream","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"<yellow>Energy</yellow> is now conserved between turns."},
 	"Lizard Tail":{"Name":"Lizard Tail","Counter":1,"Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"When you would <black>die</black>, <red>heal to 50\%</red> of your </red>Max HP</red> instead (works once)."},
-	"Mango":{"Name":"Mango","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, raise your <red>Max HP by 14</red>."},
+	"Magic Flower":{"Name":"Magic Flower","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"<red>Healing</red> is 50\% more effective during combat."},
+    "Mango":{"Name":"Mango","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, raise your <red>Max HP by 14</red>."},
 	"Old Coin":{"Name":"Old Coin","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
 	"Peace Pipe":{"Name":"Peace Pipe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can now remove Cards from your deck at <blue>Rest Sites</blue>."},
 	"Pocketwatch":{"Name":"Pocketwatch","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you play 3 or less Cards in a turn, draw 3 additional Cards at the start of your next turn."},
@@ -1168,6 +1431,7 @@ relics = {
 	
 	"Astrolabe":{"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."},	
     "Black Star":{"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."},
+    "Black Blood":{"Name":"Black Blood","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Replaces <light-red>Burning Blood<light-red>. At the end of combat, <red>heal 12 HP</red>."},
     "Busted Crown":{"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."},
     "Calling Bell":{"Name":"Calling Bell","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, obtain a unique <m>Curse</m> and <light-red>3 Relics</light-red>."},
     "Coffee Dripper":{"Name":"Coffee Dripper","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer <blue>Rest at Rest Sites</blue>."},
@@ -1176,9 +1440,11 @@ relics = {
     "Empty Cage":{"Name":"Empty Cage","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, remove 2 Cards from your Deck."},
     "Fusion Hammer":{"Name":"Fusion Hammer","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer Smith at <blue>Rest Sites</blue>."},
     "Hovering Kite":{"Name":"Hovering Kite","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"The first time you discard a Card each turn, gain <yellow>1 Energy</yellow>."},
+    "Burning Blood":{"Name":"Burning Blood","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Start combats with <light-cyan>2 Wounds</light-cyan> in your Drawpile."},
     "Pandora's Box":{"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Transform all <red>Strikes</red> and <green>Defends</green>."},
     "Philosopher's Stone":{"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. ALL enemies start with <red>1 Strength</red>."},
     "Ring of the Serpent":{"Name":"Ring of the Serpent","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"Replaces <light-red>Ring of the Snake</light-red>. At the start of your turn, draw 1 additional Card."},
+    "Runic Cube":{"Name":"Runic Cube","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Whenever you lose <red>HP</red>, draw 1 card."},
     "Runic Dome":{"Name":"Runic Dome","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer see enemy Intents."},
     "Runic Pyramid":{"Name":"Runic Pyramid","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"At the end of your turn, you no longer discard your hand."},
     "Sacred Bark":{"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Double the effectiveness of most <c>Potions</c>."},
@@ -1224,9 +1490,10 @@ relics = {
     "Sling of Courage":{"Name":"Sling of Courage","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Start each Elite combat with <red>2 Strength</red>. (Does not work against <black>Bosses</black>)"},
     "Strange Spoon":{"Name":"Strange Spoon","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Cards which Exhaust when played will instead discard 50\% of the time."},
     "The Abacus":{"Name":"The Abacus","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Gain <green>6 Block</green> whenever you shuffle your Drawpile."},
-    
+    "Brim Stone":{"Name":"Brim Stone","Rarity":"Shop","Owner":"Ironclad","Type":"Relic","Info":"At the start of your turn, gain <red>2 Strength</red> and ALL enemies gain <red>1 Strength</red>."},
+
     "Toolbox":{"Name":"Toolbox","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, choose 1 of 3 random Colorless Cards and add the chosen Card into your hand."},
-    "Twisted Funnel":{"Name":"Twisted Funnel","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, apply <green>4 Poison</green> to ALL enemies."},
+    "Twisted Funnel":{"Name":"Twisted Funnel","Rarity":"Shop","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, apply <green>4 Poison</green> to ALL enemies."},
 
     "Red Key": {"Name":"Red Key","Rarity":"Special","Owner":"The Spire","Type":"Relic","Info":"You need to obtain the <red>Red</red>,<green>Green</green> and <blue>Blue</blue> Key. Why? Find out yourself!"},
     "Blue Key": {"Name":"Blue Key","Rarity":"Special","Owner":"The Spire","Type":"Relic","Info":"You need to obtain the <red>Red</red>,<green>Green</green> and <blue>Blue</blue> Key. Why? Find out yourself!"},
@@ -1245,20 +1512,7 @@ relics = {
 #                 {"Name": "Strike", "Damage":100, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
 #                 ]
 
-silent_deck = [ {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Survivor", "Block":8, "Energy": 1, "Type":"Skill" ,"Discard": 1, "Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Neutralize", "Damage":3,"Weakness": 1,"Energy": 0,"Type":"Attack", "Rarity": "Basic","Owner":"Silent"},
-                {"Name": "Ascender's Bane","Ethereal":True,"Type": "Curse","Irremovable":True,"Rarity": "Special","Owner":"The Spire","Info":"<BLUE>Ethereal</BLUE>. <RED>Unplayable</RED>."}
-                ]
+
 
 
 #ACT 1 Encounter
@@ -1462,8 +1716,6 @@ def visit_campfire():
 
     sleepOrUpgrade.extend(["Check Deck","Check Map","Leave"])
     
- 
-
     while True:
         
         try:
@@ -2310,9 +2562,9 @@ def event_wheelOfChange():
         active_character[0].set_health(-damage)
 
 def event_theWomanInBlue():
-    ansiprint("From the darkness, an arm pulls you into a small shop. As your eyes adjust, you see a pale woman in sharp clothes gesturing towards a wall of potions. Pale Woman: \"Buy a potion. Now!\" she states.")
+    ansiprint("From the darkness, an arm pulls you into a small shop. As your eyes adjust, you see a pale woman in sharp clothes gesturing towards a wall of <c>potions</c>. Pale Woman: \"Buy a <c>potion</c>. Now!\" she states.")
     damage = math.floor((active_character[0].max_health/100) *5)
-    womanOptions = ["1. [Buy 1 Potion] 10 Gold.","2. [Buy 2 Potion] 20 Gold.","3. [Buy 3 Potion] 30 Gold.", "4. [Leave] Receive <red>"+str(damage)+"</red> damage."]
+    womanOptions = ["1. [Buy <c>1 Potion</c>] <yellow>10 Gold</yellow>.","2. [Buy <c>2 Potions</c>] <yellow>20 Gold</yellow>.","3. [Buy <c>3 Potion</c>] <yellow>30 Gold</yellow>.", "4. [Leave] Receive <red>"+str(damage)+"</red> damage."]
     checkNumbers = ["1","2","3","4"]
 
     for option in womanOptions:
@@ -2327,25 +2579,25 @@ def event_theWomanInBlue():
             snap = input("What do you want to do? Pick the corresponding number.\n")
 
         if snap == "1":
-            if active_character[0].gold > 10:
+            if active_character[0].gold >= 10:
                 active_character[0].set_gold(-10)
                 break
             else:
-                ansiprint("You don't have enough <yellow>gold</yellow>. You currently have <yellow>"+str(active_character[0].gold)+"Gold.")
+                ansiprint("You don't have enough <yellow>gold</yellow>. You currently have <yellow>"+str(active_character[0].gold)+"Gold</yellow>.")
                 continue
         elif snap == "2":
-            if active_character[0].gold > 20:
+            if active_character[0].gold >= 20:
                 active_character[0].set_gold(-20)
                 break
             else:
-                ansiprint("You don't have enough <yellow>gold</yellow>. You currently have <yellow>"+str(active_character[0].gold)+"Gold.")
+                ansiprint("You don't have enough <yellow>gold</yellow>. You currently have <yellow>"+str(active_character[0].gold)+"Gold</yellow>.")
                 continue
         elif snap == "3":
-            if active_character[0].gold > 30:
+            if active_character[0].gold >= 30:
                 active_character[0].set_gold(-30)
                 break
             else:
-                ansiprint("You don't have enough <yellow>gold</yellow>. You currently have <yellow>"+str(active_character[0].gold)+"Gold.")
+                ansiprint("You don't have enough <yellow>gold</yellow>. You currently have <yellow>"+str(active_character[0].gold)+"Gold</yellow>.")
                 continue
         elif snap == "4":
             break
@@ -2368,7 +2620,7 @@ def event_theWomanInBlue():
 def event_faceTrade():
     ansiprint("You walk by an eerie statue holding several masks...\nSomething behind you softly whispers, \"Stop.\"\nYou swerve around to face the statue which is now facing you!\nOn closer inspection, it's not a statue but a statuesque, gaunt man. Is he even breathing?\nEerie Man: \"Face. Let me touch? Maybe trade?")
     damage = math.floor((active_character[0].max_health/100) *10)
-    maskOptions = ["1. [Touch] Lose <red>"+str(damage)+" Health</red>. <yellow>Gain 50 Gold</yellow>.","2. <light-red>[Trade]</light-red> Receive Relic.","3. [Leave] Nothing happens."]
+    maskOptions = ["1. <yellow>[Touch]</yellow> Lose <red>"+str(damage)+" Health</red>. <yellow>Gain 50 Gold</yellow>.","2. <light-red>[Trade]</light-red> Receive Relic. (<green>50</green>/<red>50</red> <green>Good</green> or <red>Bad</red>)","3. [Leave] Nothing happens."]
     checkNumbers = ["1","2","3"]
     
     for option in maskOptions:
@@ -2425,7 +2677,7 @@ def event_bigFish():
         snap = input("What do you want to do? Pick the corresponding number.\n")
 
     if snap == "1":
-        ansiprint("You eat the <yellow>banana</yellow>. It is nutritious and slightly <blue>magical</blue>, healing you.")
+        ansiprint("You eat the <yellow>banana</yellow>. It is <red>nutritious</red> and slightly <blue>magical</blue>, <red>healing</red> you.")
         active_character[0].heal(healing)
 
     elif snap == "2":
@@ -2535,7 +2787,7 @@ def event_GoldenIdol():
     
     damageSmash = math.floor((active_character[0].max_health/100)*35)
     damageHide = math.floor(active_character[0].max_health/10)
-    boulderOptions = ["1. [Outrun] Become Cursed - Injury","2. [Smash] Take <red>"+str(damageSmash)+" damage</red>." ,"3. [Hide] Lose <red>" +str(damageHide)+ " Max HP</red>."]
+    boulderOptions = ["1. [Outrun] Become <m>Cursed</m> - <m>Injury</m>","2. [Smash] Take <red>"+str(damageSmash)+" damage</red>." ,"3. [Hide] Lose <red>" +str(damageHide)+ " Max HP</red>."]
     checkNumbers2 = ["1","2","3"]
 
     for option in idolOptions:
@@ -2561,7 +2813,7 @@ def event_GoldenIdol():
             input("What do you want to do? Pick the corresponding number.\n")
 
         if snapTwo == "1":
-            ansiprint("RUUUUUUUUUUN! You barely leap into a side passageway as the boulder rushes by. Unfortunately it feels like you sprained something!")
+            ansiprint("RUUUUUUUUUUN! You barely leap into a side passageway as the boulder rushes by. Unfortunately it feels like you <m>sprained</m> something!")
             active_character[0].add_CardToDeck({"Name": "Injury","Type": "Curse","Rarity": "Curse","Owner":"The Spire"})
 
         elif snapTwo == "2":

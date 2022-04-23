@@ -19,10 +19,10 @@ colorama.init()
 #Skipping Black Star second artifact makes it inaccessible.
 #you can also skip green key forever I think 
 #just saw 4 shops in a row.
-#
-#fixed Normality restricing you to play 4 cards instead of 3 cards
-#reduced max potions to 2 like in real ascension 20
-#fixed runic dome preview not working properly
+#5169 exhaustpile Stuff needs to be handled properly so when you exhaust your entire hand and something comes back it doesn't loop indefinitely  -> fixed
+#need to make exhaust pile and discard pile watchable
+#Boss Slime splits wildly -> probably fixed
+
 
 def main():
 	try:
@@ -37,8 +37,8 @@ def main():
 
 		running = True
 		while running == True and helping_functions.gameAct < 5:
-			if save_handlery.snap == "Yes":
-				save_handlery.snap = "No"
+			if save_handlery.saveDecision == "Yes":
+				save_handlery.saveDecision = "No"
 				
 			else:
 				entities.active_character[0].resetChar()

@@ -370,11 +370,11 @@ def afterEventBattleRewardScreen(gold: int = None,potion:dict = None,cards: list
 
 def generateRelicRewards(place="Elite Fight",specificType = None):
     
-    relic_commons = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Common"}
-    relic_uncommons = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Uncommon"}
-    relic_rares = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Rare"}
-    relic_boss = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Boss"}
-    relic_shop = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Shop"}
+    relic_commons = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Common" and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
+    relic_uncommons = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Uncommon" and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
+    relic_rares = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Rare" and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
+    relic_boss = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Boss" and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
+    relic_shop = {k:v for k,v in entities.relics.items() if v.get("Rarity") == "Shop"  and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
 
     places =["Boss Chest","Small Chest","Medium Chest","Large Chest","Elite Fight","Shop","Else"]
     relicAmount = 1
@@ -508,14 +508,6 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
             rewardRelics = []
             continue
         
-        
-        
-        
-        
-        
-
-
-
         try:
 
             test = any(rewardRelics.count(x) > 1 for x in rewardRelics)
@@ -532,7 +524,6 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
        
         #print("Hi",place)
         
-
     if place == "Super":
         rewardRelics.append({"Name":"Green Key","Rarity":"Special","Owner":"The Spire","Type":"Relic","Info":"You need to obtain the <red>Red</red>,<green>Green</green> and <blue>Blue</blue> Key. Why? Find out yourself!"})
         
@@ -690,9 +681,9 @@ def generatePotionRewards(event:bool = False,amount: int = 1):
     uncommonPotionChance = 0.25
     rarePotionChance = 0.10
 
-    commonPotions = {k:v for k,v in entities.potions.items() if v.get("Rarity") == "Common"}
-    uncommonPotions = {k:v for k,v in entities.potions.items() if v.get("Rarity") == "Uncommon"}
-    rarePotions = {k:v for k,v in entities.potions.items() if v.get("Rarity") == "Rare"}
+    commonPotions = {k:v for k,v in entities.potions.items() if v.get("Rarity") == "Common" and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
+    uncommonPotions = {k:v for k,v in entities.potions.items() if v.get("Rarity") == "Uncommon" and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
+    rarePotions = {k:v for k,v in entities.potions.items() if v.get("Rarity") == "Rare" and (v.get("Owner") == entities.active_character[0].name or v.get("Owner") == "The Spire")}
     
     potionList = list(nchoices_with_restrictions([commonPotionChance,uncommonPotionChance,rarePotionChance],k = amount))
 
@@ -702,7 +693,7 @@ def generatePotionRewards(event:bool = False,amount: int = 1):
         for potion in potionList:
 
             if potion == 0:
-                potionReward.append(rd.choices(list(commonPotions.items()))[0][1]) #this may still draw a similar card
+                potionReward.append(rd.choices(list(commonPotions.items()))[0][1]) #this may still draw a similar potion
                 
             elif potion == 1:
                 potionReward.append(rd.choices(list(uncommonPotions.items()))[0][1])
@@ -908,13 +899,20 @@ def transformCard(card,place:str = "Deck",index = None):
 
 def upgradeCard(card,place,index=None): 
     
-    upgradePool = {k:v for k,v in entities.cards.items() if v.get("Upgraded") == True and v.get("Name").startswith(card["Name"]) == True}
+    if card.get("Name").startswith("Searing Blow"):
+        card_add = card.copy()
+        print(card_add.get("Damage Gain"))
+        card_add["Name"] = "Searing Blow +"
+        card_add["Damage"] += card_add["Damage Gain"]
+        card_add["Damage Gain"] += 1
+    else:
+        upgradePool = {k:v for k,v in entities.cards.items() if v.get("Upgraded") == True and v.get("Name").startswith(card["Name"]) == True}
 
-    card_add = rd.choices(list(upgradePool.items()))[0][1]
-    card_add["Unique ID"] = card.get("Unique ID")
+        card_add = rd.choices(list(upgradePool.items()))[0][1]
+        card_add["Unique ID"] = card.get("Unique ID")
     
-    if card.get("Name") == "Ritual Dagger":
-        card_add["Damage"] = card.get("Damage")
+        if card.get("Name") == "Ritual Dagger":
+            card_add["Damage"] = card.get("Damage")
 
     if place == "Deck":
         entities.active_character[0].add_CardToDeck(card_add,index)
@@ -1053,8 +1051,8 @@ def generateShop():
     player_commons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
     player_uncommons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
     player_rares = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
-    colorless_rare_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Rare" and v.get("Upgraded") != True}
-    colorless_uncommon_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Uncommon" and v.get("Upgraded") != True}
+    colorless_rare_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Rare" and v.get("Upgraded") == None}
+    colorless_uncommon_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Uncommon" and v.get("Upgraded") == None}
     
 
     commonCardCost = rd.randint(49,60)
@@ -1406,15 +1404,15 @@ def nchoices_with_restrictions_minions(weightsAndRestrictions,k = None):
             last_value = x
 
 
-def create_intentions_list(enemy):
-    intentions = []
+# def create_intentions_list(enemy):
+#     intentions = []
     
-    if enemy == "Red Louse":
-        #intentions = list(nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
-        intentions = rd.choices([0,1],weights= [0.75,0.25],k=100)
+#     if enemy == "Red Louse":
+#         #intentions = list(nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
+#         intentions = rd.choices([0,1],weights= [0.75,0.25],k=100)
 
-    elif enemy == "Green Louse":
-        #intentions = list(nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
-        intentions = rd.choices([0,1],weights= [0.75,0.25],k=100)
+#     elif enemy == "Green Louse":
+#         #intentions = list(nchoices_with_restrictions([0.75,0.25],{0:2,1:1}))
+#         intentions = rd.choices([0,1],weights= [0.75,0.25],k=100)
 
-    return intentions
+#     return intentions

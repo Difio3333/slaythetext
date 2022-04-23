@@ -101,59 +101,60 @@ def generate_map(superElite = True):
 	i = 0
 	while i < 5:
 		lengthOfPath = 12
-		snap = list(nchoices_with_restrictions([0.450,0.155,0.225,0.05,0.12],{0:3,1:1,2:1,3:1,4:1},k=lengthOfPath))
+		roomDistribution = list(nchoices_with_restrictions([0.450,0.155,0.225,0.05,0.12],{0:3,1:1,2:1,3:1,4:1},k=lengthOfPath))
+		#snap = list(nchoices_with_restrictions([0.05,0.155,0.225,0.450,0.12],{0:3,1:1,2:1,3:1,4:1},k=lengthOfPath))
 		# snap = list(nchoices_with_restrictions([0.462,0.143,0.225,0.05,0.12],{0:3,1:1,2:1,3:1,4:1},k=lengthOfPath))
 		#snap = list(nchoices_with_restrictions([0.480,0.128,0.24,0.05,0.12],{0:2,1:1,2:1,3:1,4:1},k=lengthOfPath))
 		#snap = list(nchoices_with_restrictions([0.33,0.13,0.27,0.10,0.17],{0:3,1:1,2:1,3:1,4:1},k=13))
-		snap[7] = 5
-		snap[0] = 0
-		if snap[lengthOfPath-1] == 4:
+		roomDistribution[7] = 5
+		roomDistribution[0] = 0
+		if roomDistribution[lengthOfPath-1] == 4:
 			randy = rd.randint(0,3)
 			
 			if randy == 0:
-				snap[lengthOfPath-1] = 0
+				roomDistribution[lengthOfPath-1] = 0
 			
 			elif randy == 1:
-				snap[lengthOfPath-1] = 1
+				roomDistribution[lengthOfPath-1] = 1
 			
 			elif randy == 2:
-				snap[lengthOfPath-1] = 2
+				roomDistribution[lengthOfPath-1] = 2
 			
 			elif randy == 3:
-				snap[lengthOfPath-1] = 3
+				roomDistribution[lengthOfPath-1] = 3
 
 		k = 0
-		while k < len(snap):
+		while k < len(roomDistribution):
 			if k < 5:
-				if snap[k] == 4 or snap[k] == 1:
+				if roomDistribution[k] == 4 or roomDistribution[k] == 1:
 					
 					randy = rd.randint(0,2)
 			
 					if randy == 0:
-						snap[k] = 0
+						roomDistribution[k] = 0
 						
 					elif randy == 1:
-						snap[k] = 2
+						roomDistribution[k] = 2
 					
 					elif randy == 2:
-						snap[k] = 3
+						roomDistribution[k] = 3
 					
-			if snap[k] == 0:
-				snap[k] = "Creep"
-			elif snap[k] == 1:
-				snap[k] = "Elite"
-			elif snap[k] == 2:
-				snap[k] = "Event"
-			elif snap[k] == 3:
-				snap[k] = "Shop$"
-			elif snap[k] == 4:
-				snap[k] = "Fires"
-			elif snap[k] == 5:
-				snap[k] = "Chest"
+			if roomDistribution[k] == 0:
+				roomDistribution[k] = "Creep"
+			elif roomDistribution[k] == 1:
+				roomDistribution[k] = "Elite"
+			elif roomDistribution[k] == 2:
+				roomDistribution[k] = "Event"
+			elif roomDistribution[k] == 3:
+				roomDistribution[k] = "Shop$"
+			elif roomDistribution[k] == 4:
+				roomDistribution[k] = "Fires"
+			elif roomDistribution[k] == 5:
+				roomDistribution[k] = "Chest"
 
 			k += 1	
 		
-		paths.append(snap)
+		paths.append(roomDistribution)
 		i += 1
 	
 
@@ -206,7 +207,6 @@ def generate_map(superElite = True):
 				break
 			else:
 				continue
-
 	
 	return final_map
 	

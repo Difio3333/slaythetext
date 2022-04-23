@@ -1188,7 +1188,7 @@ class Enemy():
 		if damage < 0:
 			damage = 0
 
-		ansiprint("\n"+self.name,"attacks for",damage)
+		ansiprint(f"\n{self.name} attacks for <red>{damage}</red>")
 		
 		if entities.active_character[0].spikes > 0:
 			self.receive_recoil_damage(entities.active_character[0].spikes)
@@ -1204,15 +1204,17 @@ class Enemy():
 		self.block += blocking
 		ansiprint(self.name,"<green>blocks</green> for <green>" + str(blocking) + "</green>.")
 
-	def receive_damage(self,attack_damage):
+	def receive_damage(self,attack_damage,preview:bool= False):
 		try:
 			if self.heartVincibility >= 200:
 				attack_damage = 0
 
 			damageToHp = False
 			
-			if self.vulnerable > 0:
-				attack_damage += attack_damage * 0.50
+			if self.vulnerable > 0 and entities.active_character[0].paperPhrog == True:
+				attack_damage += attack_damage * 0.75
+			elif self.vulnerable > 0:
+				attack_damage += attack_damage * 0.5
 				attack_damage = math.floor(attack_damage)
 			
 			try:
@@ -1226,17 +1228,18 @@ class Enemy():
 				#print (e)
 				pass
 
-			try:
-				if self.slow == True:
-					
-					attack_damage += math.floor(attack_damage / 100 * entities.active_character[0].card_counter*10)
-					
-			except Exception as e:
-				print(e)
 			
+			if self.slow == True:
+				
+				attack_damage += math.floor(attack_damage / 100 * entities.active_character[0].card_counter*10)
+					
 			if self.intangible > 0:
 				attack_damage = 1
-				ansiprint("Intangible reduces the damage to 1.")
+				if preview == False:
+					ansiprint("<light-blue>Intangible</light-blue> reduces the <red>damage</red> to <red>1</red>.")
+
+			if preview == True:
+				return attack_damage
 
 			damage = attack_damage - self.block
 			
@@ -1253,14 +1256,15 @@ class Enemy():
 				if entities.active_character[0].theBoot:
 					if damage < 5:
 						damage = 5
-						ansiprint("The damage was increased to 5 because of <light-red>The Boot</light-red>!")
+						ansiprint("The <red>damage</red> was increased to <red>5</red> because of <light-red>The Boot</light-red>!")
 
 				self.health -= damage
 				
 				if self.health < 1:
+					self.health = 0
 					self.alive = False
 				else:
-					ansiprint("The " + self.name + " ("+str(self.health)+"/"+str(self.max_health)+") has taken <red>"+ str(damage)+" damage</red>.")
+					ansiprint(f"The {self.name} (<red>{self.health}</red>/<red>{self.max_health}</red>) has taken <red>{damage} damage</red>.")
 					
 					if entities.active_character[0].envenom > 0:
 						self.set_poison(entities.active_character[0].envenom)
@@ -1268,13 +1272,13 @@ class Enemy():
 
 				if self.platedArmor > 0:
 					self.platedArmor -= 1
-					ansiprint(self.name,"has",self.platedArmor,"Plated Armor left.")
+					ansiprint(f"{self.name} has <light-blue>{self.platedArmor} Plated Armor</light-blue> left.")
 
 				self.damageCounter += 1
 
 			else:
 				self.block -= attack_damage
-				ansiprint("The", self.name, "has <green>"+ str(self.block)+" Block</green> left.")
+				ansiprint(f"The {self.name} has <green>{self.block} Block</green> left.")
 
 			try:
 				if len(self.on_hit_or_death) > 0:
@@ -1291,7 +1295,7 @@ class Enemy():
 		
 		if self.intangible > 0:
 			attack_damage = 1
-			ansiprint("Intangible reduces the damage to 1.")
+			ansiprint(f"{self.name} has <light-blue>Intangible</light-blue> and reduces the <red>damage</red> to <red>1</red>.")
 		
 		if self.heartVincibility >= 200:
 			attack_damage = 0
@@ -1302,13 +1306,13 @@ class Enemy():
 			self.block = 0
 			self.health -= int(damage)
 			if self.health < 1:
-				ansiprint("The",self.name,"has been defeated")
+				ansiprint(f"The {self.name} has been defeated")
 				self.alive = False
 			else:
-				ansiprint("The " + self.name + " ("+str(self.health)+"/"+str(self.max_health)+ ") has taken",int(damage),"damage.")
+				ansiprint(f"The {self.name} (<red>{self.health}</red>/<red>{self.max_health}</red>) has taken <red>{damage} damage</red>.")
 		else:
 			self.block -= attack_damage
-			ansiprint("The", self.name, "has", self.block,"block left and",self.health,"health left.")
+			ansiprint(f"The {self.name} has <green>{self.block} block</green> left and <red>{self.health} health</red>.")
 		entities.check_if_enemy_dead()	
 	
 	def stealCard(self,place):
@@ -1436,24 +1440,26 @@ class Enemy():
 
 		else:
 			self.poison -= 1
-			ansiprint("The " + self.name + " ("+str(self.health)+"/"+str(self.max_health)+ ") has taken",poison_damage,"damage and has",self.poison,"poison left.")
+			ansiprint(f"The {self.name} (<red>{self.health}</red>)/<red>{self.max_health}</red>) has taken <green>{poison_damage} damage</green> and has <green>{self.poison} poison</green> left.")
 		
 		entities.check_if_enemy_dead()
 
 
 	def split_check(self):
-		try:
-			for effect in self.on_hit_or_death:
-				if effect[1] == "Hit":
-					if effect[0] == "Split":
-						ansiprint(self.name, "is splitting!")
-							
-						self.move = "Split"
-						self.intentions = ["Split"]
-						self.intention_logic = [["Random"],[0]*100]
-		
-		except Exception as e:
-			pass
+		if self.health <= self.max_health // 2 and self.health > 0:
+			try:
+
+				for effect in self.on_hit_or_death:
+					if effect[1] == "Hit":
+						if effect[0] == "Split":
+							ansiprint(self.name, "is splitting!")
+								
+							self.move = "Split"
+							self.intentions = ["Split"]
+							self.intention_logic = [["Random"],[0]*100]
+			
+			except Exception as e:
+				print(e)
 
 	def react_on_hit_and_death(self,damage,damageToHp):
 		try:
@@ -1480,7 +1486,6 @@ class Enemy():
 					elif "Split" in effect[0]:
 			
 						if self.health <= self.max_health // 2 and self.health > 0:
-							
 							ansiprint(self.name, "is splitting!")
 							
 							self.move = "Split"
@@ -1608,8 +1613,8 @@ class Enemy():
 		if self.platedArmor > 0:
 			self.blocking(self.platedArmor)
 
-		if self.metallicize > 0:
-			self.set_block_by_metallicice()
+		# if self.metallicize > 0:
+		# 	self.set_block_by_metallicice()
 
 		if self.intangiblePower and self.turnCounter % 2 == 0:
 			self.set_intangible(1)
@@ -1650,7 +1655,7 @@ class Enemy():
 
 			ansiprint(self.name,"heals for", value - displayValue, "and now has <red>"+ str(self.health)+"Health</red>.")
 		else:
-			ansiprint(self.name,"heals for", value, "and now has",self.health,"Health.")
+			ansiprint(self.name,"heals for", value, "and now has <red>",self.health,"Health</red>.")
 
 	def set_weakness(self,value):
 		if self.artifact > 0:
@@ -1659,7 +1664,7 @@ class Enemy():
 			if self.sadisticNature > 0:
 				self.receive_sadistic_damage()
 			self.weak += value
-			ansiprint(self.name, "now has",self.weak,"Weakness.")
+			ansiprint(f"{self.name} now has <light-cyan>{self.weak} Weakness</light-cyan>.")
 
 	def set_vulnerable(self,value):
 		if self.artifact > 0:
@@ -1670,7 +1675,10 @@ class Enemy():
 				self.receive_sadistic_damage()
 
 			self.vulnerable += value
-			ansiprint(self.name, "now has",self.vulnerable,"Vulnerable.")
+			ansiprint(f"{self.name} now has <light-cyan>{self.vulnerable} Vulnerable</light-cyan>.")
+
+		if entities.active_character[0].championBelt == True:
+			self.set_weakness(1)
 
 	def set_tempStrength(self,value):
 		if self.artifact > 0:
@@ -1679,11 +1687,11 @@ class Enemy():
 			if self.sadisticNature > 0:
 				self.receive_sadistic_damage()	
 			self.temp_strength += value
-			ansiprint(self.name, "now has lost",self.temp_strength,"Strength. It will regain it at the end of its turn!")
+			ansiprint(f"{self.name} now has lost <red>{self.temp_strength} Strength</red>. It will regain it at the end of its turn!")
 
 	def set_strengthChange(self,value):
 		self.strengthChange += value
-		ansiprint(self.name,"will deal",abs(self.strengthChange),"less damage next turn.")
+		ansiprint(f"{self.name} will deal {abs(self.strengthChange)} less <red>damage</red> next turn.")
 
 	def set_poison(self,value):
 		if self.artifact > 0:
@@ -1695,7 +1703,7 @@ class Enemy():
 				value+=1
 
 			self.poison += value
-			ansiprint(self.name, "now has <green>"+str(self.poison)+" Poison</green>.")
+			ansiprint(f"{self.name} now has <green>{str(self.poison)} Poison</green>.")
 		
 	def multiply_poison(self,value):
 		if self.artifact > 0:
@@ -1704,7 +1712,7 @@ class Enemy():
 			if self.sadisticNature > 0:
 				self.receive_sadistic_damage()
 			self.poison *= value
-			ansiprint(self.name, "now has <green>"+str(self.poison)+" Poison</green>.")
+			ansiprint(f"{self.name} now has <green>{str(self.poison)} Poison</green>.")
 
 	def set_corpseExplosion(self,value):
 		if self.artifact > 0:
@@ -1714,7 +1722,7 @@ class Enemy():
 				self.receive_sadistic_damage()	
 			
 			self.corpseExploding += value
-			ansiprint(self.name, "will deal its Max HP as damage to all other Enemies on death.")
+			ansiprint(self.name, "will deal its <red>Max HP</red> as <red>damage</red> to all other Enemies on death.")
 
 	def set_choke (self,value):
 		if self.artifact > 0:
@@ -1774,7 +1782,7 @@ class Enemy():
 	def set_block_by_metallicice (self):
 		self.block += self.metallicize
 
-		ansiprint(self.name, "received",self.metallicize,"Block through metallicize.")
+		ansiprint(f"{self.name} received <green>{self.metallicize} Block</green> through <light-blue>Metallicize</light-blue>.")
 
 	def set_metallicice(self,value):
 		self.metallicize += value

@@ -4,10 +4,10 @@ import helping_functions
 import acts
 from pathlib import Path
 
-snap = ""
+saveDecision = ""
 
 def the_question_of_safety():
-	global snap
+	global saveDecision
 	while True:
 		
 		try:
@@ -16,24 +16,26 @@ def the_question_of_safety():
 			f = open(prodPath)
 			f.close()
 		except FileNotFoundError:
- 			print("No savefile detected in "+prodPath+".")
- 			print("Therefore the game starts immediately.\n\n") 			
+ 			print("No savefile detected in "+prodPath+".\n\n")
+ 			
+ 			entities.choose_character()		
  			break
 
 		try:
 			
 			loader = ["Yes","No"]
 			
-			snap = input("Do you want to load your save game?\n1. Yes\n2. No\n")
-			snap = int(snap)-1
+			saveDecision = input("Do you want to load your save game?\n1. Yes\n2. No\n")
+			saveDecision = int(saveDecision)-1
 			
-			if loader[snap] == "Yes":
+			if loader[saveDecision] == "Yes":
 				load_and_bloat()
-				snap = "Yes"
+				saveDecision = "Yes"
 				break
 			
-			elif loader[snap] == "No":
-				snap = "No"
+			elif loader[saveDecision] == "No":
+				saveDecision = "No"
+				entities.choose_character()
 				break
 				
 		except TypeError:
@@ -42,13 +44,10 @@ def the_question_of_safety():
 			print("Type \"1\" or \"2\".")
 			print(e)
 
-	entities.active_character[0].set_deck(entities.silent_deck)
-	#entities.active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <red>1 Strength</red>."})
+	entities.active_character[0].set_deck()
+	#entities.active_character[0].add_relic({"Name":"Red Skull","Rarity":"Common","Owner":"Ironclad","Type":"Relic","Info":"While your <red>HP</red> is at or below 50\%, you have <red>3</red> additional <red>Strength</red>."})
 	#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
-	#entities.active_character[0].add_CardToDeck({"Name": "Regret","Type": "Curse","Rarity": "Curse","Owner":"The Spire","Info":"<RED>Unplayable</RED>. At the end of your turn, lose <red>1 HP</red> for each Card in your hand."})
-		
-
-
+	#entities.active_character[0].add_CardToDeck({"Name": "Secret Technique","Draw":1,"Place":"Drawpile","Typing": "Skill","Energy": 0,"Type": "Skill","Exhaust":True,"Rarity": "Rare","Owner":"Colorless","Info":"Put a <green>Skill</green> from your Drawpile into your hand. <BLUE>Exhaust</BLUE>."})
 
 def save_and_rave():
 	
