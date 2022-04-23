@@ -72,9 +72,10 @@ def afterBattleScreen():
         pass
 
     elif entities.active_character[0].get_floor() == "Boss":
-        gameAct += 1      
+        gameAct += 1
+
         if gameAct <= 3:
-            
+            entities.active_character[0].heal(math.floor(entities.active_character[0].max_health / 100 * 75))
             potentialCardWinnings = generateCardRewards(bossReward=True)
             afterBattleOptions.append("<blue>Card Reward</blue>")
 
@@ -105,6 +106,7 @@ def afterBattleScreen():
         elif gameAct == 4 and actThreeFirstBossBeaten == True:
             
             if entities.active_character[0].allKeys == True:
+                entities.active_character[0].heal(math.floor(entities.active_character[0].max_health / 100 * 75))
                 gameAct += 1
                 game_map = acts.generate_act4Map()
                 game_map_dict = acts.generate_act4ConnectionDict(game_map)

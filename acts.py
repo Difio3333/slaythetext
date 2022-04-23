@@ -2,14 +2,7 @@ import random as rd
 import entities
 from ansimarkup import parse, ansiprint
 
-# 0 = normal_fight
-# 1 = elite_fight
-# 2 = question_mark
-# 3 = merchant
-# 4 = bon_fire
-# 5 = treasure_room 
-# 6 = boss_fight
-# 7 = start
+
 
 testAct = 0
 
@@ -97,6 +90,14 @@ def nchoices_with_restrictions(weights=None, restrictions=None,k = 100):
 def generate_map(superElite = True):
 	global testAct
 	#testAct = 3
+	# 0 = normal_fight
+	# 1 = elite_fight
+	# 2 = question_mark
+	# 3 = merchant
+	# 4 = bon_fire
+	# 5 = treasure_room 
+	# 6 = boss_fight
+	# 7 = start
 	paths = []
 	i = 0
 	while i < 5:
@@ -177,6 +178,7 @@ def generate_map(superElite = True):
 	if testAct == 3:
 		final_map.insert(len(final_map),["Boss"])
 
+	
 	y = 0
 	for row in final_map:
 		

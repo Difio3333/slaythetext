@@ -5808,6 +5808,7 @@ class Char():
 		for card in self.exhaust_pile:
 			print(i+1,card)
 			i+=1
+	
 	def add_CardToDeck(self,card,index=None,silence=False):
 		
 		card = card.copy()
@@ -6718,6 +6719,9 @@ class Char():
 							continue
 						elif self.hand[choice].get("Type") == "Curse":
 							ansiprint("<m>Curses</m> can't be upgraded.")
+							continue
+						elif self.hand[choice].get("Type") == "Status":
+							ansiprint("<light-cyan>Status</light-cyan> can't be upgraded.")
 							continue
 						else:
 							ansiprint(f"<{color}>{self.hand[choice].get('Name')}</{color}> is upgraded.")
