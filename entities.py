@@ -4115,12 +4115,22 @@ def eventFight(listOfMonsters):
     for monster in listOfMonsters:
         list_of_enemies.append(monster)
 
-    while len(list_of_enemies) > 0 and active_character[0].alive == True:
+    while len(list_of_enemies) > 0:
+
         helping_functions.turn_counter = helping_functions.count_up(helping_functions.turn_counter)
         active_character[0].turn(helping_functions.turn_counter)
-                
-        for enemy in list_of_enemies:
-            enemy.turn(helping_functions.turn_counter)
+        
+        i = 0
+        while i < len(entities.list_of_enemies):
+            enemyDeadCheck = len(entities.list_of_enemies)
+            entities.list_of_enemies[i].turn()
+            if enemyDeadCheck <= len(entities.list_of_enemies):
+                i+=1
+        
+        if entities.active_character[0].alive == False:
+            break
+
+        entities.check_if_enemy_dead()
     
     if active_character[0].faceOfCleric > 0:
             active_character[0].set_maxHealth(1)

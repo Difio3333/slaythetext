@@ -1023,7 +1023,7 @@ def check_Duplicates(test):
     # second element of the tuple has number of repetitions
     return Counter(test).most_common()[0][1] > 1
 
-def generateShop():
+def generateShop(singleItem: str = None):
     theCourier = False
     membershipCard = False
 
@@ -1050,6 +1050,7 @@ def generateShop():
 
     shoplist = []
     miniList = []
+    all_player_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
     player_commons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
     player_uncommons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
     player_rares = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
@@ -1069,63 +1070,139 @@ def generateShop():
     uncommonPotionCost = rd.randint(79,85)
     rarePotionCost = rd.randint(104,115)
 
-    #COMMON CARDS
     
-    miniList.append(rd.choices(list(player_commons.items()))[0][1])
-    miniList.append(rd.randint(49,60))
-    shoplist.append(miniList)
-    miniList = []
-
-    while True:
-        miniList.append(rd.choices(list(player_commons.items()))[0][1])
-        if shoplist[0][0]["Name"] == miniList[0]["Name"]:
-            miniList = []
-            continue
+    if singleItem == None:
         
+        while True:
+            miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if miniList[0].get("Type") != "Attack":
+                miniList = []
+                continue
+            break
+        
+        if miniList[0].get("Rarity") == "Common":
+            miniList.append(rd.randint(49,60))
+        elif miniList[0].get("Rarity") == "Uncommon":
+            miniList.append(rd.randint(74,90))
+        elif miniList[0].get("Rarity") == "Rare":
+            miniList.append(rd.randint(148,181))
+        shoplist.append(miniList)
+        miniList = []
+        
+
+        while True:
+            miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if shoplist[0][0]["Name"] == miniList[0]["Name"] or miniList[0].get("Type") != "Attack":
+                miniList = []
+                continue
+            break
+        
+        if miniList[0].get("Rarity") == "Common":
+            miniList.append(rd.randint(49,60))
+        elif miniList[0].get("Rarity") == "Uncommon":
+            miniList.append(rd.randint(74,90))
+        elif miniList[0].get("Rarity") == "Rare":
+            miniList.append(rd.randint(148,181))
+        shoplist.append(miniList)
+        miniList = []
+        
+        while True:
+            miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if miniList[0].get("Type") != "Skill":
+                miniList = []
+                continue
+            break
+        
+        if miniList[0].get("Rarity") == "Common":
+            miniList.append(rd.randint(49,60))
+        elif miniList[0].get("Rarity") == "Uncommon":
+            miniList.append(rd.randint(74,90))
+        elif miniList[0].get("Rarity") == "Rare":
+            miniList.append(rd.randint(148,181))
+
+
+        shoplist.append(miniList)
+        miniList = []
+        
+        while True:
+            miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if shoplist[2][0]["Name"] == miniList[0]["Name"] or miniList[0].get("Type") != "Skill":
+                miniList = []
+                continue
+            break
+        
+        if miniList[0].get("Rarity") == "Common":
+            miniList.append(rd.randint(49,60))
+        elif miniList[0].get("Rarity") == "Uncommon":
+            miniList.append(rd.randint(74,90))
+        elif miniList[0].get("Rarity") == "Rare":
+            miniList.append(rd.randint(148,181))
+        shoplist.append(miniList)
+        miniList = []
+        
+        while True:
+
+            miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if miniList[0].get("Type") != "Power":
+                miniList = []
+                continue
+            break
+        
+        if miniList[0].get("Rarity") == "Common":
+            miniList.append(rd.randint(49,60))
+        elif miniList[0].get("Rarity") == "Uncommon":
+            miniList.append(rd.randint(74,90))
+        elif miniList[0].get("Rarity") == "Rare":
+            miniList.append(rd.randint(148,181))
+        shoplist.append(miniList)
+        miniList = []
+        
+
+        #COLORLESS UNCOMMON CARD
+        miniList.append(rd.choices(list(colorless_uncommon_cards.items()))[0][1])
+        miniList.append(rd.randint(89,108))
+        shoplist.append(miniList)
+        miniList = []
+
+        #COLORLESS RARE CARD
+        miniList.append(rd.choices(list(colorless_rare_cards.items()))[0][1])
+        miniList.append(rd.randint(178,217))
+        shoplist.append(miniList)
+        miniList = []
+
+
+    elif singleItem == "Common Card":
+        miniList.append(rd.choices(list(player_commons.items()))[0][1])
         miniList.append(rd.randint(49,60))
         shoplist.append(miniList)
-        miniList = []
-        break
-
-
-    #UMCOMMON CARDS
-
-    miniList.append(rd.choices(list(player_uncommons.items()))[0][1])
-    miniList.append(rd.randint(74,90))
-    shoplist.append(miniList)
-    miniList = []
+        return shoplist
     
-    while True:
-
+    elif singleItem == "Uncommon Card":
         miniList.append(rd.choices(list(player_uncommons.items()))[0][1])
-        if shoplist[2][0]["Name"] == miniList[0]["Name"]:
-            miniList = []
-            continue
-
         miniList.append(rd.randint(74,90))
         shoplist.append(miniList)
-        miniList = []
-        break
+        return shoplist
 
+    elif singleItem == "Rare Card":
+        miniList.append(rd.choices(list(player_rares.items()))[0][1])
+        miniList.append(rd.randint(148,181))
+        shoplist.append(miniList)
+        return shoplist
 
-    #RARE CARD
-    miniList.append(rd.choices(list(player_rares.items()))[0][1])
-    miniList.append(rd.randint(148,181))
-    shoplist.append(miniList)
-    miniList = []
+    elif singleItem == "Colorless Uncommon":
+        miniList.append(rd.choices(list(colorless_uncommon_cards.items()))[0][1])
+        miniList.append(rd.randint(89,108))
+        shoplist.append(miniList)
+        return shoplist
 
-    #COLORLESS UNCOMMON CARD
-    miniList.append(rd.choices(list(colorless_uncommon_cards.items()))[0][1])
-    miniList.append(rd.randint(89,108))
-    shoplist.append(miniList)
-    miniList = []
+    elif singleItem == "Rare Uncommon":
+        miniList.append(rd.choices(list(colorless_rare_cards.items()))[0][1])
+        miniList.append(rd.randint(178,217))
+        shoplist.append(miniList)
+        return shoplist
+    #UMCOMMON CARDS
 
-    #COLORLESS RARE CARD
-    miniList.append(rd.choices(list(colorless_rare_cards.items()))[0][1])
-    miniList.append(rd.randint(178,217))
-    shoplist.append(miniList)
-    miniList = []
-
+    
     i = 0
     while i < len(shoplist):
 
@@ -1166,7 +1243,6 @@ def generateShop():
             shoplist.append(miniList)
             miniList = []
     
-
     shipShipRelics = generateRelicRewards(place = "Shop")
 
     for relic in shipShipRelics:
@@ -1218,6 +1294,7 @@ def displayShop(shoplist):
     ansiprint("\"Welcome at my Shop\", says the wondrous <blue>blue robbed figure</blue> sitting in front of you on odd <green>green flooring</green>. \"Have a look at my wares\".")
     global removeCardCost
 
+    theCourier = False
     mawBank = False
     for relic in entities.active_character[0].relics:
         if relic.get("Name") == "Smilling Mask":
@@ -1227,6 +1304,9 @@ def displayShop(shoplist):
             mawBank = True
             mawBankIndex = entities.active_character[0].relics.index(relic)
 
+        elif relic.get("Name") == "The Courier":
+            theCourier = True
+
     shoplist.append([{"Name":"Remove Card"},removeCardCost])
     shoplist.append([{"Name":"Show Deck"}])
     shoplist.append([{"Name":"Display Map"}])
@@ -1234,6 +1314,7 @@ def displayShop(shoplist):
 
 
     while True:
+        
         ansiprint("You currently have <yellow>"+str(entities.active_character[0].gold)+" Gold</yellow>.")
         i = 0
 
@@ -1314,6 +1395,9 @@ def displayShop(shoplist):
 
 
                 shoplist.pop(snap)
+                if theCourier:
+                    shoplist.insert(snap,)
+
                 if mawBank:
                     entities.active_character[0].relics[mawBankIndex]["Working"] = False
                     ansiprint("You bought something at this Merchant and your <light-red>Maw Bank</light-red> broke!")
@@ -1321,7 +1405,6 @@ def displayShop(shoplist):
             elif shoplist[snap][1] > entities.active_character[0].gold:
                 ansiprint("You don't have enough gold to do that!\n")
                 continue
-
 
         except Exception as e:
             entities.active_character[0].explainer_function(snap)

@@ -47,7 +47,7 @@ def the_question_of_safety():
 	entities.active_character[0].set_deck()
 	#entities.active_character[0].add_relic({"Name":"Red Skull","Rarity":"Common","Owner":"Ironclad","Type":"Relic","Info":"While your <red>HP</red> is at or below 50\%, you have <red>3</red> additional <red>Strength</red>."})
 	#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
-	#entities.active_character[0].add_CardToDeck({"Name": "Secret Technique","Draw":1,"Place":"Drawpile","Typing": "Skill","Energy": 0,"Type": "Skill","Exhaust":True,"Rarity": "Rare","Owner":"Colorless","Info":"Put a <green>Skill</green> from your Drawpile into your hand. <BLUE>Exhaust</BLUE>."})
+	#entities.active_character[0].add_CardToDeck({"Name":"Shockwave","Weakness":3,"Vulnerable":3,"Exhaust":True,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Apply <light-cyan>3 Weak</light-cyan> and <light-cyan>5 Vulnerable</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."})
 
 def save_and_rave():
 	

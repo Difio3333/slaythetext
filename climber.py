@@ -25,7 +25,11 @@ class Char():
 		):
 		
 		self.name = name
-		self.displayName = "<green>" + self.name + "</green>"
+		if self.name == "Silent":
+			self.displayName = "<green>" + self.name + "</green>"
+		elif self.name == "Ironclad":
+		 	self.displayName = "<red>" + self.name + "</red>"
+		
 		self.max_health = max_health
 		self.health = self.max_health - math.ceil(self.max_health / 10)
 		self.energy = energy
@@ -1006,7 +1010,12 @@ class Char():
 					
 				else:
 					ansiprint ("You don't have this card!")
-					
+			
+			except ValueError:
+				if len(card_index) > 0:
+						self.explainer_function(card_index)
+				else:
+					ansiprint("You have to type a number.")
 			except Exception as e:
 				#print("play card",e)
 				self.explainer_function(card_index)
@@ -1650,7 +1659,7 @@ class Char():
 
 			elif self.card_in_play.get("Name") == "Crippling Cloud":					
 				i = 0
-				while i < entities.list_of_enemies:
+				while i < len(entities.list_of_enemies):
 					enemy_check = len(entities.list_of_enemies)
 					entities.list_of_enemies[i].set_poison(self.card_in_play["Poison"])
 					if enemy_check == len(entities.list_of_enemies):
@@ -1661,7 +1670,7 @@ class Char():
 
 			elif self.card_in_play.get("Name") == "Crippling Cloud +":
 				i = 0
-				while i < entities.list_of_enemies:
+				while i < len(entities.list_of_enemies):
 					enemy_check = len(entities.list_of_enemies)
 					entities.list_of_enemies[i].set_poison(self.card_in_play["Poison"])
 					if enemy_check == len(entities.list_of_enemies):
@@ -2591,8 +2600,9 @@ class Char():
 				self.blocking(self.card_in_play["Block"])
     
 			elif self.card_in_play.get("Name") == "Shockwave":
+				
 				i = 0
-				while i < entities.list_of_enemies:
+				while i < len(entities.list_of_enemies):
 					enemy_check = len(entities.list_of_enemies)
 					entities.list_of_enemies[i].set_weakness(self.card_in_play["Weakness"])
 					if enemy_check == len(entities.list_of_enemies):
@@ -2600,10 +2610,11 @@ class Char():
 						entities.list_of_enemies[i].set_vulnerable(self.card_in_play["Vulnerable"])
 						if enemy_check == len(entities.list_of_enemies):
 							i += 1
-			
+
 			elif self.card_in_play.get("Name") == "Shockwave +":
+
 				i = 0
-				while i < entities.list_of_enemies:
+				while i < len(entities.list_of_enemies):
 					enemy_check = len(entities.list_of_enemies)
 					entities.list_of_enemies[i].set_weakness(self.card_in_play["Weakness"])
 					if enemy_check == len(entities.list_of_enemies):
@@ -2611,7 +2622,7 @@ class Char():
 						entities.list_of_enemies[i].set_vulnerable(self.card_in_play["Vulnerable"])
 						if enemy_check == len(entities.list_of_enemies):
 							i += 1				
-    
+
 			elif self.card_in_play.get("Name") == "Spot Weakness":
 				self.choose_enemy()
 
@@ -4225,8 +4236,8 @@ class Char():
 						ansiprint("There is no opponent at that place.")
 						continue
 				except ValueError:
-					if len(card_index) > 0:
-						self.explainer_function(card_index)
+					if len(target) > 0:
+						self.explainer_function(target)
 					else:
 						ansiprint("You have to type a number.")
 						
@@ -4244,6 +4255,8 @@ class Char():
 		else:
 			self.target = "No Enemies"
 	
+
+
 	def shuffleDrawPile (self):
 
 		for cardPos in range(len(self.draw_pile)):
@@ -4500,7 +4513,8 @@ class Char():
 				print("You don't have any cards in your hand.")
 				break
 			else:
-				self.showHand()
+				if random == False:
+					self.showHand()
 				try:
 					if random:
 						card_index = rd.randint(0,len(self.hand) - 1)
@@ -5002,7 +5016,7 @@ class Char():
 
 			elif "Divider" in entities.list_of_enemies[index].move:
 				damage = self.determine_damage_to_character(6,index)
-				previewString = "Attacks"+ str(int(self.health // 12 + 1)) *"times for <red>"+ str(damage)+"</red>"
+				previewString = f"Attacks {self.health // 12 + 1} times for <red> {damage} </red>"
 
 			elif "Inferno" in entities.list_of_enemies[index].move:
 				

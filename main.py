@@ -20,9 +20,9 @@ colorama.init()
 #you can also skip green key forever I think 
 #just saw 4 shops in a row.
 #5169 exhaustpile Stuff needs to be handled properly so when you exhaust your entire hand and something comes back it doesn't loop indefinitely  -> fixed
-#need to make exhaust pile and discard pile watchable
+#need to make exhaust pile and discard pile watchable -> done
 #Boss Slime splits wildly -> probably fixed
-
+#shops need to update when buying membership card
 
 def main():
 	try:
