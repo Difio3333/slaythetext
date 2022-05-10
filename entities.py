@@ -1055,8 +1055,8 @@ cards = {
     "Seeing Red" :{"Name":"Seeing Red","Energy Gain":2,"Energy":1,"Exhaust":True,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <yellow>2 Energy</yellow>. <BLUE>Exhaust</BLUE>."},
     "Seeing Red +" :{"Name":"Seeing Red +","Energy Gain":2,"Energy":0,"Exhaust":True,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner":"Ironclad","Info":"Gain <yellow>2 Energy</yellow>. <BLUE>Exhaust</BLUE>."},
 
-    "Sentinel" :{"Name":"Sentinel","Block":5,"Energy Gain":2,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <green>5 Block</green>. If this card is <BLUE>Exhausted</BLUE>,gain <yellow>2 Energy</yellow>."},
-    "Sentinel +" :{"Name":"Sentinel +","Block":8,"Energy Gain":3,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Gain <green>8 Block</green>. If this card is <BLUE>Exhausted</BLUE>,gain <yellow>3 Energy</yellow>."},    
+    "Sentinel" :{"Name":"Sentinel","Block":5,"Energy Gain":2,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Gain <green>5 Block</green>. If this card is <BLUE>Exhausted</BLUE>, gain <yellow>2 Energy</yellow>."},
+    "Sentinel +" :{"Name":"Sentinel +","Block":8,"Energy Gain":3,"Energy":1,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Gain <green>8 Block</green>. If this card is <BLUE>Exhausted</BLUE>, gain <yellow>3 Energy</yellow>."},    
 
     "Shockwave" :{"Name":"Shockwave","Weakness":3,"Vulnerable":3,"Exhaust":True,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Apply <light-cyan>3 Weak</light-cyan> and <light-cyan>5 Vulnerable</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},
     "Shockwave +" :{"Name":"Shockwave +","Weakness":5,"Vulnerable":5,"Exhaust":True,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Upgraded":True,"Owner": "Ironclad","Info":"Apply <light-cyan>5 Weak</light-cyan> and <light-cyan>5 Vulnerable</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."},

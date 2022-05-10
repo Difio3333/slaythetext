@@ -6545,10 +6545,9 @@ class Char():
 
 		return self.position
 
-	
-
 	def set_gold(self,value,thievery = False):
 		ectoplasm = False
+		ansiprint("")
 		for relic in self.relics:
 			if relic.get("Name") == "Ectoplasm":
 				ectoplasm = True
@@ -6567,19 +6566,21 @@ class Char():
 					stolenGold += self.gold
 					self.gold = 0
 
-				ansiprint("")
+				
 				ansiprint(self.displayName,"lost",stolenGold,"Gold and has now only <yellow>"+str(self.gold)+" Gold</yellow> left!")
 				return stolenGold
 			else:
 				self.gold += value
-				ansiprint("")
+				
 				if self.gold < 0:
 					self.gold = 0
-				ansiprint(self.displayName,"received <yellow>"+str(value)+" Gold</yellow> and now has <yellow>"+str(self.gold)+" Gold</yellow>.")
+				if value >= 0:
+					ansiprint(self.displayName,"received <yellow>"+str(value)+" Gold</yellow> and now has <yellow>"+str(self.gold)+" Gold</yellow>.")
 				if value > 0 and self.bloodyIdol > 0:
 					self.heal(5)
 					ansiprint("You healed because you own a <red>Bloody</red> <light-red>Idol</light-red>.")
-
+				if value < 0:
+					ansiprint(f"{self.displayName} lost <yellow>{abs(value)} Gold</yellow> and now has <yellow> {self.gold} Gold</yellow>.")
 
 	def removeCardsFromDeck(self,amount:int =1,removeType: str = "Remove",purpleFire: bool = False,index = None):
 		
@@ -6957,29 +6958,37 @@ class Char():
 				status += " |<light-blue> Artifact: "+str(self.artifact)+"</light-blue>"
 			if self.spikes > 0:
 				status += " |<light-blue> Spikes: "+str(self.spikes)+"</light-blue>"
+			if self.barricade == True:
+				status += " |<light-blue> Barricade</light-blue>"
+			if self.corruption == True:
+				status += " |<light-blue> Corruption</light-blue>"
+			if self.metallicize > 0:
+				status += " |<light-blue> Metallicize: "+str(self.metallicize)+"</light-blue>"
+			if self.juggernaut > 0:
+				status += " |<light-blue> Juggernaut: "+str(self.juggernaut)+"</light-blue>"
+			if self.feelNoPain > 0:
+				status += " |<light-blue> Feel No Pain: "+str(self.feelNoPain)+"</light-blue>"
+			if self.darkEmbrace > 0:
+				status += " |<light-blue> Dark Embrace: "+str(self.darkEmbrace)+"</light-blue>"
+			if self.rage > 0:
+				status += " |<light-blue> Rage: "+str(self.rage)+"</light-blue>"
+			if self.evolve > 0:
+				status += " |<light-blue> Evolve: "+str(self.evolve)+"</light-blue>"
+			if self.fireBreathing > 0:
+				status += " |<light-blue> Fire Breathing: "+str(self.fireBreathing)+"</light-blue>"
+			if self.rupture > 0:
+				status += " |<light-blue> Rupture: "+str(self.rupture)+"</light-blue>"
+			if self.combustDamage > 0:
+				status += f" |<light-blue> Combust:{self.combustDamage} </light-blue>, <red>Damage: {self.combustSelfharm}</red>" 
 			if len(self.doubleDamage) > 0:
 				status += " | Attacks deal Double Damage."
+			if self.brutality > 0:
+				status += f" |<light-blue> Brutality:{self.brutality} </light-blue>" 
 
 		else:
 			status += " |<yellow> Gold: "+ str(self.gold)+"</yellow>"
 
-		# if self.metallicize > 0:
-		# 	status += " |<light-blue> Metallicize: "+str(self.metallicize)+"</light-blue>"
-		# if self.barricade == True:
-		# 	status += " |<light-blue> Barricade</light-blue>"
-		#		self.rage = 0
-		# self.combustDamage = 0
-		# self.combustSelfharm = 0
-		# self.darkEmbrace = 0
-		# self.evolve = 0
-		# self.feelNoPain = 0
-		# self.fireBreathing = 0
-		# self.barricade = False
-		# self.corruption = False
-		# self.juggernaut = 0
-		# self.rupture = 0
-		#add all powers here
-		
+
 		ansiprint(status,"\n")
 
 	def get_smokebomb(self):
