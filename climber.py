@@ -2921,7 +2921,7 @@ class Char():
 					return
 			
 			elif self.card_in_play.get("Name") == "Jack of All Trades":
-				neutral_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless"}
+				neutral_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Upgraded") == None}
 				card = rd.choices(list(neutral_cards.items()))[0][1]
 				card["This turn Energycost changed"] = True
 				card["Energy"] = 0
@@ -2930,7 +2930,7 @@ class Char():
 			elif self.card_in_play.get("Name") == "Jack of All Trades +":
 				i = 0
 				while i < 2:
-					neutral_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless"}
+					neutral_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Upgraded") == None}
 					card = rd.choices(list(neutral_cards.items()))[0][1]					
 					card["This turn Energycost changed"] = True
 					card["Energy"] = 0

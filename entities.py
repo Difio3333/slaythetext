@@ -1440,7 +1440,7 @@ relics = {
     "Empty Cage":{"Name":"Empty Cage","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, remove 2 Cards from your Deck."},
     "Fusion Hammer":{"Name":"Fusion Hammer","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer Smith at <blue>Rest Sites</blue>."},
     "Hovering Kite":{"Name":"Hovering Kite","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"The first time you discard a Card each turn, gain <yellow>1 Energy</yellow>."},
-    "Burning Blood":{"Name":"Burning Blood","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Start combats with <light-cyan>2 Wounds</light-cyan> in your Drawpile."},
+    "Mark of Pain":{"Name":"Mark of Pain","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Start combats with <light-cyan>2 Wounds</light-cyan> in your Drawpile."},
     "Pandora's Box":{"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Transform all <red>Strikes</red> and <green>Defends</green>."},
     "Philosopher's Stone":{"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. ALL enemies start with <red>1 Strength</red>."},
     "Ring of the Serpent":{"Name":"Ring of the Serpent","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"Replaces <light-red>Ring of the Snake</light-red>. At the start of your turn, draw 1 additional Card."},
@@ -1486,6 +1486,7 @@ relics = {
     "Lee's Waffle":{"Name":"Lee's Waffle","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Raise your <red>Max HP by 7</red> and <red>heal</red> all of your <red>HP</red>."},
     "Medical Kit":{"Name":"Medical Kit","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"<light-cyan>Status</light-cyan> Cards can now be played. Playing a <light-cyan>Status</light-cyan> will Exhaust the Card."},
     "Membership Card":{"Name":"Membership Card","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"50\% discount on all products in the <yellow>Shop$</yellow>!"},
+    "Prismatic Shard":{"Name":"Prismatic Shard","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Combat reward screens now contain colorless cards and cards from other colors."},
     "Orrery":{"Name":"Orrery","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Choose and add 5 Cards to your deck."},
     "Sling of Courage":{"Name":"Sling of Courage","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Start each Elite combat with <red>2 Strength</red>. (Does not work against <black>Bosses</black>)"},
     "Strange Spoon":{"Name":"Strange Spoon","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Cards which Exhaust when played will instead discard 50\% of the time."},
@@ -2035,54 +2036,101 @@ def neowBlesses():
         helping_functions.pickCard(uncommonColorlessCards,place = "Deck")
 
     elif blessings[choice] == "<green>Obtain random boss relic</green>. <red>Lose your starting relic</red>.":
+        if active_character[0].name == "Ironclad":
+            active_character[0].remove_Relic("Burning Blood")
 
-        active_character[0].remove_Relic("Ring of the Snake")
+            randomBossRelic = rd.randint(0,20)
 
-        randomBossRelic = rd.randint(0,20)
+            if randomBossRelic == 0:
+                active_character[0].add_relic({"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."})  
+            elif randomBossRelic == 1:
+                active_character[0].add_relic({"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."})
+            elif randomBossRelic == 2:
+                active_character[0].add_relic({"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."})
+            elif randomBossRelic == 3:
+                active_character[0].add_relic({"Name":"Calling Bell","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, obtain a unique <m>Curse</m> and <light-red>3 Relics</light-red>."})  
+            elif randomBossRelic == 4:
+                active_character[0].add_relic({"Name":"Cursed Key","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Whenever you open a non-boss chest, obtain a <m>Curse</m>."})
+            elif randomBossRelic == 5:
+                active_character[0].add_relic({"Name":"Coffee Dripper","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer <blue>Rest at Rest Sites</blue>."})
+            elif randomBossRelic == 6:
+                active_character[0].add_relic({"Name":"Ectoplasm","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer gain <yellow>Gold</yellow>."})
+            elif randomBossRelic == 7:
+                active_character[0].add_relic({"Name":"Empty Cage","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, remove 2 Cards from your Deck."})
+            elif randomBossRelic == 8:
+                active_character[0].add_relic({"Name":"Fusion Hammer","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer Smith at <blue>Rest Sites</blue>."})
+            elif randomBossRelic == 9:
+                active_character[0].add_relic({"Name":"Mark of Pain","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Start combats with <light-cyan>2 Wounds</light-cyan> in your Drawpile."})
+            elif randomBossRelic == 10:
+                active_character[0].add_relic({"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Transform all <red>Strikes</red> and <green>Defends</green>."})
+            elif randomBossRelic == 11:
+                active_character[0].add_relic({"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. ALL enemies start with <red>1 Strength</red>."})
+            elif randomBossRelic == 12:
+                active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer see enemy Intents."})
+            elif randomBossRelic == 13:
+                active_character[0].add_relic({"Name":"Runic Pyramid","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"At the end of your turn, you no longer discard your hand."})
+            elif randomBossRelic == 14:
+                active_character[0].add_relic({"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Double the effectiveness of most <c>Potions</c>."})
+            elif randomBossRelic == 15:
+                active_character[0].add_relic({"Name":"Tiny House","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Obtain <c>1 Potion</c>. Gain <yellow>50 Gold</yellow>. Raise your <red>Max HP by 5</red>. Obtain 1 Card. Upgrade 1 Random Card."})
+            elif randomBossRelic == 16:
+                active_character[0].add_relic({"Name":"Slaver's Collar","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"During <black>Boss</black> and Elite combats, gain <yellow>1 Energy</yellow> at the start of your turn."})
+            elif randomBossRelic == 17:
+                active_character[0].add_relic({"Name":"Sozu","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer obtain <c>Potions</c>."})
+            elif randomBossRelic == 18:
+                active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})
+            elif randomBossRelic == 19:
+                active_character[0].add_relic({"Name":"Velvet Choker","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You cannot play more than 6 Cards per turn."})
+            elif randomBossRelic == 20:
+                active_character[0].add_relic({"Name":"Runic Cube","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Whenever you lose <red>HP</red>, draw 1 card."})  
 
-        if randomBossRelic == 0:
-            active_character[0].add_relic({"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."})  
-        elif randomBossRelic == 1:
-            active_character[0].add_relic({"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."})
-        elif randomBossRelic == 2:
-            active_character[0].add_relic({"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."})
-        elif randomBossRelic == 3:
-            active_character[0].add_relic({"Name":"Calling Bell","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, obtain a unique <m>Curse</m> and <light-red>3 Relics</light-red>."})  
-        elif randomBossRelic == 4:
-            active_character[0].add_relic({"Name":"Cursed Key","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Whenever you open a non-boss chest, obtain a <m>Curse</m>."})
-        elif randomBossRelic == 5:
-            active_character[0].add_relic({"Name":"Coffee Dripper","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer <blue>Rest at Rest Sites</blue>."})
-        elif randomBossRelic == 6:
-            active_character[0].add_relic({"Name":"Ectoplasm","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer gain <yellow>Gold</yellow>."})
-        elif randomBossRelic == 7:
-            active_character[0].add_relic({"Name":"Empty Cage","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, remove 2 Cards from your Deck."})
-        elif randomBossRelic == 8:
-            active_character[0].add_relic({"Name":"Fusion Hammer","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer Smith at <blue>Rest Sites</blue>."})
-        elif randomBossRelic == 9:
-            active_character[0].add_relic({"Name":"Hovering Kite","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"The first time you discard a Card each turn, gain <yellow>1 Energy</yellow>."})
-        elif randomBossRelic == 10:
-            active_character[0].add_relic({"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Transform all <red>Strikes</red> and <green>Defends</green>."})
-        elif randomBossRelic == 11:
-            active_character[0].add_relic({"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. ALL enemies start with <red>1 Strength</red>."})
-        elif randomBossRelic == 12:
-            active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer see enemy Intents."})
-        elif randomBossRelic == 13:
-            active_character[0].add_relic({"Name":"Runic Pyramid","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"At the end of your turn, you no longer discard your hand."})
-        elif randomBossRelic == 14:
-            active_character[0].add_relic({"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Double the effectiveness of most <c>Potions</c>."})
-        elif randomBossRelic == 15:
-            active_character[0].add_relic({"Name":"Tiny House","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Obtain <c>1 Potion</c>. Gain <yellow>50 Gold</yellow>. Raise your <red>Max HP by 5</red>. Obtain 1 Card. Upgrade 1 Random Card."})
-        elif randomBossRelic == 16:
-            active_character[0].add_relic({"Name":"Slaver's Collar","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"During <black>Boss</black> and Elite combats, gain <yellow>1 Energy</yellow> at the start of your turn."})
-        elif randomBossRelic == 17:
-            active_character[0].add_relic({"Name":"Sozu","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer obtain <c>Potions</c>."})
-        elif randomBossRelic == 18:
-            active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})
-        elif randomBossRelic == 19:
-            active_character[0].add_relic({"Name":"Velvet Choker","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You cannot play more than 6 Cards per turn."})
-        elif randomBossRelic == 20:
-            active_character[0].add_relic({"Name":"Wrist Blade","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"<red>Attacks</red> that cost <yellow>0 Energy</yellow> deal <red>4 additional damage</red>."})  
+        elif active_character[0].name == "Silent":
+            active_character[0].remove_Relic("Ring of the Snake")
 
+            randomBossRelic = rd.randint(0,20)
+
+            if randomBossRelic == 0:
+                active_character[0].add_relic({"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."})  
+            elif randomBossRelic == 1:
+                active_character[0].add_relic({"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."})
+            elif randomBossRelic == 2:
+                active_character[0].add_relic({"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."})
+            elif randomBossRelic == 3:
+                active_character[0].add_relic({"Name":"Calling Bell","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, obtain a unique <m>Curse</m> and <light-red>3 Relics</light-red>."})  
+            elif randomBossRelic == 4:
+                active_character[0].add_relic({"Name":"Cursed Key","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. Whenever you open a non-boss chest, obtain a <m>Curse</m>."})
+            elif randomBossRelic == 5:
+                active_character[0].add_relic({"Name":"Coffee Dripper","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer <blue>Rest at Rest Sites</blue>."})
+            elif randomBossRelic == 6:
+                active_character[0].add_relic({"Name":"Ectoplasm","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer gain <yellow>Gold</yellow>."})
+            elif randomBossRelic == 7:
+                active_character[0].add_relic({"Name":"Empty Cage","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, remove 2 Cards from your Deck."})
+            elif randomBossRelic == 8:
+                active_character[0].add_relic({"Name":"Fusion Hammer","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer Smith at <blue>Rest Sites</blue>."})
+            elif randomBossRelic == 9:
+                active_character[0].add_relic({"Name":"Hovering Kite","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"The first time you discard a Card each turn, gain <yellow>1 Energy</yellow>."})
+            elif randomBossRelic == 10:
+                active_character[0].add_relic({"Name":"Pandora's Box","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Transform all <red>Strikes</red> and <green>Defends</green>."})
+            elif randomBossRelic == 11:
+                active_character[0].add_relic({"Name":"Philosopher's Stone","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. ALL enemies start with <red>1 Strength</red>."})
+            elif randomBossRelic == 12:
+                active_character[0].add_relic({"Name":"Runic Dome","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer see enemy Intents."})
+            elif randomBossRelic == 13:
+                active_character[0].add_relic({"Name":"Runic Pyramid","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"At the end of your turn, you no longer discard your hand."})
+            elif randomBossRelic == 14:
+                active_character[0].add_relic({"Name":"Sacred Bark","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Double the effectiveness of most <c>Potions</c>."})
+            elif randomBossRelic == 15:
+                active_character[0].add_relic({"Name":"Tiny House","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Obtain <c>1 Potion</c>. Gain <yellow>50 Gold</yellow>. Raise your <red>Max HP by 5</red>. Obtain 1 Card. Upgrade 1 Random Card."})
+            elif randomBossRelic == 16:
+                active_character[0].add_relic({"Name":"Slaver's Collar","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"During <black>Boss</black> and Elite combats, gain <yellow>1 Energy</yellow> at the start of your turn."})
+            elif randomBossRelic == 17:
+                active_character[0].add_relic({"Name":"Sozu","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You can no longer obtain <c>Potions</c>."})
+            elif randomBossRelic == 18:
+                active_character[0].add_relic({"Name":"Snecko Eye","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Draw 2 additional cards each turn. Start each combat <light-cyan>Confused</light-cyan>."})
+            elif randomBossRelic == 19:
+                active_character[0].add_relic({"Name":"Velvet Choker","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. You cannot play more than 6 Cards per turn."})
+            elif randomBossRelic == 20:
+                active_character[0].add_relic({"Name":"Wrist Blade","Rarity":"Boss","Owner":"Silent","Type":"Relic","Info":"<red>Attacks</red> that cost <yellow>0 Energy</yellow> deal <red>4 additional damage</red>."})  
 
     elif blessings[choice] == "Obtain a random rare card":
         

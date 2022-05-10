@@ -539,17 +539,12 @@ def generateCardRewards(colorless=False,bossReward=False):
     global gameAct
     
 
-    player_commons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
-    player_uncommons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
-    player_rares = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
-    colorless_rare_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Rare" and v.get("Upgraded") != True}
-    colorless_uncommon_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Uncommon" and v.get("Upgraded") != True}
-
 
     moltenEgg = False
     toxicEgg = False
     frozenEgg = False
     nlothsGift = False
+    prismaticShard = False
     cardRewardAmount = 3
 
     for relic in entities.active_character[0].relics:
@@ -565,6 +560,23 @@ def generateCardRewards(colorless=False,bossReward=False):
             toxicEgg = True
         elif relic.get("Name") == "Frozen Egg":
             frozenEgg = True
+        elif relic.get("Name") == "Prismatic Shard":
+            prismaticShard = True
+            ansiprint("I have prismaticShard")
+
+    if prismaticShard == False:
+        player_commons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
+        player_uncommons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
+        player_rares = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
+        colorless_rare_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Rare" and v.get("Upgraded") != True}
+        colorless_uncommon_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Uncommon" and v.get("Upgraded") != True}
+    elif prismaticShard == True:
+        player_commons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Common" and v.get("Owner") != "The Spire" and v.get("Upgraded") == None}
+        player_uncommons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") != "The Spire" and v.get("Upgraded") == None}
+        player_rares = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") != "The Spire" and v.get("Upgraded") == None}
+        colorless_rare_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Rare" and v.get("Upgraded") != True}
+        colorless_uncommon_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Uncommon" and v.get("Upgraded") != True}
+
 
     if nlothsGift:
         nlothsRareCardChance = rareCardChance*3
