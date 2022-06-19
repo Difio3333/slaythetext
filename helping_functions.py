@@ -7,7 +7,7 @@ import math
 import save_handlery
 import time
 import sys
-
+import string
 
 turn_counter = 0
 encounter_counter = 0
@@ -21,7 +21,9 @@ game_map_dict = acts.generate_connections(game_map)
 
 # game_map = acts.generate_act4Map()
 # game_map_dict = acts.generate_act4ConnectionDict(game_map)
-      
+
+seed = ""
+
 
 commonCardChance = 0.63
 uncommonCardChance = 0.37
@@ -31,7 +33,26 @@ generalPotionChance = 40
 
 removeCardCost = 75
 
-
+def set_seed():
+    global seed
+    
+    
+    answers = ["1","2"]
+    while True:
+        snap = input("Do you want to set a custom seed for your run?\n1. Yes\n2. No\n")
+        if snap not in answers:
+            print("You have to type either 1 or 2")            
+            continue
+        if snap == "1":
+            seedSuggestion = input("Type your seed.\n")
+            seed = seedSuggestion
+            ansiprint(f"The seed is:\n{seed}")
+            break
+        elif snap == "2":
+            seed = ''.join(rd.choices(string.ascii_uppercase + string.digits, k=20))
+            ansiprint(f"The seed is:\n{seed}\n")
+            break
+        
 def typeWriter(words):
     print(words)
     # for char in words:
@@ -114,8 +135,7 @@ def afterBattleScreen():
             else:
                 print("The game should be over now but I don't know how to do that.")
 
-            
-    
+
 
     elif entities.active_character[0].get_floor() == "Event":
         pass
@@ -164,6 +184,7 @@ def afterBattleScreen():
     afterBattleOptions.append("Show Relics")
     afterBattleOptions.append("Display Map")
     afterBattleOptions.append("Next Floor")
+    afterBattleOptions.append("Show Seed")
     
     while True:
         i = 0
@@ -227,7 +248,11 @@ def afterBattleScreen():
                 acts.show_map(game_map,game_map_dict)
                 acts.move_after_combat(game_map,game_map_dict)
                 break
-        
+            
+            elif "Show Seed" in afterBattleOptions[snap]:
+                print(f"\nThis is the current seed:{seed}\n")
+                
+
         except Exception as e:
             entities.active_character[0].explainer_function(snap)
             ansiprint("You have to type a number!",e)
@@ -1092,11 +1117,44 @@ def generateShop(singleItem: str = None):
     rarePotionCost = rd.randint(104,115)
     color = ""
     
+    commonChance = 0.54
+    uncommonChance = 0.37
+    rareChance = 0.09
+
     if singleItem == None:
+
         
         while True:
+            shopClassCards = list(nchoices_with_restrictions([commonChance,uncommonChance,rareChance],k = 5))
+            if shopClassCards[4] == 0:
+                continue
+            else:
+                break
+
+        while True:
+            
             miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
-            if miniList[0].get("Type") != "Attack":
+            cardRarity = defineCardRarity(shopClassCards[0])
+            if miniList[0].get("Type") != "Attack" or miniList[0].get("Rarity") != cardRarity:
+                miniList = []
+                continue
+            break
+        
+        if miniList[0].get("Rarity") == "Common":
+            miniList.append(rd.randint(49,60))
+        elif miniList[0].get("Rarity") == "Uncommon":
+            miniList.append(rd.randint(74,90))
+        elif miniList[0].get("Rarity") == "Rare":
+            miniList.append(rd.randint(148,181))
+        shoplist.append(miniList)
+        miniList = []
+        
+
+        while True:
+
+            miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
+            cardRarity = defineCardRarity(shopClassCards[1])
+            if shoplist[0][0]["Name"] == miniList[0]["Name"] or miniList[0].get("Type") != "Attack" or miniList[0].get("Rarity") != cardRarity:
                 miniList = []
                 continue
             break
@@ -1113,23 +1171,8 @@ def generateShop(singleItem: str = None):
 
         while True:
             miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
-            if shoplist[0][0]["Name"] == miniList[0]["Name"] or miniList[0].get("Type") != "Attack":
-                miniList = []
-                continue
-            break
-        
-        if miniList[0].get("Rarity") == "Common":
-            miniList.append(rd.randint(49,60))
-        elif miniList[0].get("Rarity") == "Uncommon":
-            miniList.append(rd.randint(74,90))
-        elif miniList[0].get("Rarity") == "Rare":
-            miniList.append(rd.randint(148,181))
-        shoplist.append(miniList)
-        miniList = []
-        
-        while True:
-            miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
-            if miniList[0].get("Type") != "Skill":
+            cardRarity = defineCardRarity(shopClassCards[2])
+            if miniList[0].get("Type") != "Skill" or miniList[0].get("Rarity") != cardRarity:
                 miniList = []
                 continue
             break
@@ -1147,7 +1190,8 @@ def generateShop(singleItem: str = None):
         
         while True:
             miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
-            if shoplist[2][0]["Name"] == miniList[0]["Name"] or miniList[0].get("Type") != "Skill":
+            cardRarity = defineCardRarity(shopClassCards[3])
+            if shoplist[2][0]["Name"] == miniList[0]["Name"] or miniList[0].get("Type") != "Skill" or miniList[0].get("Rarity") != cardRarity:
                 miniList = []
                 continue
             break
@@ -1164,7 +1208,8 @@ def generateShop(singleItem: str = None):
         while True:
 
             miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
-            if miniList[0].get("Type") != "Power":
+            cardRarity = defineCardRarity(shopClassCards[4])
+            if miniList[0].get("Type") != "Power" or miniList[0].get("Rarity") != cardRarity:
                 miniList = []
                 continue
             break
@@ -1178,6 +1223,9 @@ def generateShop(singleItem: str = None):
         shoplist.append(miniList)
         miniList = []
         
+        #sale
+        sale = rd.randint(0,4)
+        shoplist[sale][1] = shoplist[sale][1] - math.floor((shoplist[sale][1]/100)*50)
 
         #COLORLESS UNCOMMON CARD
         miniList.append(rd.choices(list(colorless_uncommon_cards.items()))[0][1])
@@ -1272,9 +1320,6 @@ def generateShop(singleItem: str = None):
                 newPrice = item[1] - math.floor((item[1]/100)*50)
                 item[1] = newPrice
 
-        sale = rd.randint(0,4)
-        shoplist[sale][1] = shoplist[sale][1] - math.floor((shoplist[sale][1]/100)*50)
-
         return shoplist
 
     elif singleItem == "Attack":
@@ -1311,7 +1356,13 @@ def generateShop(singleItem: str = None):
         color = entities.active_character[0].get_cardColor(shoplist[0].get("Type"))
     
     elif singleItem == "Colorless":
-        if rd.randint(0,2) == 0:
+        while True:
+            shopClassCards = list(nchoices_with_restrictions([commonChance,uncommonChance,rareChance],k = 1))
+            if shopClassCards[0] == 0:
+                continue
+            break
+
+        if shopClassCards[0] == 2:
             shoplist.append(rd.choices(list(colorless_rare_cards.items()))[0][1])
         else:
             shoplist.append(rd.choices(list(colorless_uncommon_cards.items()))[0][1])
@@ -1328,7 +1379,6 @@ def generateShop(singleItem: str = None):
         shoplist.append(shipShipRelic)
         shoplist.append(defineRelicPrize(shipShipRelic))
         color = "light-red"
-
 
     ansiprint(f"<light-red>The Courier</light-red> replenished your Shop with a <{color}>{shoplist[0].get('Name')}</{color}>")
     return shoplist
@@ -1368,6 +1418,17 @@ def defineCardPrize(card):
 
     return prize
 
+def defineCardRarity(rarityNumber):
+    rarity = ""
+    
+    if rarityNumber == 0:
+        rarity = "Common"
+    elif rarityNumber == 1:
+        rarity = "Uncommon"
+    elif rarityNumber == 2:
+        rarity = "Rare"
+    
+    return rarity
 def defineRelicPrize(relic):
     theCourier = False
     membershipCard = False

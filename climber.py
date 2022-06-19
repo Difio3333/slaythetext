@@ -219,11 +219,15 @@ class Char():
 		self.allKeys = False
 		self.cardIndex = None
 
+	def __iter__(self):
+		for attr, value in self.__dict__.items():
+			yield attr, value
+
+
 	def turn(self,turn_counter):
 		
 		if self.turnMoment == 0:
 			self.enemyMoves()
-			
 			if self.barricade == True:
 				pass
 			
@@ -925,12 +929,15 @@ class Char():
 		if len(self.strengthDecrease) > 0:
 			for decrease in self.strengthDecrease:
 				if decrease[0] == helping_functions.turn_counter:
-					self.set_strength(decrease[1])
+					self.strength += decrease[1]
+					ansiprint(f"{self.displayName} lost <red>{decrease[1]} Strength</red>.")
 
 		if len(self.dexterityDecrease) > 0:
 			for decrease in self.dexterityDecrease:
 				if decrease[0] == helping_functions.turn_counter:
-					self.set_strength(decrease[1])
+					self.dexterity += decrease[1]
+					ansiprint(f"{self.displayName} lost <green>{decrease[1]} Dexterity</green>.")					
+					
 
 		for relic in self.relics:
 			if relic.get("Name") == "Oricalcum":
@@ -2995,30 +3002,36 @@ class Char():
 			elif self.card_in_play.get("Name") == "Purify":				
 				i = 0
 				self.showHand()
+				answers = ["1","2"]
 				while i < self.card_in_play["Exhausting"]:
 					snap = input("Do you want to exhaust another card? (Yes/No)")
-					if snap == "Yes":
+					if snap not in answers:
+						print("You have to type either 1 or 2.")
+					if snap == "1":
 						self.exhaust(1)
 						i += 1
-					elif snap == "No":
+					elif snap == "2":
 						break
 					else:
-						print("Please type Yes or No.")
+						print("Please type either 1 or 2.")
 						self.explainer_function(snap,answer=False)
 
 			elif self.card_in_play.get("Name") == "Purify +":				
 				i = 0
 				self.showHand()
+				answers = ["1","2"]
 				while i < self.card_in_play["Exhausting"]:
 					snap = input("Do you want to exhaust another card? (Yes/No)")
-					if snap == "Yes":
+					if snap not in answers:
+						print("You have to type either 1 or 2.")
+					if snap == "1":
 						self.exhaust(1)
 						i += 1
-					elif snap == "No":
+					elif snap == "2":
 						break
 					else:
+						print("Please type either 1 or 2.")
 						self.explainer_function(snap,answer=False)
-						print("Please type Yes or No.")
 
 			elif self.card_in_play.get("Name") == "Swift Strike":
 				self.choose_enemy()
@@ -3297,6 +3310,7 @@ class Char():
 			
 		except Exception as e:
 			print("Failing to resolve a card at the end of card_is_played. Error:",e)
+	
 	def resolveCardPlay(self,turn_counter,repeat,exhaust):
 		#if self.card_in_play != None:
 
@@ -3581,17 +3595,8 @@ class Char():
 
 			i = 0
 			while i < cardsFromTheTop:
-				if len(self.draw_pile) == 0:
-					self.discardBackInDrawpile()
-				if len(self.draw_pile) == 0:
-					anisprint("Your Discardpile and your Drawpile are empty.")
-					break
-				else:
-					self.draw_pile[0]["Energy changed until played"] = True
-					self.draw_pile[0]["Energy"] = 0
-
-					self.card_is_played(self.draw_pile.pop(0),turn_counter)
-					i += 1
+				self.playCardFromTopOfDeck(exhaust=False)
+				i+=1
 
 		elif potion_in_play[0]["Name"] == "Duplication Potion":
 			self.set_duplication(potion_in_play[0]["Potion Yield"])
@@ -3913,11 +3918,13 @@ class Char():
 					print("The Discardpile is currently empty.")
 					break
 
-				typeCheck = [card for card in self.discard_pile if card.get("Type") == typeOfCard]
-							
-				if len(typeCheck) == 0:
-					print("You don't have any",typeOfCard,"cards in your drawpile.")
-					break
+
+				if typeOfCard != None:
+					typeCheck = [card for card in self.discard_pile if card.get("Type") == typeOfCard]
+								
+					if len(typeCheck) == 0:
+						print("You don't have any",typeOfCard,"cards in your Discardpile.")
+						break
 				try:
 					if random:
 						card_index = rd.randint(0,len(self.discard_pile)-1)
@@ -3960,11 +3967,12 @@ class Char():
 					print("The Exhaustpile is currently empty.")
 					break
 
-				typeCheck = [card for card in self.exhaust_pile if card.get("Type") == typeOfCard]
-							
-				if len(typeCheck) == 0:
-					print("You don't have any",typeOfCard,"cards in your drawpile.")
-					break
+				if typeOfCard != None:
+					typeCheck = [card for card in self.exhaust_pile if card.get("Type") == typeOfCard]
+								
+					if len(typeCheck) == 0:
+						print("You don't have any",typeOfCard,"cards in your Exhaustpile.")
+						break
 				try:
 					if random:
 						card_index = rd.randint(0,len(self.exhaust_pile)-1)
@@ -5584,6 +5592,31 @@ class Char():
 		
 		self.tempSpikes += value
 		ansiprint(self.displayName,"now has",self.tempSpikes,"Spikes.")
+	
+	def set_ritual(self,value):
+
+		self.ritual += value
+		ansiprint(self.displayName,"has",self.ritual,"Ritual.",self.displayName,"will receive",self.ritual,"Strength per turn.")
+
+	def set_strength(self,value):
+		
+		if value < 0:
+			if self.check_artifact():
+				self.strength += value
+				ansiprint(f"{self.displayName} has lost <red>{value} Strength</red>.")
+		else:
+			self.strength += value
+			ansiprint(f"{self.displayName} gained <red>{value} Strength</red>.")
+	
+	def set_dexterity (self,value):
+			#have to add check artifact here in case negativity is applied
+			if value < 0:
+				if self.check_artifact():
+					self.dexterity += value
+					ansiprint(f"{self.displayName} has lost <green>{value} Dexterity</green>.")
+			else:
+				self.dexterity += value
+				ansiprint(f"{self.displayName} gained <green>{value} Dexterity</green>.")
 
 	def set_strengthDecrease(self,value):
 
@@ -5591,31 +5624,13 @@ class Char():
 			decrease = [helping_functions.turn_counter+1,-value]			
 			self.strengthDecrease.append(decrease)			
 			ansiprint(self.displayName,"will lose",value,"<red>Strength</red> next turn.")
-			#this system needs to be added to enemies as well.
 	
-
-
-	def set_ritual(self,value):
-
-		self.ritual += value
-		ansiprint(self.displayName,"has",self.ritual,"Ritual.",self.displayName,"will receive",self.ritual,"Strength per turn.")
-
-	def set_strength(self,value):
-		#have to add check artifact here in case negativity is applied
-		self.strength += value
-		ansiprint(self.displayName,"has <red>"+str(self.strength)+" Strength</red>.")
-
 	def set_dexterityDecrease(self, value):
 
 		if self.check_artifact():
 			decrease = [turn_counter+1,-value]			
 			self.dexterityDecrease.append(decrease)			
 			ansiprint(self.displayName,"will lose",value,"Dexterity next turn.")
-
-	def set_dexterity (self,value):
-		#have to add check artifact here in case negativity is applied
-		self.dexterity += value
-		ansiprint(self.displayName,"now has",self.dexterity,"Dexterity.")
 
 	def set_infiniteBlades(self,value):
 
@@ -6988,10 +7003,11 @@ class Char():
 				self.card_is_played(self.draw_pile.pop(0),helping_functions.turn_counter,exhaust=exhaust)
 				self.energy = energyStorage
 			elif self.draw_pile[0].get("Energy") == None:
-				if exhaust:
+				if exhaust or self.draw_pile[0].get("Exhaust") == True:
 					self.add_CardToExhaustpile(self.draw_pile.pop(0))
 				else:
 					self.add_CardToDiscardpile(self.draw_pile.pop(0))
+		
 		self.randomTarget = False
 	
 	def set_redSkull(self):

@@ -96,6 +96,10 @@ class Enemy():
 		self.moveTwoSpree = 0
 		self.moveThreeSpree = 0
 
+	def __iter__(self):
+		for attr, value in self.__dict__.items():
+			yield attr, value
+
 	def chooseMove(self):
 		if helping_functions.turn_counter == 1:
 			

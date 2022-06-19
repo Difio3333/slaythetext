@@ -1,15 +1,19 @@
 #import random as rd
+import logging
+logging.basicConfig(level = logging.DEBUG, filename = "slaythetext.log",filemode="w",format = "%(asctime)s - %(levelname)s - %(message)s")
+
+import random as rd
 import entities
 import helping_functions
 import colorama
 import sys
 import time
 import save_handlery
-from pathlib import Path
 from ansimarkup import parse, ansiprint
 
 
 colorama.init()
+
 
 #KNOWN ISSUES:
 
@@ -19,19 +23,13 @@ colorama.init()
 #Skipping Black Star second artifact makes it inaccessible.
 #you can also skip green key forever I think 
 #just saw 4 shops in a row.
-
 # NEed to improve visuals of watch discard and watch exhaust pile
-#Boss Slime splits wildly -> probably fixed
-#shops prices need to update when buying membership card and the courier | fixed
-#mawbank can't be generated in shop anymore
-#the courier needs to work in Shop | continue in helping functions line 1434 | fixed
-#add strenght and dex decrease to status - fixed
-#fixed astrolabe rarity from Rare to Boss
 #playing curses with distilled chaos and probably mayhem leads to wrong message. 
-#have to add check artifact for strength and dex decrease skills like the one from the bandit event in act 2
-#check whale change to boss relic reward for both classes
-#check seeding rng so savescumming doesn't work.
-#check proper error logging : https://www.youtube.com/watch?v=urrfJgHwIJA&list=WL&index=16&t=70s
+#have to add check artifact for strength and dex decrease skills like the one from the bandit event in act 2. - fixed
+#check whale change to boss relic reward for both classes -fixed
+#check seeding rng so savescumming doesn't work. - fixed
+#fix shop card rarities to the following: Class: Rare 9%, Uncommon: 37%, Common: 54% | Colorless : Rare: 36%, Uncommons: 64%
+#check proper error logging : https://www.youtube.com/watch?v=urrfJgHwIJA&list=WL&index=16&t=70s fixed
 
 def main():
 	try:
@@ -41,9 +39,10 @@ def main():
 		ansiprint("If you don't know what a <blue>Card</blue>, <light-red>Relic</light-red> or <c>Potion</c> does just type out its name wherever you are and you should get a short explanation of it.")
 		ansiprint("In 99 out of 100 cases you can navigate the game by typing in the corresponding numbers of the options presented to you.")
 		ansiprint("You can Save only during battles by typing \"Save\" and hitting \"Enter\" afterwards.\n\n")
-
+		
 		save_handlery.the_question_of_safety()
-
+		rd.seed(helping_functions.seed)
+		
 		running = True
 		while running == True and helping_functions.gameAct < 5:
 			if save_handlery.saveDecision == "Yes":
@@ -53,7 +52,7 @@ def main():
 				entities.active_character[0].resetChar()
 				entities.active_character[0].set_drawPile()
 				entities.update_encounter()
-				
+			
 			while len(entities.list_of_enemies) > 0:
 
 				helping_functions.turn_counter = helping_functions.count_up(helping_functions.turn_counter)
@@ -86,16 +85,56 @@ def main():
 		input("Thanks so much for playing!")
 
 	except Exception as e:
+		logging.error(f"Sorry the game crashed. You can find the crashlog in the same location where your game is located. It would be really nice if you could copy paste your game text to a txt. file and send it to slaythetext@gmail.com. Thanks and sorry for the inconveniences. Additonally there should be a slaythetext.log file in the same directory where you launched this game from. Please send that as well. \n Here is the actual Error:\n{e}",exc_info=True)
+		import acts
+		saveDict = {"Encounter Counter":helping_functions.encounter_counter,
+			"Floor Counter":helping_functions.floor_counter,
+			"Game Act":helping_functions.gameAct,
+			"Game Map":helping_functions.game_map,
+			"Game Map Dict":helping_functions.game_map_dict,
+			"Test Act": acts.testAct,
+			"Common Card Chance":helping_functions.commonCardChance,
+			"Uncommon Card Chance":helping_functions.uncommonCardChance,
+			"Rare Card Chance":helping_functions.rareCardChance,
+			"Potion Chance":helping_functions.generalPotionChance,
+			"Remove Card Cost":helping_functions.removeCardCost,
+			"List Of Enemies":entities.list_of_enemies,
+			"Relics Seen":entities.relics_seen_list,
+			"Active Character": entities.active_character,
+			"Enemy Encounters":entities.enemyEncounters,
+			"Elite Encounters":entities.eliteEncounters,
+			"Boss Encounters":entities.bossEncounters,
+			"Act One Events":entities.actOneEvents,
+			"Universal Events":entities.universalEvents,
+			"Event Monster Chance":entities.eventMonsterChance,
+			"Event Treasure Chance":entities.eventTreasureChance,
+			"Event Shop Chance":entities.eventShopChance,
+			"Beat First Act 3 Boss": helping_functions.actThreeFirstBossBeaten
+			}
+		for key in saveDict:
+			if key == "List Of Enemies":
+				logging.debug(f"\n\n Active Enemies:\n")
+				for enemy in saveDict[key]:
+					for item in enemy:		
+						logging.debug(f"{item}")
+					logging.debug(f"\n\n Active Enemy End:\n")
+			
+			elif key == "Active Character":
+				logging.debug("\n\nPlayer Character\n")
+				for item in entities.active_character[0]:
+					logging.debug(item)
+				logging.debug("\n\nPlayer Character End\n")
+			else:
+				logging.debug(f"{key}:{saveDict[key]}")
+			
 		
-		crash=["Error on line {}".format(sys.exc_info()[-1].tb_lineno),"\n",e]
-		timeX=str(time.time())
-		devPath = str(Path.cwd())+"/documents/slaythetext/CRASH-"+timeX+".txt"
-		prodPath = str(Path.cwd())+"/slaythetext_CRASH-"+timeX+".txt" 
-		with open(prodPath,"w") as crashLog:
-			for i in crash:
-				i=str(i)
-				crashLog.write(i)
-		input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.\nIt would be really nice if you could copy paste your game text to a txt. file and send it to slaythetext@gmail.com. Thanks and sorry for the inconveniences.")
+		
+		input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.\nIt would be really nice if you could copy paste your game text to a txt. file and send it to slaythetext@gmail.com. Thanks and sorry for the inconveniences. Additonally there should be a slaythetext.log file in the same directory where you launched this game from. Please send that as well.")
+
+
+
 
 if __name__ == "__main__":
 	main()
+
+

@@ -17,11 +17,12 @@ def the_question_of_safety():
 			f.close()
 		except FileNotFoundError:
 			print("No savefile detected in "+prodPath+".\n\n")
-
+			helping_functions.set_seed()
 			entities.choose_character()
 			entities.active_character[0].set_deck()
-			entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})			#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
+			#entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})			#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
 			#entities.active_character[0].add_CardToDeck({"Name":"Brutality","Draw":1,"Selfhurt":1,"Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card."})
+			#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
 			break
 
 		try:
@@ -38,9 +39,10 @@ def the_question_of_safety():
 			
 			elif loader[saveDecision] == "No":
 				saveDecision = "No"
+				helping_functions.set_seed()
 				entities.choose_character()
 				entities.active_character[0].set_deck()
-				entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})
+				#entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})
 				#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
 				#entities.active_character[0].add_CardToDeck({"Name":"Brutality","Draw":1,"Selfhurt":1,"Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card."})
 				break
@@ -77,7 +79,8 @@ def save_and_rave():
 				"Event Monster Chance":entities.eventMonsterChance,
 				"Event Treasure Chance":entities.eventTreasureChance,
 				"Event Shop Chance":entities.eventShopChance,
-				"Beat First Act 3 Boss": helping_functions.actThreeFirstBossBeaten
+				"Beat First Act 3 Boss": helping_functions.actThreeFirstBossBeaten,
+				"Seed": helping_functions.seed
 				}
 
 	devPath = str(Path.cwd())+"/documents/slaythetext/slaythetextSave.dat"
@@ -105,6 +108,7 @@ def load_and_bloat():
 	helping_functions.generalPotionChance = pickle.load(open(path,"rb")).get("Potion Chance")
 	helping_functions.removeCardCost = pickle.load(open(path,"rb")).get("Remove Card Cost")
 	helping_functions.actThreeFirstBossBeaten= pickle.load(open(path,"rb")).get("Beat First Act 3 Boss")
+	helping_functions.seed = pickle.load(open(path,"rb")).get("Seed")
 	
 	entities.list_of_enemies = pickle.load(open(path,"rb")).get("List Of Enemies")
 	entities.relics_seen_list = pickle.load(open(path,"rb")).get("Relics Seen")
