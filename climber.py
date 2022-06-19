@@ -56,7 +56,7 @@ class Char():
 		self.weak = 0
 		self.frail = 0
 		self.vulnerable = 0
-		self.entangled = 0
+		self.entangled = False
 
 		#positiv statuses
 		
@@ -85,7 +85,7 @@ class Char():
 		self.doubleDamage = []
 		self.theBomb = []
 
-		self.cantDraw = 0
+		self.cantDraw = False
 		self.cardsCostNothing = 0
 		self.tempSpikes = 0
 
@@ -106,6 +106,7 @@ class Char():
 
 		self.buffer = 0
 		self.wraithForm = 0
+		self.demonForm = 0
 		self.burst = 0
 		self.doubleTap = 0
 
@@ -130,7 +131,7 @@ class Char():
 		self.runicDome = 0
 		self.velvetChoker = 0
 		self.runicPyramide = 0
-		self.confused = 0
+		self.confused = False
 
 		self.artOfWar = 0
 		self.penNip = 0
@@ -188,6 +189,7 @@ class Char():
 		self.runicCube = False
 		self.redSkull = False
 		self.redSkullStrength = False
+		self.orangePellets = False
 							
 		#new powers needed to add in status screen
 		self.rage = 0
@@ -203,7 +205,7 @@ class Char():
 		self.rupture = 0
 
 		self.randomTarget = False
-		self.hex = 0
+		self.hex = False
 		self.card_in_play = None
 		self.double_play_card = None
 		self.turnMoment = 0
@@ -257,9 +259,14 @@ class Char():
 				self.energy = self.energy_gain + self.temp_energy
 			
 			if len(self.reducedDrawByTurns) > 0:
-				for turn in self.reducedDrawByTurns:
-					if turn == helping_functions.turn_counter:
+
+				while i < len(self.reducedDrawByTurns):
+					
+					if self.reducedDrawByTurns[i] == helping_functions.turn_counter:
 						self.tempDraw = -1
+						self.reducedDrawByTurns.pop(i)
+					else:
+						i+=1
 
 			if helping_functions.turn_counter == 1:
 				self.draw_innates()
@@ -387,8 +394,12 @@ class Char():
 				enemy.set_poison(self.noxiousFumes)
 		
 		if self.ritual > 0:
-			self.strength += self.ritual
-			ansiprint(self.displayName,"received",self.ritual,"Strength and now has",self.strength,"Strength.")
+			self.set_strength(self.ritual)
+			ansiprint(f"<light-blue>Ritual</light-blue> did this.")
+
+		if self.demonForm > 0:
+			self.set_strength(self.demonForm)
+			ansiprint(f"<light-blue>Demon Form</light-blue> did this.")
 
 		if self.brimStone == True:
 			self.set_strength(2)
@@ -443,9 +454,13 @@ class Char():
 			ansiprint("<light-red>Black Blood</light-red> just <red>healed</red> you!")
 			self.blackBlood = False
 
-		
-		
-		
+		for relic in self.relics:
+			if relic.get("name") == "Orange Pellets":
+				relic["Power Counter"] = 0
+				relic["Attack Counter"] = 0
+				relic["Skill Counter"] = 0
+				self.remove_allDebuffs()
+				
 	def relicFirstTurnEffects(self):
 
 		for relic in self.relics:
@@ -1035,8 +1050,8 @@ class Char():
 					ansiprint(f"You can't play{self.hand[card_index].get('Name')} because you still have non-attacks in your hand.")
 					return
 		
-		if self.entangled > 0 and self.hand[card_index]["Type"] == "Attack":
-			ansiprint("You can't play Attacks this turn because your are entangled")
+		if self.entangled == True and self.hand[card_index]["Type"] == "Attack":
+			ansiprint("You can't play <red>Attacks</red> this turn because your are <light-cyan>entangled</light-cyan>")
 			return
 
 		self.cardIndex = card_index
@@ -1811,13 +1826,13 @@ class Char():
 					i += 1
 
 			elif self.card_in_play.get("Name") == "Bullet Time":
-				self.set_cantDraw(self.card_in_play["Bullet Time"])
+				self.set_cantDraw()
 				for card in self.hand:
 					card["This turn Energycost changed"] = True 
 					card["Energy"] = 0
 
 			elif self.card_in_play.get("Name") == "Bullet Time +":
-				self.set_cantDraw(self.card_in_play["Bullet Time"])
+				self.set_cantDraw()
 				for card in self.hand:
 					card["This turn Energycost changed"] = True 
 					card["Energy"] = 0
@@ -2458,11 +2473,11 @@ class Char():
 
 			elif self.card_in_play.get("Name") == "Battle Trance":
 				self.draw(self.card_in_play.get("Draw"))
-				self.set_cantDraw(1)
+				self.set_cantDraw()
 
 			elif self.card_in_play.get("Name") == "Battle Trance +":
 				self.draw(self.card_in_play.get("Draw"))
-				self.set_cantDraw(1)
+				self.set_cantDraw()
 
 			elif self.card_in_play.get("Name") == "Blood Letting":
 				self.receive_recoil_damage(self.card_in_play.get("Selfhurt"),directDamage=True)
@@ -2751,11 +2766,11 @@ class Char():
 			elif self.card_in_play.get("Name") == "Corruption +":
 				self.set_corruption()	
 
-			elif self.card_in_play.get("Name") == "Demon Form":
-				self.set_ritual(self.card_in_play.get("Strength"))
+			elif self.card_in_play.get("Name") == "Demon Form":				
+				self.set_demonForm(self.card_in_play.get("Strength"))
 
 			elif self.card_in_play.get("Name") == "Demon Form +":
-				self.set_ritual(self.card_in_play.get("Strength"))
+				self.set_demonForm(self.card_in_play.get("Strength"))
 		
 			elif self.card_in_play.get("Name") == "Juggernaut":
 				self.set_juggernaut(self.card_in_play.get("Damage"))
@@ -3830,6 +3845,14 @@ class Char():
 		if self.intangible > 0:
 			self.intangible -= 1
 
+		for relic in self.relics:
+			if relic.get("name") == "Orange Pellets":
+				relic["Power Counter"] = 0
+				relic["Attack Counter"] = 0
+				relic["Skill Counter"] = 0
+
+				
+
 	def draw_specific_cards_from_place(self,amount,place,typeOfCard = None,random = False):
 		
 		if place == "Drawpile":
@@ -4006,7 +4029,7 @@ class Char():
 			
 	def draw(self,draw_power):
 		
-		if self.cantDraw > 0:
+		if self.cantDraw == True:
 			ansiprint(self.displayName,"can't draw anything this turn.")
 			return
 
@@ -4158,8 +4181,15 @@ class Char():
 					self.penNip = 0
 
 			elif relic.get("Name") == "Orange Pellets":
-				if self.attack_counter > 0 and self.skill_counter > 0 and self.power_counter > 0:
-					print("This is not implemented yet but you should be cleared of all your negative effects.")
+				relic["Attack Counter"] += 1
+				if relic.get("Attack Counter") > 0 and relic.get("Skill Counter") > 0 and relic.get("Power Counter") > 0:
+					relic["Attack Counter"] = 0
+					relic["Skill Counter"] = 0
+					relic["Power Counter"] = 0
+					self.remove_allDebuffs()
+
+
+					
 
 	def set_skillCounter(self):
 		self.skill_counter += 1
@@ -4176,6 +4206,16 @@ class Char():
 							continue
 						else:
 							i+=1
+			elif relic.get("Name") == "Orange Pellets":
+				relic["Skill Counter"] += 1
+				if relic.get("Attack Counter") > 0 and relic.get("Skill Counter") > 0 and relic.get("Power Counter") > 0:
+					relic["Attack Counter"] = 0
+					relic["Skill Counter"] = 0
+					relic["Power Counter"] = 0
+					self.remove_allDebuffs()
+
+					print("This is not implemented yet but you should be cleared of all your negative effects.")
+
 
 	def set_powerCounter(self):
 		self.power_counter += 1
@@ -4199,6 +4239,15 @@ class Char():
 		if self.birdFacedUrn > 0:
 			self.heal(2)
 			ansiprint("You <red>heal 2</red> because of <light-red>Bird-Faced Urn</light-red>!")
+
+		for relic in self.relics:
+			if relic.get("Name") == "Orange Pellets":
+				relic["Power Counter"] += 1
+				if relic.get("Attack Counter") > 0 and relic.get("Skill Counter") > 0 and relic.get("Power Counter") > 0:
+					relic["Attack Counter"] = 0
+					relic["Skill Counter"] = 0
+					relic["Power Counter"] = 0
+					self.remove_allDebuffs()
 
 	def set_cardCounter (self):
 		self.card_counter += 1
@@ -4385,7 +4434,7 @@ class Char():
 				if self.block < 0:
 					self.block = 0
 				
-			ansiprint(self.displayName,"blocked for <green>"+str(block_value)+"</green> and now has <green>" +str(self.block)+" Block</green>!")
+			ansiprint(f"{self.displayName} blocked for <green>{block_value}</green> and now has <green>{self.block} Block</green>!")
 
 	def energyBoost(self,value):
 		self.temp_energy += value
@@ -4656,9 +4705,6 @@ class Char():
 		if self.invulnerable > 0:
 			self.invulnerable -= 1
 		
-		if self.entangled > 0:
-			self.entangled -= 1
-
 		if self.noBlock > 0:
 			self.noBlock -= 1
 
@@ -4669,7 +4715,8 @@ class Char():
 		if self.cardsCostNothing > 0:
 			self.cardsCostNothing -= 1
 		
-		self.cantDraw = 0
+		self.cantDraw = False
+		self.entangled = False
 
 		self.damage_counter = 0
 		
@@ -4789,7 +4836,7 @@ class Char():
 	def show_exhaustpile(self):
 
 		i = 0
-		for card in self.discard_pile:
+		for card in self.exhaust_pile:
 			color = self.get_cardColor(card.get("Type"))
 			if i+1 < 10:
 				numberSpacing = "  "
@@ -4823,7 +4870,8 @@ class Char():
 				ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<yellow>{card.get('Energy')}</yellow>")
 			
 			i = i + 1
-	
+		print("\n")
+
 	def showPotions(self,skip=False):
 		try:
 			
@@ -5545,13 +5593,15 @@ class Char():
 			ansiprint(self.displayName,"will lose",value,"<red>Strength</red> next turn.")
 			#this system needs to be added to enemies as well.
 	
+
+
 	def set_ritual(self,value):
 
 		self.ritual += value
 		ansiprint(self.displayName,"has",self.ritual,"Ritual.",self.displayName,"will receive",self.ritual,"Strength per turn.")
 
 	def set_strength(self,value):
-
+		#have to add check artifact here in case negativity is applied
 		self.strength += value
 		ansiprint(self.displayName,"has <red>"+str(self.strength)+" Strength</red>.")
 
@@ -5561,9 +5611,9 @@ class Char():
 			decrease = [turn_counter+1,-value]			
 			self.dexterityDecrease.append(decrease)			
 			ansiprint(self.displayName,"will lose",value,"Dexterity next turn.")
-	
-	def set_dexterity (self,value):
 
+	def set_dexterity (self,value):
+		#have to add check artifact here in case negativity is applied
 		self.dexterity += value
 		ansiprint(self.displayName,"now has",self.dexterity,"Dexterity.")
 
@@ -5638,9 +5688,35 @@ class Char():
 	
 	def set_confused(self):
 		if self.check_artifact():
-			self.confused = 1
+			self.confused = True
 			ansiprint(self.displayName,"is confused. All cards have random cost.")
 
+
+	def remove_allDebuffs(self):
+
+		self.strengthDecrease = []
+		self.dexterityDecrease = []
+		self.confused = False
+		self.cantDraw = False
+		self.hex = False
+		self.constriction = 0
+		self.wraithForm = 0
+		self.reducedDrawByTurns = []
+		self.entangled = False
+		#self.fasting = False
+
+		if self.strength < 0:
+			self.strength = 0
+		if self.dexterity < 0:
+			self.dexterity = 0
+
+		self.frail = 0
+		self.weak = 0
+		self.vulnerable = 0
+		self.noBlock = 0
+
+		ansiprint("<light-red>Orange Pellets</red> removed all <light-cyan>Debuffs</light-cyan>")
+	
 	def set_weakness(self,value):
 		if self.ginger > 0:
 			ansiprint("You are immune to <light-cyan>Weakness</light-cyan> thanks to <light-red>Ginger</light-red>!")
@@ -5669,22 +5745,19 @@ class Char():
 
 	def set_hex(self):
 		if self.check_artifact():
-			self.hex = 1
+			self.hex = True
 			ansiprint(self.displayName,"will receive 1 <light-cyan>Dazed</light-cyan> everytime you play a <red>non-attack</red> Card\n")
 
-	def set_entangled(self,value):
+	def set_entangled(self):
 		if self.check_artifact():
-			self.entangled += value
+			self.entangled = True
 			ansiprint(self.displayName, "is now entangled for",self.entangled,"turn.\n")
 
-	def set_cantDraw(self,value):
+	def set_cantDraw(self):
 		if self.check_artifact():
-			self.cantDraw += value
-
-			if self.cantDraw == 1:
-				ansiprint(self.displayName, "can't draw for",self.cantDraw,"turn.\n")
-			else:
-				ansiprint(self.displayName, "can't draw for",self.cantDraw,"turns.\n")	
+			self.cantDraw = True
+			ansiprint(self.displayName, "can't draw any more cards this turn.\n")
+			
 
 	def set_wraithForm(self,value):
 		if self.check_artifact():
@@ -5900,7 +5973,7 @@ class Char():
 				ansiprint(f"{self.displayName} added <{color}>{card.get('Name')}</{color}> to the Discardpile because the Hand was full.\n")
 
 			else:
-				if self.confused > 0 and type(card.get("Energy")) == int:
+				if self.confused and type(card.get("Energy")) == int:
 					card["Energy changed for the battle"] = True
 					card["Energy"] = rd.randint(0,3)
 
@@ -6086,10 +6159,12 @@ class Char():
 				else:
 					print("Type the number of one of the potions shown.")
 					pass
-			except Exception as e:
+			except ValueError:
 				self.explainer_function(choice)
-				print ("You have to type a number. remove_Potion\n")
-				pass
+			except Exception as e:
+				
+				print ("You have to type a number\n",e)
+				
 	
 	def add_relic(self,relic):
 
@@ -6575,12 +6650,13 @@ class Char():
 				if self.gold < 0:
 					self.gold = 0
 				if value >= 0:
-					ansiprint(self.displayName,"received <yellow>"+str(value)+" Gold</yellow> and now has <yellow>"+str(self.gold)+" Gold</yellow>.")
+					ansiprint(f"{self.displayName} received <yellow>{value} Gold</yellow> and now has <yellow>{self.gold} Gold</yellow>.")
 				if value > 0 and self.bloodyIdol > 0:
 					self.heal(5)
-					ansiprint("You healed because you own a <red>Bloody</red> <light-red>Idol</light-red>.")
+					ansiprint("You <red>healed</red> because you own a <light-red>Bloody Idol</light-red>.")
+
 				if value < 0:
-					ansiprint(f"{self.displayName} lost <yellow>{abs(value)} Gold</yellow> and now has <yellow> {self.gold} Gold</yellow>.")
+					ansiprint(f"{self.displayName} lost <yellow>{abs(value)} Gold</yellow> and now has <yellow>{self.gold} Gold</yellow>.")
 
 	def removeCardsFromDeck(self,amount:int =1,removeType: str = "Remove",purpleFire: bool = False,index = None):
 		
@@ -6766,7 +6842,7 @@ class Char():
 				self.receive_recoil_damage(1,directDamage = True)
 				ansiprint("<m>"+card["Name"]+"</m> did this.")
 
-		if self.hex > 0:
+		if self.hex == True:
 			if self.card_in_play.get("Type") != "Attack":
 				self.add_CardToDrawpile({"Name": "Dazed","Ethereal": True, "Type": "Status", "Rarity": "Enemy", "Owner":"The Spire"})
 	
@@ -6932,56 +7008,79 @@ class Char():
 		status = "\n{} (<red>{}</red>/<red>{}</red>)".format(self.displayName,self.health,self.max_health)
 		if event == False:
 			if self.block > 0:
-				status += " |<green> Block: "+str(self.block)+"</green>"
+				status += f" |<green> Block: {self.block}</green>"
 
-			status += " |<yellow> Energy: "+ str(self.energy)+"</yellow>"
+			status += f" |<yellow> Energy: {self.energy}</yellow>"
 			
 			if self.weak > 0:
-				status += " |<light-cyan> Weakness: "+str(self.weak)+"</light-cyan>"
+				status += f" |<light-cyan> Weakness: {self.weak}</light-cyan>"
 			if self.vulnerable > 0:
-				status += " |<light-cyan> Vulnerable: "+str(self.vulnerable)+"</light-cyan>"
+				status += f" |<light-cyan> Vulnerable: {self.vulnerable}</light-cyan>"
 			if self.frail > 0:
-				status += " |<light-cyan> Frail: "+str(self.frail)+"</light-cyan>"
+				status += f" |<light-cyan> Frail: {self.frail}</light-cyan>"
+			if self.constriction > 0:
+				status += f" |<light-cyan> Constricted: {self.constriction}</light-cyan>"
+			if len(self.strengthDecrease) > 0:
+				status += f" |<light-cyan> Strength Decrease:{self.strengthDecrease[0][1]}</light-lightcyan>" 
+			if len(self.dexterityDecrease) > 0:
+				status += f" |<light-cyan> Dexterity Decrease:{self.dexterityDecrease[0][1]}</light-lightcyan>" 
+			if self.confused == True:
+				status += f" |<light-cyan> Confused</light-cyan>"
+			if self.cantDraw == True:
+				status += f" |<light-cyan> No Draw</light-cyan>"
+			if self.hex == True:
+				status += f" |<light-cyan> Hex</light-cyan>"
+			if self.wraithForm > 0:
+				status += f" |<light-cyan> Wraith Form: {self.wraithForm}</light-cyan>"
+			if len(self.reducedDrawByTurns) > 1:
+				status += f" |</light-cyan> Draw Reduction </light-cyan>"
+			if self.entangled == True:
+				status += f" |</light-cyan> Entangle </light-cyan>"
+
 			if self.strength != 0:
-				status += " |<red> Strength: "+str(self.strength)+"</red>"
+				status += f" |<red> Strength: {self.strength}</red>"
 			if self.dexterity != 0:
-				status += " |<green> Dexterity: "+str(self.dexterity)+"</green>"
+				status += f" |<green> Dexterity: {self.dexterity}</green>"
 			if self.ritual > 0:
-				status += " |<red> Ritual: "+str(self.ritual)+"</red>"
+				status += f" |<red> Ritual: {self.ritual}</red>"
 			if self.regen > 0:
-				status += " |<red> Regen: "+str(self.regen)+"</red>"
+				status += f" |<red> Regen: {self.regen}</red>"
 			if self.invulnerable > 0:
-				status += " |<light-blue> Invulnerable: "+str(self.invulnerable)+"</light-blue>"
+				status += f" |<light-blue> Invulnerable: {self.invulnerable}</light-blue>"
 			if self.intangible > 0:
-				status += " |<light-blue> Invincible: "+str(self.intangible)+"</light-blue>"
+				status += f" |<light-blue> Invincible: {self.intangible}</light-blue>"
 			if self.artifact > 0:
-				status += " |<light-blue> Artifact: "+str(self.artifact)+"</light-blue>"
+				status += f" |<light-blue> Artifact: {self.artifact}</light-blue>"
 			if self.spikes > 0:
-				status += " |<light-blue> Spikes: "+str(self.spikes)+"</light-blue>"
+				status += f" |<light-blue> Spikes: {self.spikes}</light-blue>"
 			if self.barricade == True:
-				status += " |<light-blue> Barricade</light-blue>"
+				status += f" |<light-blue> Barricade</light-blue>"
 			if self.corruption == True:
-				status += " |<light-blue> Corruption</light-blue>"
+				status += f" |<light-blue> Corruption</light-blue>"
 			if self.metallicize > 0:
-				status += " |<light-blue> Metallicize: "+str(self.metallicize)+"</light-blue>"
+				status += f" |<light-blue> Metallicize: {self.metallicize}</light-blue>"
 			if self.juggernaut > 0:
-				status += " |<light-blue> Juggernaut: "+str(self.juggernaut)+"</light-blue>"
+				status += f" |<light-blue> Juggernaut: {self.juggernaut}</light-blue>"
 			if self.feelNoPain > 0:
-				status += " |<light-blue> Feel No Pain: "+str(self.feelNoPain)+"</light-blue>"
+				status += f" |<light-blue> Feel No Pain: {self.feelNoPain}</light-blue>"
 			if self.darkEmbrace > 0:
-				status += " |<light-blue> Dark Embrace: "+str(self.darkEmbrace)+"</light-blue>"
+				status += f" |<light-blue> Dark Embrace: {self.darkEmbrace}</light-blue>"
 			if self.rage > 0:
-				status += " |<light-blue> Rage: "+str(self.rage)+"</light-blue>"
+				status += f" |<light-blue> Rage: {self.rage}</light-blue>"
 			if self.evolve > 0:
-				status += " |<light-blue> Evolve: "+str(self.evolve)+"</light-blue>"
+				status += f" |<light-blue> Evolve: {self.evolve}</light-blue>"
 			if self.fireBreathing > 0:
-				status += " |<light-blue> Fire Breathing: "+str(self.fireBreathing)+"</light-blue>"
+				status += f" |<light-blue> Fire Breathing: {self.fireBreathing}</light-blue>"
+			if self.demonForm > 0:
+				status += f" |<light-blue> Demon Form: {self.demonForm}</light-blue>"
+
+
 			if self.rupture > 0:
-				status += " |<light-blue> Rupture: "+str(self.rupture)+"</light-blue>"
+				status += f" |<light-blue> Rupture: {self.rupture}</light-blue>"
 			if self.combustDamage > 0:
 				status += f" |<light-blue> Combust:{self.combustDamage} </light-blue>, <red>Damage: {self.combustSelfharm}</red>" 
 			if len(self.doubleDamage) > 0:
-				status += " | Attacks deal Double Damage."
+				status += " | <red>Attacks</red> deal <red>Double Damage</red><."
 			if self.brutality > 0:
 				status += f" |<light-blue> Brutality:{self.brutality} </light-blue>" 
 
@@ -7014,7 +7113,7 @@ class Char():
 		self.cardsNextTurn = []
 		self.doubleDamage = []
 
-		self.cantDraw = 0
+		self.cantDraw = False
 		self.cardsCostNothing = 0
 		self.tempSpikes = 0
 
@@ -7050,7 +7149,7 @@ class Char():
 		self.weak = 0
 		self.frail = 0
 		self.vulnerable = 0
-		self.entangled = 0
+		self.entangled = False
 		self.block = 0
 		self.artifact = 0
 		
@@ -7059,7 +7158,7 @@ class Char():
 		self.runicDome = 0
 		self.velvetChoker = 0
 		self.runicPyramide = 0
-		self.confused = 0
+		self.confused = False
 		
 		self.artOfWar = 0
 		
@@ -7077,6 +7176,7 @@ class Char():
 		self.magicFlower = False
 		self.championBelt = False
 		self.brimStone = False
+		self.orangePellets = False
 
 		self.runicCube = False
 		self.redSkull = False
@@ -7120,7 +7220,7 @@ class Char():
 		self.tungstenRod = 0
 		self.wristBlade = 0
 		self.strengthDecrease = []
-		self.hex = 0
+		self.hex = False
 		self.constriction = 0
 		self.cardIndex = None
 		
@@ -7137,6 +7237,7 @@ class Char():
 		self.juggernaut = 0
 		self.rupture = 0
 		self.metallicize = 0
+		self.demonForm = 0
 
 		self.hand = []
 		self.discard_pile = []

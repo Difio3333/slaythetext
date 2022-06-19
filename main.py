@@ -19,10 +19,19 @@ colorama.init()
 #Skipping Black Star second artifact makes it inaccessible.
 #you can also skip green key forever I think 
 #just saw 4 shops in a row.
-#5169 exhaustpile Stuff needs to be handled properly so when you exhaust your entire hand and something comes back it doesn't loop indefinitely  -> fixed
-#need to make exhaust pile and discard pile watchable -> done
+
+# NEed to improve visuals of watch discard and watch exhaust pile
 #Boss Slime splits wildly -> probably fixed
-#shops need to update when buying membership card
+#shops prices need to update when buying membership card and the courier | fixed
+#mawbank can't be generated in shop anymore
+#the courier needs to work in Shop | continue in helping functions line 1434 | fixed
+#add strenght and dex decrease to status - fixed
+#fixed astrolabe rarity from Rare to Boss
+#playing curses with distilled chaos and probably mayhem leads to wrong message. 
+#have to add check artifact for strength and dex decrease skills like the one from the bandit event in act 2
+#check whale change to boss relic reward for both classes
+#check seeding rng so savescumming doesn't work.
+#check proper error logging : https://www.youtube.com/watch?v=urrfJgHwIJA&list=WL&index=16&t=70s
 
 def main():
 	try:

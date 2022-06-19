@@ -363,12 +363,13 @@ def afterEventBattleRewardScreen(gold: int = None,potion:dict = None,cards: list
             elif eventBattleRewards[snap] == "Receive <light-red>"+secondRelic.get("Name")+"</light-red>.":
                 entities.active_character[0].add_relic(secondRelic)
                 eventBattleRewards.pop(snap)
-
-            
-        except Exception as e:
-            
+        
+        except ValueError:
             entities.active_character[0].explainer_function(snap)
             print("You have to type a number.")
+        except Exception as e:
+            print(e)
+            
 
 def generateRelicRewards(place="Elite Fight",specificType = None):
     
@@ -466,10 +467,12 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
         relicList.append(4)
 
     while True:
-
+        alreadySeen = False
+        noBottleCard = False
+        goldShopItem = False
+        
         for relic in relicList:
-            alreadySeen = False
-
+            
             if relic == 0:
                 rewardRelics.append(rd.choices(list(relic_commons.items()))[0][1])
             elif relic == 1:
@@ -486,27 +489,36 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
             
             if relic.get("Name") in entities.relics_seen_list:
                 ansiprint(relic.get("Name"),"has already been generated.")
-                
+                alreadySeen = True
+
             elif relic.get("Name") == "Bottled Flame":
                 attackCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Attack"]
-                print(attackCheck)
+                
                 if len(list(attackCheck)) == 0:
                     rewardRelics = []                    
-                    alreadySeen = True
+                    noBottleCard = True
 
             elif relic.get("Name") == "Bottled Lightning":
                 skillCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Skill"]
                 if len(list(skillCheck)) == 0:
                     rewardRelics = []
-                    alreadySeen = True
+                    noBottleCard = True
 
             elif relic.get("Name") == "Bottled Tornado":
                 powerCheck = [card for card in entities.active_character[0].deck if card.get("Type") == "Power"]
                 if len(list(powerCheck)) == 0:
                     rewardRelics = []
-                    alreadySeen = True
+                    noBottleCard = True
 
-        if alreadySeen:
+            elif relic.get("Name") == "Maw Bank" and entities.active_character[0].get_floor() == "Shop":
+                goldShopItem = True
+                print("Maw Bank can't spawn in the Shop")
+
+            elif relic.get("Name") == "Old Coin" and entities.active_character[0].get_floor() == "Shop":
+                goldShopItem = True
+                print("Old Coin can't spawn in the Shop")
+        
+        if alreadySeen or noBottleCard or goldShopItem:
             rewardRelics = []
             continue
         
@@ -538,8 +550,6 @@ def generateCardRewards(colorless=False,bossReward=False):
     global rareCardChance
     global gameAct
     
-
-
     moltenEgg = False
     toxicEgg = False
     frozenEgg = False
@@ -562,7 +572,7 @@ def generateCardRewards(colorless=False,bossReward=False):
             frozenEgg = True
         elif relic.get("Name") == "Prismatic Shard":
             prismaticShard = True
-            ansiprint("I have prismaticShard")
+            
 
     if prismaticShard == False:
         player_commons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
@@ -1062,18 +1072,17 @@ def generateShop(singleItem: str = None):
 
     shoplist = []
     miniList = []
-    all_player_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
+    all_player_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None and v.get("Rarity") != "Basic"}
     player_commons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
     player_uncommons = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
     player_rares = {k:v for k,v in entities.cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") == entities.active_character[0].name and v.get("Upgraded") == None}
-    colorless_rare_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Rare" and v.get("Upgraded") == None}
-    colorless_uncommon_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Uncommon" and v.get("Upgraded") == None}
     
-
+    colorless_uncommon_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Uncommon" and v.get("Upgraded") == None}
+    colorless_rare_cards = {k:v for k,v in entities.cards.items() if v.get("Owner") == "Colorless" and v.get("Rarity") == "Rare" and v.get("Upgraded") == None}
+    
     commonCardCost = rd.randint(49,60)
     uncommonCardCost = rd.randint(74,90)
     rareCardCost = rd.randint(148,181)
-
 
     uncommonColorlessCost = rd.randint(89,108)
     rareColorlessCost = rd.randint(178,217)
@@ -1081,7 +1090,7 @@ def generateShop(singleItem: str = None):
     commonPotionCost = rd.randint(52,57)
     uncommonPotionCost = rd.randint(79,85)
     rarePotionCost = rd.randint(104,115)
-
+    color = ""
     
     if singleItem == None:
         
@@ -1182,140 +1191,257 @@ def generateShop(singleItem: str = None):
         shoplist.append(miniList)
         miniList = []
 
+        i = 0
+        while i < len(shoplist):
 
-    elif singleItem == "Common Card":
-        miniList.append(rd.choices(list(player_commons.items()))[0][1])
-        miniList.append(rd.randint(49,60))
-        shoplist.append(miniList)
-        return shoplist
-    
-    elif singleItem == "Uncommon Card":
-        miniList.append(rd.choices(list(player_uncommons.items()))[0][1])
-        miniList.append(rd.randint(74,90))
-        shoplist.append(miniList)
-        return shoplist
+            if moltenEgg == True and shoplist[i][0].get("Type") == "Attack":
+                newUpgradedCard = upgradeCard(shoplist[i].pop(0),"External Function")
+                shoplist[i].insert(0,newUpgradedCard)
+                i+=1
 
-    elif singleItem == "Rare Card":
-        miniList.append(rd.choices(list(player_rares.items()))[0][1])
-        miniList.append(rd.randint(148,181))
-        shoplist.append(miniList)
-        return shoplist
+            elif toxicEgg == True and shoplist[i][0].get("Type") == "Skill":
+                newUpgradedCard = upgradeCard(shoplist[i].pop(0),"External Function")
+                shoplist[i].insert(0,newUpgradedCard)
+                i+=1
 
-    elif singleItem == "Colorless Uncommon":
-        miniList.append(rd.choices(list(colorless_uncommon_cards.items()))[0][1])
-        miniList.append(rd.randint(89,108))
-        shoplist.append(miniList)
-        return shoplist
+            elif frozenEgg == True and shoplist[i][0].get("Type") == "Power":
+                newUpgradedCard = upgradeCard(shoplist[i].pop(0),"External Function")
+                shoplist[i].insert(0,newUpgradedCard)
+                i+=1
 
-    elif singleItem == "Rare Uncommon":
-        miniList.append(rd.choices(list(colorless_rare_cards.items()))[0][1])
-        miniList.append(rd.randint(178,217))
-        shoplist.append(miniList)
-        return shoplist
-    #UMCOMMON CARDS
+            else:
+                i+=1
 
-    
-    i = 0
-    while i < len(shoplist):
+        shopPotions = generatePotionRewards(event = True, amount = 3)
 
-        if moltenEgg == True and shoplist[i][0].get("Type") == "Attack":
-            newUpgradedCard = upgradeCard(shoplist[i].pop(0),"External Function")
-            shoplist[i].insert(0,newUpgradedCard)
-            i+=1
-
-        elif toxicEgg == True and shoplist[i][0].get("Type") == "Skill":
-            newUpgradedCard = upgradeCard(shoplist[i].pop(0),"External Function")
-            shoplist[i].insert(0,newUpgradedCard)
-            i+=1
-
-        elif frozenEgg == True and shoplist[i][0].get("Type") == "Power":
-            newUpgradedCard = upgradeCard(shoplist[i].pop(0),"External Function")
-            shoplist[i].insert(0,newUpgradedCard)
-            i+=1
-
-        else:
-            i+=1
-
-    shopPotions = generatePotionRewards(event = True, amount = 3)
-
-    for potion in shopPotions:
-        if potion.get("Rarity") == "Common":
-            miniList.append(potion)
-            miniList.append(rd.randint(52,57))
-            shoplist.append(miniList)
-            miniList = []
-        elif potion.get("Rarity") == "Uncommon":
-            miniList.append(potion)
-            miniList.append(rd.randint(79,85))
-            shoplist.append(miniList)
-            miniList = []
-        elif potion.get("Rarity") == "Rare":
-            miniList.append(potion)
-            miniList.append(rd.randint(104,115))
-            shoplist.append(miniList)
-            miniList = []
-    
-    shipShipRelics = generateRelicRewards(place = "Shop")
-
-    for relic in shipShipRelics:
+        for potion in shopPotions:
+            if potion.get("Rarity") == "Common":
+                miniList.append(potion)
+                miniList.append(rd.randint(52,57))
+                shoplist.append(miniList)
+                miniList = []
+            elif potion.get("Rarity") == "Uncommon":
+                miniList.append(potion)
+                miniList.append(rd.randint(79,85))
+                shoplist.append(miniList)
+                miniList = []
+            elif potion.get("Rarity") == "Rare":
+                miniList.append(potion)
+                miniList.append(rd.randint(104,115))
+                shoplist.append(miniList)
+                miniList = []
         
-        if relic.get("Rarity") == "Common":
-            miniList.append(relic)
-            miniList.append(rd.randint(157,172))
-            shoplist.append(miniList)
-            miniList = []
+        shipShipRelics = generateRelicRewards(place = "Shop")
+        #add relic prize to
+        for relic in shipShipRelics:
+            
+            if relic.get("Rarity") == "Common":
+                miniList.append(relic)
+                miniList.append(rd.randint(157,172))
+                shoplist.append(miniList)
+                miniList = []
 
-        elif relic.get("Rarity") == "Uncommon":
-            miniList.append(relic)
-            miniList.append(rd.randint(261,288))
-            shoplist.append(miniList)
-            miniList = []            
+            elif relic.get("Rarity") == "Uncommon":
+                miniList.append(relic)
+                miniList.append(rd.randint(261,288))
+                shoplist.append(miniList)
+                miniList = []            
 
-        elif relic.get("Rarity") == "Rare":
-            miniList.append(relic)
-            miniList.append(rd.randint(313,346))
-            shoplist.append(miniList)
-            miniList = []            
+            elif relic.get("Rarity") == "Rare":
+                miniList.append(relic)
+                miniList.append(rd.randint(313,346))
+                shoplist.append(miniList)
+                miniList = []            
 
-        elif relic.get("Rarity") == "Shop":
-            miniList.append(relic)
-            miniList.append(rd.randint(157,172))
-            shoplist.append(miniList)
-            miniList = []            
+            elif relic.get("Rarity") == "Shop":
+                miniList.append(relic)
+                miniList.append(rd.randint(157,172))
+                shoplist.append(miniList)
+                miniList = []            
+
+        if theCourier == True and membershipCard == True:
+            for item in shoplist:
+                newPrice = item[1] - math.floor((item[1]/100)*60)
+                item[1] = newPrice
+        elif theCourier == True:
+            for item in shoplist:
+                newPrice = item[1] - math.floor((item[1]/100)*20)
+                item[1] = newPrice
+        elif membershipCard == True:
+            for item in shoplist:
+                newPrice = item[1] - math.floor((item[1]/100)*50)
+                item[1] = newPrice
+
+        sale = rd.randint(0,4)
+        shoplist[sale][1] = shoplist[sale][1] - math.floor((shoplist[sale][1]/100)*50)
+
+        return shoplist
+
+    elif singleItem == "Attack":
+        while True:            
+            shoplist.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if shoplist[0].get("Type") != "Attack":
+                shoplist = []
+                continue
+            break
+
+        shoplist.append(defineCardPrize(shoplist[0]))
+        color = entities.active_character[0].get_cardColor(shoplist[0].get("Type"))
+
+    elif singleItem == "Skill":
+        while True:
+            shoplist.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if shoplist[0].get("Type") != "Skill":
+                shoplist = []
+                continue
+            break
+
+        shoplist.append(defineCardPrize(shoplist[0]))
+        color = entities.active_character[0].get_cardColor(shoplist[0].get("Type"))        
+    
+    elif singleItem == "Power":
+        while True:
+            shoplist.append(rd.choices(list(all_player_cards.items()))[0][1])
+            if shoplist[0].get("Type") != "Power":
+                shoplist = []
+                continue
+            break
+
+        shoplist.append(defineCardPrize(shoplist[0]))
+        color = entities.active_character[0].get_cardColor(shoplist[0].get("Type"))
+    
+    elif singleItem == "Colorless":
+        if rd.randint(0,2) == 0:
+            shoplist.append(rd.choices(list(colorless_rare_cards.items()))[0][1])
+        else:
+            shoplist.append(rd.choices(list(colorless_uncommon_cards.items()))[0][1])
+        shoplist.append(defineCardPrize(shoplist[0]))
+        color = entities.active_character[0].get_cardColor(shoplist[0].get("Type"))
+    
+    elif singleItem == "Potion":
+        shopPotion = generatePotionRewards(event = True, amount = 1)[0]
+        shoplist.append(shopPotion)
+        shoplist.append(definePotionPrize(shopPotion))
+        color = "c"
+    elif singleItem == "Relic":
+        shipShipRelic = generateRelicRewards()[0]
+        shoplist.append(shipShipRelic)
+        shoplist.append(defineRelicPrize(shipShipRelic))
+        color = "light-red"
 
 
-    if theCourier == True and membershipCard == True:
-        for item in shoplist:
-            newPrice = item[1] - math.floor((item[1]/100)*60)
-            item[1] = newPrice
-    elif theCourier == True:
-        for item in shoplist:
-            newPrice = item[1] - math.floor((item[1]/100)*20)
-            item[1] = newPrice
-    elif membershipCard == True:
-        for item in shoplist:
-            newPrice = item[1] - math.floor((item[1]/100)*50)
-            item[1] = newPrice
-
-    sale = rd.randint(0,4)
-    shoplist[sale][1] = shoplist[sale][1] - math.floor((shoplist[sale][1]/100)*50)
-
+    ansiprint(f"<light-red>The Courier</light-red> replenished your Shop with a <{color}>{shoplist[0].get('Name')}</{color}>")
     return shoplist
+    
+def defineCardPrize(card):
+    theCourier = False
+    membershipCard = False
+    
+    for relic in entities.active_character[0].relics:
+        if relic.get("Name") == "The Courier":
+            theCourier = True
+        elif relic.get("Name") == "Membership Card":
+            membershipCard = True
+    
+    if card.get("Owner") == "Colorless":
+        if card.get("Rarity") == "Rare":
+            prize = rd.randint(89,108)
+        elif card.get("Rarity") == "Uncommon":
+            prize = rd.randint(178,217)
+    
+    elif card.get("Rarity") == "Common":
+        prize = rd.randint(49,60)
+    
+    elif card.get("Rarity") == "Uncommon":
+        
+        prize = rd.randint(74,90)
+
+    elif card.get("Rarity") == "Rare":
+        
+        prize = rd.randint(148,181)
+        
+    if membershipCard == True:
+        prize = math.floor(prize/2)
+
+    if theCourier == True:
+        prize = math.floor(prize - prize/100*20)
+
+    return prize
+
+def defineRelicPrize(relic):
+    theCourier = False
+    membershipCard = False
+    
+    for relict in entities.active_character[0].relics:
+        if relict.get("Name") == "The Courier":
+            theCourier = True
+        elif relict.get("Name") == "Membership Card":
+            membershipCard = True
+    
+    if relic.get("Rarity") == "Common":
+        
+        prize = rd.randint(157,172)
+        
+    elif relic.get("Rarity") == "Uncommon":
+        
+        prize = rd.randint(261,288)
+
+    elif relic.get("Rarity") == "Rare":
+        
+        prize = rd.randint(313,346)
+
+    elif relic.get("Rarity") == "Shop":
+        
+        prize = rd.randint(157,172)
+        
+    if membershipCard == True:
+        prize = math.floor(prize/2)
+
+    if theCourier == True:
+        prize = math.floor(prize - prize/100*20)
+
+    return prize
+
+def definePotionPrize(potion):
+    theCourier = False
+    membershipCard = False
+    
+    for relic in entities.active_character[0].relics:
+        if relic.get("Name") == "The Courier":
+            theCourier = True
+        elif relic.get("Name") == "Membership Card":
+            membershipCard = True
+    
+    if potion.get("Rarity") == "Common":
+        prize = rd.randint(52,57)
+                
+    elif potion.get("Rarity") == "Uncommon":
+        prize =rd.randint(79,85)
+            
+    elif potion.get("Rarity") == "Rare":
+        prize = rd.randint(104,115)
+                
+    if membershipCard == True:
+        prize = math.floor(prize/2)
+
+    if theCourier == True:
+        prize = math.floor(prize - prize/100*20)
+
+    return prize
 
 def displayShop(shoplist):
     ansiprint("\"Welcome at my Shop\", says the wondrous <blue>blue robbed figure</blue> sitting in front of you on odd <green>green flooring</green>. \"Have a look at my wares\".")
     global removeCardCost
 
+    changePrize = False
     theCourier = False
     mawBank = False
     for relic in entities.active_character[0].relics:
         if relic.get("Name") == "Smilling Mask":
             removeCardCost = 50
         elif relic.get("Name") == "Maw Bank":
-            
             mawBank = True
-            mawBankIndex = entities.active_character[0].relics.index(relic)
-
+        
         elif relic.get("Name") == "The Courier":
             theCourier = True
 
@@ -1331,7 +1457,7 @@ def displayShop(shoplist):
         i = 0
 
         for item in shoplist:
-
+            
             lineSpacing = " " * (30-len(item[0].get("Name")))
             
             if i+1 < 10:
@@ -1341,34 +1467,34 @@ def displayShop(shoplist):
                 numberSpacing = " "
                 #item[0] is name item [1] is price.
             if item[0].get("Type") == "Potion":
-                ansiprint(str(i+1)+"."+numberSpacing+"<c>"+item[0].get("Name")+"</c>"+lineSpacing+"<yellow>"+str(item[1])+"</yellow>")
-            
+                ansiprint(f"{i+1}.{numberSpacing}<c>{item[0].get('Name')}</c>{lineSpacing}<yellow>{item[1]}</yellow>")
+                
             elif item[0].get("Owner") == "Colorless":
-                ansiprint(str(i+1)+"."+numberSpacing+item[0].get("Name")+lineSpacing+"<yellow>"+str(item[1])+"</yellow>")
+                ansiprint(f"{i+1}.{numberSpacing}{item[0].get('Name')}{lineSpacing}<yellow>{item[1]}</yellow>")
             
             elif item[0].get("Type") == "Relic":
-                ansiprint(str(i+1)+"."+numberSpacing+"<light-red>"+item[0].get("Name")+lineSpacing+"</light-red>"+"<yellow>"+str(item[1])+"</yellow>")
-            
+                ansiprint(f"{i+1}.{numberSpacing}<light-red>{item[0].get('Name')}</light-red>{lineSpacing}<yellow>{item[1]}</yellow>")
+                
             elif item[0].get("Owner") == entities.active_character[0].name:
                 if item[0].get("Type") == "Attack":
-                    ansiprint(str(i+1)+"."+numberSpacing+"<red>"+item[0].get("Name")+lineSpacing+"</red>"+"<yellow>"+str(item[1])+"</yellow>")
+                    ansiprint(f"{i+1}.{numberSpacing}<red>{item[0].get('Name')}</red>{lineSpacing}<yellow>{item[1]}</yellow>")
                 elif item[0].get("Type") == "Skill":
-                    ansiprint(str(i+1)+"."+numberSpacing+"<green>"+item[0].get("Name")+lineSpacing+"</green>"+"<yellow>"+str(item[1])+"</yellow>")
+                    ansiprint(f"{i+1}.{numberSpacing}<green>{item[0].get('Name')}</green>{lineSpacing}<yellow>{item[1]}</yellow>")
                 elif item[0].get("Type") == "Power":
-                    ansiprint(str(i+1)+"."+numberSpacing+"<blue>"+item[0].get("Name")+lineSpacing+"</blue>"+"<yellow>"+str(item[1])+"</yellow>")
+                    ansiprint(f"{i+1}.{numberSpacing}<blue>{item[0].get('Name')}</blue>{lineSpacing}<yellow>{item[1]}</yellow>")
 
             elif item[0].get("Name") == "Remove Card":
-                ansiprint(str(i+1)+"."+numberSpacing+"<light-blue>"+item[0].get("Name")+lineSpacing+"</light-blue>"+"<yellow>"+str(item[1])+"</yellow>")
+                ansiprint(f"{i+1}.{numberSpacing}<light-blue>{item[0].get('Name')}</light-blue>{lineSpacing}<yellow>{item[1]}</yellow>")
                 removeCardCost += 25
 
             elif item[0].get("Name") == "Leave":
-                ansiprint(str(i+1)+"."+numberSpacing+"<red>"+item[0].get("Name")+lineSpacing+"</red>")
+                ansiprint(f"{i+1}.{numberSpacing}<red>{item[0].get('Name')}</red>{lineSpacing}")
 
             elif item[0].get("Name") == "Display Map":
-                ansiprint(str(i+1)+"."+numberSpacing+"<red>"+item[0].get("Name")+lineSpacing+"</red>")
+                ansiprint(f"{i+1}.{numberSpacing}<red>{item[0].get('Name')}</red>{lineSpacing}")
 
             elif item[0].get("Name") == "Show Deck":
-                ansiprint(str(i+1)+"."+numberSpacing+"<red>"+item[0].get("Name")+lineSpacing+"</red>")
+                ansiprint(f"{i+1}.{numberSpacing}<red>{item[0].get('Name')}</red>{lineSpacing}")
             
             i+=1
 
@@ -1399,20 +1525,61 @@ def displayShop(shoplist):
                 elif shoplist[snap][0].get("Type") == "Relic":
                     entities.active_character[0].add_relic(shoplist[snap][0])
                     
+                    if shoplist[snap][0].get("Name") == "Membership Card":
+                        for item in shoplist:
+                            if len(item) > 1:
+                               item[1] = math.floor(item[1]/2)
+
+                    elif shoplist[snap][0].get("Name") == "Smilling Mask":
+                        for item in shoplist:
+                            if item[0] == "Remove Card":
+                                item[1] = 50
+                            
+                    elif shoplist[snap][0].get("Name") == "The Courier":
+                        for item in shoplist:
+                            if len(item) > 1:
+                                item[1] = math.floor(item[1] - item[1]/100*20)
+                        theCourier = True
+
+
                 elif shoplist[snap][0].get("Owner") == entities.active_character[0].name:
                     entities.active_character[0].add_CardToDeck(shoplist[snap][0])
 
                 elif shoplist[snap][0].get("Name") == "Remove Card":
                     entities.active_character[0].removeCardsFromDeck(amount=1,removeType="Remove")
 
+                
+                if theCourier == True:
+                    try:
+                        if shoplist[snap][0].get("Type") == "Potion":
+                            shoplist.insert(snap,generateShop("Potion"))
+                        elif shoplist[snap][0].get("Type") == "Relic":
+                            shoplist.insert(snap,generateShop("Relic"))    
+                        elif shoplist[snap][0].get("Owner") == "Colorless":                            
+                            shoplist.insert(snap,generateShop("Colorless"))
+                        elif shoplist[snap][0].get("Type") == "Attack":
+                            shoplist.insert(snap,generateShop("Attack"))
+                        elif shoplist[snap][0].get("Type") == "Skill":
+                            shoplist.insert(snap,generateShop("Skill"))
+                        elif shoplist[snap][0].get("Type") == "Power":
+                            shoplist.insert(snap,generateShop("Power"))
+                    except Exception as e:
+                        print(e,"<-Issue with <light-red>The Courier</light-red> replenishing cards.")
+                
+                if shoplist[snap][0].get("Type") == None:
+                    shoplist.pop(snap)
+                   
+                elif theCourier == True:
+                    shoplist.pop(snap+1)
 
-                shoplist.pop(snap)
-                if theCourier:
-                    shoplist.insert(snap,)
-
+                else:
+                    shoplist.pop(snap)
+                
                 if mawBank:
-                    entities.active_character[0].relics[mawBankIndex]["Working"] = False
-                    ansiprint("You bought something at this Merchant and your <light-red>Maw Bank</light-red> broke!")
+                    for relic in self.active_character[0].relics:
+                        if relic.get("Name") == "Maw Bank":
+                            relic["Working"] = False
+                            ansiprint("You bought something at this Merchant and your <light-red>Maw Bank</light-red> broke!")
 
             elif shoplist[snap][1] > entities.active_character[0].gold:
                 ansiprint("You don't have enough gold to do that!\n")

@@ -16,10 +16,13 @@ def the_question_of_safety():
 			f = open(prodPath)
 			f.close()
 		except FileNotFoundError:
- 			print("No savefile detected in "+prodPath+".\n\n")
- 			
- 			entities.choose_character()		
- 			break
+			print("No savefile detected in "+prodPath+".\n\n")
+
+			entities.choose_character()
+			entities.active_character[0].set_deck()
+			entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})			#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
+			#entities.active_character[0].add_CardToDeck({"Name":"Brutality","Draw":1,"Selfhurt":1,"Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card."})
+			break
 
 		try:
 			
@@ -36,6 +39,10 @@ def the_question_of_safety():
 			elif loader[saveDecision] == "No":
 				saveDecision = "No"
 				entities.choose_character()
+				entities.active_character[0].set_deck()
+				entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})
+				#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
+				#entities.active_character[0].add_CardToDeck({"Name":"Brutality","Draw":1,"Selfhurt":1,"Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card."})
 				break
 				
 		except TypeError:
@@ -44,10 +51,7 @@ def the_question_of_safety():
 			print("Type \"1\" or \"2\".")
 			print(e)
 
-	entities.active_character[0].set_deck()
-	#entities.active_character[0].add_relic({"Name":"Prismatic Shard","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Combat reward screens now contain colorless cards and cards from other colors."})
-	#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
-	#entities.active_character[0].add_CardToDeck({"Name":"Shockwave","Weakness":3,"Vulnerable":3,"Exhaust":True,"Energy":2,"Type":"Skill","Rarity":"Uncommon","Owner":"Ironclad","Info":"Apply <light-cyan>3 Weak</light-cyan> and <light-cyan>5 Vulnerable</light-cyan> to ALL enemies. <BLUE>Exhaust</BLUE>."})
+	
 
 def save_and_rave():
 	

@@ -654,8 +654,8 @@ class Enemy():
 				self.intention_logic = [["Random"],list(helping_functions.nchoices_with_restrictions([0.3,0.7,0],{0:2,1:2,2:1}))]
 
 			elif "Entangle" in action:
-				entities.active_character[0].set_entangled(1)
-				ansiprint(self.name,"entangles you. You may not use attacks next turn.!")
+				entities.active_character[0].set_entangled()
+				ansiprint(self.name,"entangles you. You may not use <red>attacks</red> next turn.!")
 				self.intentions = [14, "Scrape 9/2"]
 				self.intention_logic = [["Random"],list(helping_functions.nchoices_with_restrictions([0.45,0.55],{0:2,1:2}))]
 

@@ -1420,7 +1420,6 @@ relics = {
 	"Stone Calendar":{"Name":"Stone Calendar","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the end of turn 7, deal <red>52 damage</red> to ALL enemies."},
 	"The Specimen":{"Name":"The Specimen","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever an enemy <black>dies</black>, transfer any <green>Poison</green> it has to a random enemy."},
 	
-
 	"Thread and Needle":{"Name":"Thread and Needle","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <green>4 Plated Armor</green>."},
 	"Tingsha":{"Name":"Tingsha","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever you discard a card during your turn, deal <red>3 damage</red> to a random enemy for each card discarded."},
 	"Torii":{"Name":"Torii","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you would receive <red>5 or less unblocked Attack damage</red>, reduce it to <red>1</red>."},
@@ -1429,7 +1428,7 @@ relics = {
 	"Turnip":{"Name":"Turnip","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
 	"Unceasing Top":{"Name":"Unceasing Top","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you have no Cards in hand during your turn, draw a Card."},
 	
-	"Astrolabe":{"Name":"Astrolabe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."},	
+	"Astrolabe":{"Name":"Astrolabe","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."},	
     "Black Star":{"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."},
     "Black Blood":{"Name":"Black Blood","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Replaces <light-red>Burning Blood<light-red>. At the end of combat, <red>heal 12 HP</red>."},
     "Busted Crown":{"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."},
@@ -1492,6 +1491,7 @@ relics = {
     "Strange Spoon":{"Name":"Strange Spoon","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Cards which Exhaust when played will instead discard 50\% of the time."},
     "The Abacus":{"Name":"The Abacus","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Gain <green>6 Block</green> whenever you shuffle your Drawpile."},
     "Brim Stone":{"Name":"Brim Stone","Rarity":"Shop","Owner":"Ironclad","Type":"Relic","Info":"At the start of your turn, gain <red>2 Strength</red> and ALL enemies gain <red>1 Strength</red>."},
+    "Orange Pellets":{"Name":"Orange Pellets","Power Counter":0,"Attack Counter":0,"Skill Counter":0,"Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"Whenever you play a <blue>Power</blue>, <red>Attack</red>, and <green>Skill</green> in the same turn, remove all of your <light-cyan>Debuffs</light-cyan>."},
 
     "Toolbox":{"Name":"Toolbox","Rarity":"Shop","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, choose 1 of 3 random Colorless Cards and add the chosen Card into your hand."},
     "Twisted Funnel":{"Name":"Twisted Funnel","Rarity":"Shop","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, apply <green>4 Poison</green> to ALL enemies."},
@@ -1617,9 +1617,6 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
                                                                 
             "Corrupt Heart":{"Name":"Corrupt Heart","Health":(800,800),"Intentions":["Debilitate 2","Multiattack 2*15",45,"HeartBuff"],"Intentions_Logic":[["Corrupt Heart"]],"On_hit_or_death":[["Invincible 200","Hit"]],"CardTypeToLookOutFor":"Everything BeatOfDeath Opposites 2"}
         	}    
-
-
-    
 
 enemyEncounters = fill_enemy_list()
 eliteEncounters = fill_elite_list()
