@@ -86,7 +86,7 @@ def afterBattleScreen():
     
     afterBattleOptions = []
     goldGain = 0
-    print("\n\n")
+    
 
 
     if entities.active_character[0].get_floor() == "Start":
@@ -187,6 +187,7 @@ def afterBattleScreen():
     afterBattleOptions.append("Show Seed")
     
     while True:
+        print("\n")
         i = 0
         for reward in afterBattleOptions:
 
@@ -535,11 +536,11 @@ def generateRelicRewards(place="Elite Fight",specificType = None):
                     rewardRelics = []
                     noBottleCard = True
 
-            elif relic.get("Name") == "Maw Bank" and entities.active_character[0].get_floor() == "Shop":
+            elif relic.get("Name") == "Maw Bank" and entities.active_character[0].get_floor() == "Shop$":
                 goldShopItem = True
                 print("Maw Bank can't spawn in the Shop")
 
-            elif relic.get("Name") == "Old Coin" and entities.active_character[0].get_floor() == "Shop":
+            elif relic.get("Name") == "Old Coin" and entities.active_character[0].get_floor() == "Shop$":
                 goldShopItem = True
                 print("Old Coin can't spawn in the Shop")
         
@@ -1122,7 +1123,6 @@ def generateShop(singleItem: str = None):
     rareChance = 0.09
 
     if singleItem == None:
-
         
         while True:
             shopClassCards = list(nchoices_with_restrictions([commonChance,uncommonChance,rareChance],k = 5))
@@ -1149,7 +1149,6 @@ def generateShop(singleItem: str = None):
         shoplist.append(miniList)
         miniList = []
         
-
         while True:
 
             miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
@@ -1168,7 +1167,6 @@ def generateShop(singleItem: str = None):
         shoplist.append(miniList)
         miniList = []
         
-
         while True:
             miniList.append(rd.choices(list(all_player_cards.items()))[0][1])
             cardRarity = defineCardRarity(shopClassCards[2])

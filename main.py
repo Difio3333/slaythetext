@@ -11,25 +11,21 @@ import time
 import save_handlery
 from ansimarkup import parse, ansiprint
 
-
 colorama.init()
 
 
 #KNOWN ISSUES:
 
-#events are not following any rules.
+#events are not following any rules besides acts.
 #no tutorial
 #no proper error logging yet.
 #Skipping Black Star second artifact makes it inaccessible.
 #you can also skip green key forever I think 
 #just saw 4 shops in a row.
-# NEed to improve visuals of watch discard and watch exhaust pile
-#playing curses with distilled chaos and probably mayhem leads to wrong message. 
-#have to add check artifact for strength and dex decrease skills like the one from the bandit event in act 2. - fixed
-#check whale change to boss relic reward for both classes -fixed
-#check seeding rng so savescumming doesn't work. - fixed
-#fix shop card rarities to the following: Class: Rare 9%, Uncommon: 37%, Common: 54% | Colorless : Rare: 36%, Uncommons: 64%
-#check proper error logging : https://www.youtube.com/watch?v=urrfJgHwIJA&list=WL&index=16&t=70s fixed
+# Need to improve visuals of watch discard and watch exhaust pile
+#probably the shopitems that are replenished by courier need to be upgraded based on the act and affected by the eggs too.
+#fixed some stuff with eventshops not properly being handled as shops in some regards.
+#fix 4748def showHand Make attack and block numbers respect dexterity and strenght and weakness and frail and remove block cards from the deck. also handle that cards that attack and block like dash
 
 def main():
 	try:

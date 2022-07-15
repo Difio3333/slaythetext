@@ -286,7 +286,7 @@ class Char():
 			self.powerAfterAllCardsHaveBeenDrawn(turn_counter)
 			self.reset()
 			self.relicsEveryTurn(turn_counter)
-			self.showHand()
+			self.showHand(battlemode=True)
 			
 			self.turnMoment = 1
 		else:
@@ -370,7 +370,7 @@ class Char():
 				if self.unceasingTop > 0 and len(self.hand) == 0:
 					self.draw(1)
 					ansiprint("You have drawn another card because of <light-red>Unceasing Top</light-red>")
-					self.showHand()
+					self.showHand(battlemode=True)
 				time.sleep(0.03)
 			
 			except Exception as e:
@@ -975,7 +975,7 @@ class Char():
 
 	def play_card(self,turn_counter):
 		
-		if self.check_CardPlayRestricions() == True:
+		if self.check_CardPlayRestrictions() == True:
 			return
 		
 		if len(self.hand) == 0:
@@ -989,7 +989,7 @@ class Char():
 
 			try:
 
-				self.showHand()
+				self.showHand(battlemode=True)
 				print(f"{len(self.hand)+1}.  Skip")
 				ansiprint("You have <yellow>"+str(self.energy)+" Energy</yellow> available.")
 				
@@ -1070,7 +1070,8 @@ class Char():
 		enemy_check = len(entities.list_of_enemies)
 		
 		if repeat or exhaust:
-			ansiprint(self.card_in_play.get("Name"),"was played!")
+			color = self.get_cardColor(self.card_in_play.get("Type"))
+			ansiprint(f"<{color}>{self.card_in_play.get('Name')}</{color}> was played!")
 
 		if self.card_in_play["Owner"] == "Silent":
 			
@@ -3288,6 +3289,8 @@ class Char():
 			else:
 				print(self.card_in_play.get("Name"),"<--- this card is not implemented. Snap Snap Snap.")
 		
+		elif self.card_in_play.get("Type") == "Curse" and exhaust == True:				
+			ansiprint("<m>"+self.card_in_play.get("Name")+"</m> is exhausted and is removed from play!")
 
 		elif self.card_in_play.get("Type") == "Curse":
 			ansiprint("<m>"+self.card_in_play.get("Name")+"</m> is exhausted and is removed from play because of <light-red>Blue Candle</light-red>!")
@@ -4742,9 +4745,13 @@ class Char():
 			else:
 				ansiprint("<light-red>"+relic.get("Name")+"</light-red>","| Effect:",relic.get("Info"))
 
-	def showHand(self, noUpgrades: bool = False):
-		ansiprint("\nThis is your Hand:\n")
-
+	def showHand(self, noUpgrades: bool = False,battlemode: bool = False):
+		ansiprint("\n")		
+		length = 0
+		for card in self.hand:
+			if len(card.get("Name")) > length:
+				length = len(card.get("Name"))
+		
 		i = 0
 		for card in self.hand:
 			color = self.get_cardColor(card.get("Type"))
@@ -4753,11 +4760,33 @@ class Char():
 			else:
 				numberSpacing = " "
 			
-			lineSpacing = " " * (20-len(card.get("Name")))
+
+			lineSpacing = " " * (length+3-len(card.get("Name")))
+			#lineSpacing = " " * (length + 3)
+			energySpacing = "   "
 			
+			#lineSpacingSecondHalf = lineSpacing[len(lineSpacing) if len(lineSpacing)%2 == 0 else (((len(lineSpacing)//2))+1):]
+			
+			#print(len(lineSpacingFirstHalf)+len(lineSpacingSecondHalf)+len(card.get("Name")))
+			
+			# print(len(lineSpacing))
+			# print(len(lineSpacingFirstHalf))
+			# print(len(lineSpacingSecondHalf))
 			try:
 				if noUpgrades == True and card.get("Upgrade") == True:
 					pass
+				elif battlemode == True:
+					if card.get("Block") != None and card.get("Damage") != None and card.get("Energy") != None:
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>Unplayable</red>")
+					elif card.get("Block") != None:
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<green>{card.get('Block')}</green>{energySpacing}<yellow>{card.get('Energy')}</yellow>")
+					elif card.get("Damage") != None:
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>{card.get('Damage')}</red>{energySpacing}<yellow>{card.get('Energy')}</yellow>")
+					elif card.get("Energy") == None:
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>Unplayable</red>")		
+					else:
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing} {energySpacing}<yellow>{card.get('Energy')}</yellow>")		
+				
 				elif card.get("Energy") == None:
 					ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>Unplayable</red>")
 				else:
@@ -6861,7 +6890,7 @@ class Char():
 			if self.card_in_play.get("Type") != "Attack":
 				self.add_CardToDrawpile({"Name": "Dazed","Ethereal": True, "Type": "Status", "Rarity": "Enemy", "Owner":"The Spire"})
 	
-	def check_CardPlayRestricions(self):
+	def check_CardPlayRestrictions(self):
 
 		for card in self.hand:
 			if card["Name"] == "Normality" and self.card_counter >= 3:
@@ -7083,6 +7112,8 @@ class Char():
 				status += f" |<light-blue> Dark Embrace: {self.darkEmbrace}</light-blue>"
 			if self.rage > 0:
 				status += f" |<light-blue> Rage: {self.rage}</light-blue>"
+			if self.dontLoseBlock > 0:
+				status += f" |<light-blue> Blur: {self.dontLoseBlock}</light-blue>"
 			if self.evolve > 0:
 				status += f" |<light-blue> Evolve: {self.evolve}</light-blue>"
 			if self.fireBreathing > 0:

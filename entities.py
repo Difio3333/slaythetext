@@ -17,7 +17,13 @@ active_character = []
 
 eventMonsterChance = 0.1
 eventTreasureChance = 0.02
-eventShopChance = 0.03      
+eventShopChance = 0.03
+
+#shoptest
+# eventMonsterChance = 0.01
+# eventTreasureChance = 0.01
+# eventShopChance = 0.92
+
 
 def choose_character():
     global active_character
@@ -936,7 +942,7 @@ cards = {
     "Pommel Strike" :{"Name":"Pommel Strike","Damage": 9,"Draw":1,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>9 damage</red>. Draw 1 Card."},
     "Pommel Strike +" :{"Name":"Pommel Strike +","Damage": 10,"Draw":2,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>10 damage</red>. Draw 2 Cards."},
 
-    "Sword Boomerang" :{"Name":"Sword Boomerang","Damage": 3,"Attacks":3,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>3 damage</red> to a random Enemy 3 times.."},
+    "Sword Boomerang" :{"Name":"Sword Boomerang","Damage": 3,"Attacks":3,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>3 damage</red> to a random Enemy 3 times."},
     "Sword Boomerang +" :{"Name":"Sword Boomerang +","Damage": 4,"Attacks":4,"Energy":1,"Type":"Attack","Rarity":"Common","Upgraded":True,"Owner":"Ironclad","Info":"Deal <red>3 damage</red> to a random enemy 4 times."},
     
     "Thunderclap" :{"Name":"Thunderclap","Damage": 4,"Vulnerable":1,"Energy":1,"Type":"Attack","Rarity":"Common","Owner":"Ironclad","Info":"Deal <red>4 damage</red> and apply <light-blue>1 Vulnerable</light-blue> to ALL Enemies."},
@@ -2332,7 +2338,7 @@ def event_AncientLaboratory():
     ansiprint("You find yourself in a room filled with racks of test tubes, beakers, flasks, forceps, pinch clamps, stirring rods, tongs, goggles, funnels, pipets, cylinders, condensers, and even a rare spiral tube of glass. Why do you know the name of all these tools? It doesn't matter, you take a look around.")
 
 
-    input("Type anything to search the place.")
+    input("Just hit enter to search the place.")
 
     random_potions = {k:v for k,v in potions.items() if v.get("Owner") == active_character[0].name or v.get("Owner") == "The Spire"}
     twoPotions = rd.choices(list(random_potions.items()),k=2)
@@ -2558,7 +2564,7 @@ def event_weMeetAgain():
             print(e,"You have to type a number.")
 
 def event_wheelOfChange():
-    input("[Play] Spin the wheel and get a prize. (Type anything).")
+    input("[Play] Spin the wheel and get a prize. (Just hit enter).")
 
     i = 0
     while i < 50:
@@ -2970,7 +2976,7 @@ def event_ScrapOoze():
                 relicSuccessChance +=10
                 healthLoss += 1
                 active_character[0].set_health(-healthLoss)
-                ansiprint("<red>Ouch! All you find is corroded metal and a bit of burning pain.</red>\n<yellow>However, you're still convinced there's a relic...</yellow>")
+                ansiprint("<red>Ouch! All you find is corroded metal and a bit of burning pain.</red>\n<yellow>However, you're still convinced there's a</yellow> <light-red>relic...</light-red>")
                 oozeOptions = ["1. <red>[Reach Inside]</red> Lose <red>"+str(healthLoss)+" HP</red>. <light-red>"+str(relicSuccessChance)+"% to find Relic</light-red>.","2. [Leave] Nothing happens."]
             else:
                 ansiprint("<green>Success!</green> After rummaging through the metal and burning acid, you finally grab hold of a <light-red>Relic</light-red> and yank it out. You pull your way out of the ooze <red>damaged</red> but rewarded.")
@@ -4280,6 +4286,13 @@ def visit_event():
     elif unknownLocation[0] == 3:
     	
     	ansiprint("\nThere was a <yellow>Merchant</yellow> hiding here!\n")
+    	
+    	floor = active_character[0].get_floor()
+    	y = active_character[0].position[0]
+    	x = active_character[0].position[1]
+    	helping_functions.game_map[y][x] = "Shop$"        
+    	helping_functions.game_map_dict[("Shop$",y,x)] = helping_functions.game_map_dict[(floor,y,x)]
+
     	shop = helping_functions.generateShop()
     	helping_functions.displayShop(shop)
 

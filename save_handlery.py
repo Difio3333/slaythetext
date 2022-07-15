@@ -21,7 +21,7 @@ def the_question_of_safety():
 			entities.choose_character()
 			entities.active_character[0].set_deck()
 			#entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})			#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
-			#entities.active_character[0].add_CardToDeck({"Name":"Brutality","Draw":1,"Selfhurt":1,"Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card."})
+			#entities.active_character[0].add_CardToDeck({"Name": "Tools of the Trade +", "Tools":1, "Energy": 0,"Type": "Power" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"At the start of your turn: Draw 1 Card. Discard 1 Card."})
 			#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
 			break
 
@@ -44,7 +44,8 @@ def the_question_of_safety():
 				entities.active_character[0].set_deck()
 				#entities.active_character[0].add_relic({"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."})
 				#entities.active_character[0].add_potion({"Name": "Attack Potion","Potion Yield": 1, "Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Choose 1 of <red>3 random Attack</red> Cards to add into your hand. It costs <yellow>0 Energy</yellow> this turn."})
-				#entities.active_character[0].add_CardToDeck({"Name":"Brutality","Draw":1,"Selfhurt":1,"Vulnerable":2,"Energy":0,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"At the start of your turn, lose <red>1 HP</red> and draw 1 Card."})
+				#entities.active_character[0].add_CardToDeck({"Name": "Tools of the Trade +", "Tools":1, "Energy": 0,"Type": "Power" ,"Upgraded": True,"Rarity": "Rare","Owner":"Silent","Info":"At the start of your turn: Draw 1 Card. Discard 1 Card."})
+				#entities.active_character[0].add_CardToDeck({"Name": "Dash", "Damage":10,"Block":10,"Energy": 2, "Type": "Attack" ,"Rarity": "Uncommon","Owner":"Silent","Info":"Gain <green>10 Block</green. Deal <red>10 damage</red>."})
 				break
 				
 		except TypeError:
