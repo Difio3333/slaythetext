@@ -124,8 +124,7 @@ def main():
 				logging.debug(f"{key}:{saveDict[key]}")
 			
 		
-		
-		input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.\nIt would be really nice if you could copy paste your game text to a txt. file and send it to slaythetext@gmail.com. Thanks and sorry for the inconveniences. Additonally there should be a slaythetext.log file in the same directory where you launched this game from. Please send that as well.")
+		input("Sorry the game crashed. You can find the crashlog in the same location where your game is located.\nIt would be really nice if you could send that file to slaythetext@gmail.com. Thanks and sorry for the inconveniences.")
 
 
 

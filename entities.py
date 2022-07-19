@@ -1951,7 +1951,7 @@ def neowBlesses():
         elif blessings[choice][0] == "Gain 250 Gold":
         	active_character[0].set_gold(250)
 
-        elif blessings[choice][0] == "Max HP + 12":
+        elif blessings[choice][0] == "Max HP +12":
         	active_character[0].set_maxHealth(12)
 
         elif blessings[choice][0] == "Choose a rare card to obtain":

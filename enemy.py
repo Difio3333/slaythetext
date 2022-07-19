@@ -269,7 +269,6 @@ class Enemy():
 						self.moveTwoSpree = 0
 						self.moveThreeSpree = 0
 						choice = "Fell 9/2"
-		
 
 		elif self.intention_logic[0][0] == "Spire Growth":
 			if turn_counter == 1:
@@ -358,7 +357,6 @@ class Enemy():
 					else:
 						choice = 18
 
-
 				if choice == self.move:
 					if self.move == "DefensiveStance 20|7":
 						choice = "Gloat 4"
@@ -378,7 +376,6 @@ class Enemy():
 				choice = "Multiattack 10*2"
 
 			else:
-
 				if turn_counter % 4 == 0:
 					choice = "VentSteam 2"
 				
@@ -395,7 +392,6 @@ class Enemy():
 						choice = "Smash 14/2"
 					else:
 						choice = 18
-
 
 				if choice == self.move:
 					if self.move == "DefensiveStance 20|7":
@@ -1690,6 +1686,7 @@ class Enemy():
 		else:
 			if self.sadisticNature > 0:
 				self.receive_sadistic_damage()	
+			self.set_strength(-value)
 			self.temp_strength += value
 			ansiprint(f"{self.name} now has lost <red>{self.temp_strength} Strength</red>. It will regain it at the end of its turn!")
 

@@ -305,15 +305,15 @@ class Char():
 			self.show_status()
 			actionlist = [optionOne,optionTwo,optionThree,optionFour,optionFive,optionSix,optionSeven]
 			#actionlist = [optionOne,optionTwo,optionThree,optionFour]
-			
-			self.showEnemies(skip=False)
 
+			self.showEnemies(skip=False,numbers=False)
+			ansiprint("\n")
 			i = 0
 			for action in actionlist:
 				ansiprint(str(i+1)+".",action)
 				i+=1
 			try:
-				plan = input("What do you want to do?\n")
+				plan = input("\nWhat do you want to do?\n")
 				plan = int(plan)-1
 
 				if plan not in range(len(actionlist)):
@@ -991,9 +991,9 @@ class Char():
 
 				self.showHand(battlemode=True)
 				print(f"{len(self.hand)+1}.  Skip")
-				ansiprint("You have <yellow>"+str(self.energy)+" Energy</yellow> available.")
+				ansiprint("\nYou have <yellow>"+str(self.energy)+" Energy</yellow> available.")
 				
-				card_index = input("Pick the number of the card you want to play\n")
+				card_index = input("\nPick the number of the card you want to play\n")
 				card_index = int(card_index)-1
 				if card_index == len(self.hand):
 					return
@@ -1617,12 +1617,12 @@ class Char():
 			elif self.card_in_play.get("Name") == "Piercing Wail":
 				for enemy in entities.list_of_enemies:
 					enemy.set_tempStrength(self.card_in_play["Strength Modifier"])
-					enemy.set_strength(-self.card_in_play["Strength Modifier"])
+					
 
 			elif self.card_in_play.get("Name") == "Piercing Wail +":
 				for enemy in entities.list_of_enemies:
 					enemy.set_tempStrength(self.card_in_play["Strength Modifier"])
-					enemy.set_strength(-self.card_in_play["Strength Modifier"])
+					
 
 			elif self.card_in_play.get("Name") == "Prepared":
 				self.draw(self.card_in_play["Draw"])
@@ -4198,10 +4198,7 @@ class Char():
 					relic["Skill Counter"] = 0
 					relic["Power Counter"] = 0
 					self.remove_allDebuffs()
-
-
 					
-
 	def set_skillCounter(self):
 		self.skill_counter += 1
 
@@ -4419,7 +4416,7 @@ class Char():
 			print("You tried to attack but there is no enemy. def attack")
 			pass
 
-	def blocking(self,block_value,unaffectedBlock: bool = False):
+	def blocking(self,block_value,unaffectedBlock: bool = False,preview:bool=False):
 		
 		if self.noBlock > 0:
 			ansiprint(self.displayName,"can't receive block for",self.noBlock,"turns.")
@@ -4431,12 +4428,16 @@ class Char():
 
 				if self.frail > 0:
 					block_value = (block_value + self.dexterity) - int((block_value + self.dexterity) * 0.25)
-					self.block += block_value
-				
+					
 				else:
 					block_value = block_value + self.dexterity
-					self.block += block_value
+					
 
+				if preview:
+					return block_value
+				else:
+					self.block += block_value
+				
 				if self.juggernaut > 0 and block_value > 0:
 					randomEnemy = rd.randint(0,len(entities.list_of_enemies)-1)
 					entities.list_of_enemies[randomEnemy].receive_recoil_damage(self.juggernaut)
@@ -4747,13 +4748,22 @@ class Char():
 
 	def showHand(self, noUpgrades: bool = False,battlemode: bool = False):
 		ansiprint("\n")		
+		blockAttackCard = False
+		for card in self.hand:
+			if card.get("Block") != None and card.get("Damage") != None and card.get("Energy") != None:
+				blockAttackCard = True
+
 		length = 0
 		for card in self.hand:
 			if len(card.get("Name")) > length:
 				length = len(card.get("Name"))
 		
 		i = 0
+		savedCard = None
+		if self.card_in_play != None:
+			savedCard = self.card_in_play
 		for card in self.hand:
+			self.card_in_play = card
 			color = self.get_cardColor(card.get("Type"))
 			if i+1 < 10:
 				numberSpacing = "  "
@@ -4763,7 +4773,10 @@ class Char():
 
 			lineSpacing = " " * (length+3-len(card.get("Name")))
 			#lineSpacing = " " * (length + 3)
-			energySpacing = "   "
+			if blockAttackCard == False:
+				energySpacing = "     "	
+			else:
+				energySpacing = "        "
 			
 			#lineSpacingSecondHalf = lineSpacing[len(lineSpacing) if len(lineSpacing)%2 == 0 else (((len(lineSpacing)//2))+1):]
 			
@@ -4776,15 +4789,32 @@ class Char():
 				if noUpgrades == True and card.get("Upgrade") == True:
 					pass
 				elif battlemode == True:
+					
 					if card.get("Block") != None and card.get("Damage") != None and card.get("Energy") != None:
-						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>Unplayable</red>")
+						damage = self.attack(card.get("Damage"),preview=True)
+						block = self.blocking(card.get("Block"),preview=True)						
+						blockDamageString = f"<red>{damage}</red>/<green>{block}</green>"
+						actualBlockDamageStringLength = len(blockDamageString) - (5 + 6 + 7 + 8)
+						energySpacing = energySpacing[:-actualBlockDamageStringLength]
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}{blockDamageString}{energySpacing}<yellow>{card.get('Energy')}</yellow>")	
+					
 					elif card.get("Block") != None:
-						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<green>{card.get('Block')}</green>{energySpacing}<yellow>{card.get('Energy')}</yellow>")
+						block = self.blocking(card.get("Block"),preview=True)
+						energySpacing = energySpacing[:-len(str(block))]
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<green>{block}</green>{energySpacing}<yellow>{card.get('Energy')}</yellow>")
+						
 					elif card.get("Damage") != None:
-						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>{card.get('Damage')}</red>{energySpacing}<yellow>{card.get('Energy')}</yellow>")
+					
+						damage = self.attack(card.get("Damage"),preview=True)
+						energySpacing = energySpacing[:-len(str(damage))]
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>{damage}</red>{energySpacing}<yellow>{card.get('Energy')}</yellow>")
+					
 					elif card.get("Energy") == None:
-						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>Unplayable</red>")		
+						energySpacing = energySpacing[:-1]
+						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<red>Unplayable</red>")
+
 					else:
+						energySpacing = energySpacing[:-1]
 						ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing} {energySpacing}<yellow>{card.get('Energy')}</yellow>")		
 				
 				elif card.get("Energy") == None:
@@ -4797,6 +4827,11 @@ class Char():
 				print(e,"Show Hand")
 
 			i = i + 1
+		
+		if savedCard:
+			self.card_in_play = savedCard
+		else:
+			self.card_in_play = None
 
 	def show_drawpile(self):
 		ansiprint("This is your Drawpile:\n\n")
@@ -4925,12 +4960,17 @@ class Char():
 		except Exception as e:
 			print(e)
 
-	def showEnemies(self,skip=True):
-		#try:
+	def showEnemies(self,skip=True,numbers=True):
+		
+		if numbers == False:
+			ansiprint("\n<red>Enemies</red>:")
 		gegner = ""
 		i = 0
 		for opponent in entities.list_of_enemies:
-			gegner += "\n{}.) {} (<red>{}</red>/<red>{}</red>)".format(i+1,opponent.name,opponent.health,opponent.max_health)
+			if numbers == True:
+				gegner += "\n{}.) {} (<red>{}</red>/<red>{}</red>)".format(i+1,opponent.name,opponent.health,opponent.max_health)
+			else:
+				gegner += "\n{} (<red>{}</red>/<red>{}</red>)".format(opponent.name,opponent.health,opponent.max_health)
 			if opponent.block > 0:
 				gegner += " |<green> Block: "+str(opponent.block)+"</green>"
 			if opponent.poison > 0:
@@ -4955,6 +4995,12 @@ class Char():
 				gegner += " |<light-blue> Metallicize: "+str(opponent.metallicize)+"</light-blue>"
 			if opponent.barricade == True:
 				gegner += " |<light-blue> Barricade</light-blue>"
+			if opponent.choke > 0:
+				gegner += " |<light-cyan> Choke: "+str(opponent.choke)+"</light-cyan>"
+			if opponent.temp_strength > 0:
+				gegner += " |<light-cyan> Shackled: "+str(opponent.temp_strength)+"</light-cyan>"
+			if opponent.strengthChange > 0:
+				gegner += " |<light-cyan> Shifting: -"+str(opponent.strengthChange)+"</light-cyan>"
 			if opponent.sadisticNature > 0:
 				gegner += " |<light-blue> Sadistic Nature: "+str(opponent.sadisticNature)+"</light-blue>"
 			if opponent.heartVincibility > 0:
@@ -4977,7 +5023,7 @@ class Char():
 			i = i + 1
 		if skip:
 			gegner += "\n" +str(i+1) + ".) Skip" 
-		ansiprint(gegner,"\n")
+		ansiprint(gegner)
 
 	def enemy_preview(self,index,spotWeaknessCheck=False):
 		previewString = ""
@@ -5282,7 +5328,7 @@ class Char():
 				
 		attack = entities.list_of_enemies[index].receive_damage(attack,preview=True)
 	
-		return "Receives <red>"+ str(attack) +" damage</red>"
+		return f"Receives <red>{attack} damage</red> from <red>{self.card_in_play.get('Name')}</red>"
 
 
 	def receive_damage(self,attack_damage):
