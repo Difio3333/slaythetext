@@ -2525,11 +2525,11 @@ class Char():
 
 			elif self.card_in_play.get("Name") == "Flame Barrier":
 				self.blocking(self.card_in_play.get("Block"))
-				self.set_spikes(self.card_in_play.get("Spikes"))
+				self.set_tempSpikes(self.card_in_play.get("Spikes"))
 			
 			elif self.card_in_play.get("Name") == "Flame Barrier +":
 				self.blocking(self.card_in_play.get("Block"))
-				self.set_spikes(self.card_in_play.get("Spikes"))
+				self.set_tempSpikes(self.card_in_play.get("Spikes"))
 			
 			elif self.card_in_play.get("Name") == "Ghostly Armor":
 				self.blocking(self.block)
@@ -4772,19 +4772,12 @@ class Char():
 			
 
 			lineSpacing = " " * (length+3-len(card.get("Name")))
-			#lineSpacing = " " * (length + 3)
+
 			if blockAttackCard == False:
 				energySpacing = "     "	
 			else:
 				energySpacing = "        "
-			
-			#lineSpacingSecondHalf = lineSpacing[len(lineSpacing) if len(lineSpacing)%2 == 0 else (((len(lineSpacing)//2))+1):]
-			
-			#print(len(lineSpacingFirstHalf)+len(lineSpacingSecondHalf)+len(card.get("Name")))
-			
-			# print(len(lineSpacing))
-			# print(len(lineSpacingFirstHalf))
-			# print(len(lineSpacingSecondHalf))
+
 			try:
 				if noUpgrades == True and card.get("Upgrade") == True:
 					pass
@@ -7126,7 +7119,6 @@ class Char():
 				status += f" |</light-cyan> Draw Reduction </light-cyan>"
 			if self.entangled == True:
 				status += f" |</light-cyan> Entangle </light-cyan>"
-
 			if self.strength != 0:
 				status += f" |<red> Strength: {self.strength}</red>"
 			if self.dexterity != 0:
@@ -7165,8 +7157,6 @@ class Char():
 				status += f" |<light-blue> Fire Breathing: {self.fireBreathing}</light-blue>"
 			if self.demonForm > 0:
 				status += f" |<light-blue> Demon Form: {self.demonForm}</light-blue>"
-
-
 			if self.rupture > 0:
 				status += f" |<light-blue> Rupture: {self.rupture}</light-blue>"
 			if self.combustDamage > 0:
@@ -7177,8 +7167,18 @@ class Char():
 				status += f" |<light-blue> Brutality:{self.brutality} </light-blue>" 
 
 		else:
-			status += " |<yellow> Gold: "+ str(self.gold)+"</yellow>"
-
+			
+			relics = ""
+			i = 0 
+			for relic in self.relics:
+				if i == 0:
+					relics += f"<light-red>{relic.get('Name')}</light-red>"
+				else:
+					relics += f", <light-red>{relic.get('Name')}</light-red>"
+				i+=1
+			
+			status += f" |<yellow> Gold</yellow>: <yellow>{self.gold}</yellow> | <light-red>Relics</light-red>: {relics}"
+			
 
 		ansiprint(status,"\n")
 
