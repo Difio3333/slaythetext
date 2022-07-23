@@ -6198,23 +6198,29 @@ class Char():
 		if sozu == True:
 			ansiprint("You can't obtain any more <c>Potions</c> due to <light-red>Sozu</light-red>.")
 		else:
-			discardOptions = ["Yes","No"]
-			
+			discardOptions = ["1. Replace one of your <c>Potions</c>.","2. Don't replace one of your <c>Potions</c>."]
+		
+			checkNumbers = ["1","2"]
+
 			if len(self.potionBag) == self.potionBagSize:
-				ansiprint("You can't have more than",self.potionBagSize,"<c>Potions</c> in your <c>Potion Bag</c>.\n")
+				ansiprint(f"You can't have more than {self.potionBagSize} <c>Potions</c> in your <c>Potion Bag</c>.\n")
 				
 				self.showPotions()
 
-				choice = input("Do you want to discard one of your current potions?(Yes/No)\n")
-				while choice not in discardOptions:
-					self.explainer_function(choice,answer=False)
-					choice = input("Do you want to discard one of your current potions?(Yes/No)\n")
+				for option in discardOptions:
+					ansiprint(option)
 
-				if choice == "Yes":
+				choice = input("\nDo you want to discard one of your current potions?\n")
+
+				while choice not in checkNumbers:
+					self.explainer_function(choice,answer=False)
+					choice = input("Do you want to discard one of your current potions? Type 1 or 2.\n")
+
+				if choice == "1":
 					self.remove_Potion()
 					self.add_potion(potion)
-				elif choice == "No":
-					print("You have chosen to not take any further potion.")
+				elif choice == "2":
+					ansiprint("You have chosen to not take this <c>Potion</c>.")
 			else:
 				self.potionBag.append(potion)
 				ansiprint("<c>"+potion.get("Name")+"</c> is now in your <c>Potion Bag</c>.")
