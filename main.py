@@ -82,13 +82,13 @@ def main():
 
 	except Exception as e:
 		logging.error(f"Sorry the game crashed. You can find the crashlog in the same location where your game is located. It would be really nice if you could copy paste your game text to a txt. file and send it to slaythetext@gmail.com. Thanks and sorry for the inconveniences. Additonally there should be a slaythetext.log file in the same directory where you launched this game from. Please send that as well. \n Here is the actual Error:\n{e}",exc_info=True)
-		import acts
+		
 		saveDict = {"Encounter Counter":helping_functions.encounter_counter,
 			"Floor Counter":helping_functions.floor_counter,
 			"Game Act":helping_functions.gameAct,
 			"Game Map":helping_functions.game_map,
 			"Game Map Dict":helping_functions.game_map_dict,
-			"Test Act": acts.testAct,
+			#"Test Act": acts.testAct,
 			"Common Card Chance":helping_functions.commonCardChance,
 			"Uncommon Card Chance":helping_functions.uncommonCardChance,
 			"Rare Card Chance":helping_functions.rareCardChance,

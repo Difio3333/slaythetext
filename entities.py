@@ -1562,7 +1562,7 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
 
             "Slime Boss": {"Name": "Slime Boss", "Health":(150,150),"Intentions":["GoopSpray 5","Preparing",38],"Intentions_Logic":[["Random"],[0,1,2]*33],"On_hit_or_death":[["Split","Hit"]]},
             "Guardian": {"Name": "Guardian", "Health":(250,250),"Intentions":["Block 9",36,"VentSteam 2","Multiattack 5*4"],"Intentions_Logic":[["Random"],[0,1,2,3]*25],"On_hit_or_death":[["Modeshift","Hit"]]},
-            "Hexaghost":{"Name": "Hexaghost", "Health":(264,264),"Intentions":["Activate","Divider","Sear 6/2","Multiattack 6*2", "Bellow 3/12","Inferno 3*6"],"Intentions_Logic":[["Random"],[0,1] + [2,3,2,4,3,2,5]*30]},
+            "Hexaghost":{"Name": "Hexaghost", "Health":(264,264),"Intentions":["Activate","Divider","Sear 6/2","Multiattack 6*2", "Bellow 3|12","Inferno 3*6"],"Intentions_Logic":[["Random"],[0,1] + [2,3,2,4,3,2,5]*30]},
             
             "Byrd": {"Name":"Byrd","Health":(26,33),"Intentions":["Multiattack 1*6","Grow 1",14],"Intentions_Logic":[["Byrd"]],"On_hit_or_death":[["Fly 4","Hit"]]},
 

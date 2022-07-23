@@ -586,7 +586,8 @@ class Enemy():
 				self.set_ritual(int(action.split(" ")[1]))
 			
 			elif "Grow" in action:
-				self.strength += int(action.split(" ")[1])
+
+				self.set_strength(int(action.split(" ")[1]))
 			
 			elif "Rake" in action:
 				entities.active_character[0].receive_damage(self.attack(int(action.split(" ")[1].split("/")[0])))
@@ -1302,9 +1303,9 @@ class Enemy():
 
 		damage = attack_damage - self.block
 
-		if int(damage) > 0:
+		if damage > 0:
 			self.block = 0
-			self.health -= int(damage)
+			self.health -= damage
 			if self.health < 1:
 				ansiprint(f"The {self.name} has been defeated")
 				self.alive = False

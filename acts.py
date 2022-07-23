@@ -3,7 +3,6 @@ import entities
 from ansimarkup import parse, ansiprint
 
 
-
 testAct = 0
 
 def move_after_combat(game_map,game_map_dict):
@@ -497,9 +496,6 @@ def show_map(map_of_the_game,connection_dict):
 		ansiprint("    " + snaperline)
 		snaperline = ""
 		z += 1
-
-	
-
 
 def takeThird(elem):
 	return elem[2]

@@ -988,7 +988,7 @@ class Char():
 		while True:
 
 			try:
-
+				#self.showEnemies(skip=false)
 				self.showHand(battlemode=True)
 				print(f"{len(self.hand)+1}.  Skip")
 				ansiprint("\nYou have <yellow>"+str(self.energy)+" Energy</yellow> available.")
@@ -4962,7 +4962,7 @@ class Char():
 
 	def showEnemies(self,skip=True,numbers=True):
 		
-		if numbers == False:
+		if numbers == False and len(entities.list_of_enemies)>0:
 			ansiprint("\n<red>Enemies</red>:")
 		gegner = ""
 		i = 0
@@ -5056,15 +5056,15 @@ class Char():
 
 			elif "Weak" in entities.list_of_enemies[index].move:
 				
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "Vulnerable" in entities.list_of_enemies[index].move:
 				
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "Frail" in entities.list_of_enemies[index].move:
 				
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "Ritual" in entities.list_of_enemies[index].move:
 
@@ -5080,7 +5080,7 @@ class Char():
 
 			elif "GoopSpray" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies strong Debuff"
+				previewString = "Applies strong <light-cyan>Debuff</light-cyan>"
 
 			elif "Support Automaton" in entities.list_of_enemies[index].move:
 
@@ -5088,7 +5088,7 @@ class Char():
 
 			elif "Entangle" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "Suck" in entities.list_of_enemies[index].move:
 
@@ -5121,7 +5121,7 @@ class Char():
 
 			elif "VentSteam" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "DefensiveMode" in entities.list_of_enemies[index].move:
 
@@ -5162,15 +5162,15 @@ class Char():
 
 			elif "Hex" in entities.list_of_enemies[index].move:
 				
-				previewString = "Applies strong Debuff"
+				previewString = "Applies strong <light-cyan>Debuff</light-cyan>"
 
 			elif "SiphonSoul" in entities.list_of_enemies[index].move:
 				
-				previewString = "Applies strong Debuff"
+				previewString = "Applies strong <light-cyan>Debuff</light-cyan>"
 
 			elif "Bolt" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "Encourage" in entities.list_of_enemies[index].move:
 
@@ -5182,7 +5182,7 @@ class Char():
 
 			elif "BurningDebuff" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "SnakeStrike" in entities.list_of_enemies[index].move:
 
@@ -5205,11 +5205,11 @@ class Char():
 
 			elif "Roar" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies strong Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "MegaDebuff" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies strong Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 				
 			elif "TorchBuff" in entities.list_of_enemies[index].move:
 				
@@ -5217,7 +5217,7 @@ class Char():
 
 			elif "BearHug" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "SpikeUp" in entities.list_of_enemies[index].move:
 
@@ -5225,15 +5225,15 @@ class Char():
 
 			elif "Repulse" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies Debuff"
+				previewString = "Applies <light-cyan>Debuff</light-cyan>"
 
 			elif "Constrict" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies strong Debuff"
+				previewString = "Applies strong <light-cyan>Debuff</light-cyan>"
 
 			elif "Implant" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies strong Debuff"
+				previewString = "Applies strong <light-cyan>Debuff</light-cyan>"
 
 			elif "GiantHead" in entities.list_of_enemies[index].move:
 
@@ -5266,7 +5266,7 @@ class Char():
 
 			elif "Debilitate" in entities.list_of_enemies[index].move:
 
-				previewString = "Applies strong Debuff"			
+				previewString = "Applies strong <light-cyan>Debuff</light-cyan>"			
 
 			elif "HeartBuff" in entities.list_of_enemies[index].move:
 
@@ -5643,7 +5643,7 @@ class Char():
 	def set_spikes(self,value):
 		
 		self.spikes += value
-		ansiprint(self.displayName,"has",self.spikes,"Spikes.")
+		ansiprint(f"{self.displayName} has <light-blue>{self.spikes+self.tempSpikes} Spikes</light-blue>.")
 
 	def set_tempDraw(self,value):
 
@@ -5655,7 +5655,6 @@ class Char():
 		else:
 			ansiprint(self.displayName,"draws",abs(self.tempDraw),"less cards next turn.")
 
-
 	def set_reducedDrawByTurns(self,value):
 
 		i = 0
@@ -5666,7 +5665,7 @@ class Char():
 	def set_tempSpikes (self,value):
 		
 		self.tempSpikes += value
-		ansiprint(self.displayName,"now has",self.tempSpikes,"Spikes.")
+		ansiprint(f"{self.displayName} has <light-blue>{self.spikes+self.tempSpikes} Spikes</light-blue>.")
 	
 	def set_ritual(self,value):
 
@@ -6482,7 +6481,7 @@ class Char():
 					self.showDeck()
 					
 					try:
-						snap = input("Which Attack Card do you want to bottle?")
+						snap = input("Which Attack Card do you want to bottle?\n")
 						snap = int(snap) -1
 						if self.deck[snap].get("Type")== "Attack":
 							self.deck[snap]["Innate"] = "True"
@@ -6505,7 +6504,7 @@ class Char():
 					self.showDeck()
 					
 					try:
-						snap = input("Which Skill Card do you want to bottle?")
+						snap = input("Which Skill Card do you want to bottle?\n")
 						snap = int(snap)-1
 						if self.deck[snap].get("Type") == "Skill":
 							self.deck[snap]["Innate"] = "True"
@@ -6529,7 +6528,7 @@ class Char():
 					self.showDeck()
 					
 					try:
-						snap = input("Which Power do you want to bottle?")
+						snap = input("Which Power do you want to bottle?\n")
 						snap = int(snap)-1
 
 						if self.deck[snap].get("Type")=="Power":
