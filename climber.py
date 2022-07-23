@@ -989,8 +989,8 @@ class Char():
 
 			try:
 				#self.showEnemies(skip=false)
-				self.showHand(battlemode=True)
-				print(f"{len(self.hand)+1}.  Skip")
+				self.showHand(battlemode=True,skip=True)
+				
 				ansiprint("\nYou have <yellow>"+str(self.energy)+" Energy</yellow> available.")
 				
 				card_index = input("\nPick the number of the card you want to play\n")
@@ -4228,21 +4228,25 @@ class Char():
 	def set_powerCounter(self):
 		self.power_counter += 1
 		storedCardIndexes = []
+
 		if self.mummifiedHand > 0:
 			#this needs to be implemented smarter. Just too lazy now.
+			i = 0
 			while i < len(self.hand):
-				if self.hand[i].get("Energy") > 0 and self.hand[i].get("Type") == "Power":
-					storedCardIndexes.append(i)
+				if self.hand[i].get("Energy") != None:
+					if self.hand[i].get("Energy") > 0:
+						storedCardIndexes.append(i)
 				
 				i+= 1
-
+		
 		if len(storedCardIndexes) > 0:
 			changedCardIndex = storedCardIndexes[rd.randint(0,len(storedCardIndexes)-1)]
-
+			
 			self.hand[changedCardIndex]["This turn Energycost changed"] = True
 			self.hand[changedCardIndex]["Energy"] = 0
-			
-			ansiprint(self.hand[changedCardIndex].get("Name"),"costs <yellow>0 Energy</yellow> this turn because of <light-red>Mummified Hands</light-red>!")
+			color = self.get_cardColor(self.hand[changedCardIndex].get("Type"))
+
+			ansiprint(f"<{color}>{self.hand[changedCardIndex].get('Name')}</{color}> costs <yellow>0 Energy</yellow> this turn because of <light-red>Mummified Hands</light-red>!")
 
 		if self.birdFacedUrn > 0:
 			self.heal(2)
@@ -4746,7 +4750,7 @@ class Char():
 			else:
 				ansiprint("<light-red>"+relic.get("Name")+"</light-red>","| Effect:",relic.get("Info"))
 
-	def showHand(self, noUpgrades: bool = False,battlemode: bool = False):
+	def showHand(self, noUpgrades: bool = False,battlemode: bool = False,skip:bool=False):
 		ansiprint("\n")		
 		blockAttackCard = False
 		for card in self.hand:
@@ -4766,9 +4770,9 @@ class Char():
 			self.card_in_play = card
 			color = self.get_cardColor(card.get("Type"))
 			if i+1 < 10:
-				numberSpacing = "  "
-			else:
 				numberSpacing = " "
+			else:
+				numberSpacing = "  "
 			
 
 			lineSpacing = " " * (length+3-len(card.get("Name")))
@@ -4820,7 +4824,9 @@ class Char():
 				print(e,"Show Hand")
 
 			i = i + 1
-		
+		if skip:
+			print(f"{i+1}.{numberSpacing}Skip")
+
 		if savedCard:
 			self.card_in_play = savedCard
 		else:
@@ -6583,12 +6589,12 @@ class Char():
 	def set_platedArmor(self,value):
 		self.platedArmor += value
 
-		ansiprint(self.displayName, "receives",self.platedArmor,"block at the start of each turn.")
+		ansiprint(f"{self.displayName} receives <green>{self.platedArmor} Block</green> at the start of each turn.")
 
 	def set_block_by_platedArmor(self,value):
 
 		self.block += self.platedArmor
-		ansiprint(self.displayName,"received",self.platedArmor,"Block through Plated Armor.")
+		ansiprint(f"{self.displayName} received <green>{self.platedArmor} Block</green> through <light-blue>Plated Armor</light-blue>.")
 
 	def damageCounter(self):
 		self.damage_counter += 1

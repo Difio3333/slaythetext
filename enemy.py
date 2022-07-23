@@ -788,7 +788,7 @@ class Enemy():
 
 			elif "Divider" in action:
 				i = 0
-				while i < int(entities.active_character[0].health // 12) + 1:
+				while i < entities.active_character[0].health // 12 + 1:
 					entities.active_character[0].receive_damage(self.attack(6))
 					i += 1
 
