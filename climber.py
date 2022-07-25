@@ -6583,7 +6583,7 @@ class Char():
 
 	def set_block_by_metallicice (self,value):
 		
-		self.block += self.metallicize
+		self.blocking(self.metallicize,unaffectedBlock=True)
 		ansiprint(f"{self.displayName}  received <green>{self.metallicize} Block</green> through Metallicize.")
 
 	def set_platedArmor(self,value):
@@ -6593,7 +6593,8 @@ class Char():
 
 	def set_block_by_platedArmor(self,value):
 
-		self.block += self.platedArmor
+		self.blocking(self.platedArmor,unaffectedBlock=True)
+		
 		ansiprint(f"{self.displayName} received <green>{self.platedArmor} Block</green> through <light-blue>Plated Armor</light-blue>.")
 
 	def damageCounter(self):
