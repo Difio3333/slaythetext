@@ -600,7 +600,7 @@ class Char():
 
 			elif relic.get("Name") == "Preserved Insect":
 				if self.get_floor() == "Elite":
-					for enemy in entities.list_of_enemies():
+					for enemy in entities.list_of_enemies:
 						damage = math.floor(enemy.health/4)
 						enemy.receive_recoil_damage(damage)
 					ansiprint("<light-red>Preserved Insect</light-red> did this <red>damage</red>.")
@@ -1058,7 +1058,7 @@ class Char():
 					return
 		
 		if self.entangled == True and self.hand[card_index]["Type"] == "Attack":
-			ansiprint("You can't play <red>Attacks</red> this turn because your are <light-cyan>entangled</light-cyan>")
+			ansiprint("You can't play <red>Attacks</red> this turn because you are <light-cyan>entangled</light-cyan>")
 			return
 
 		self.cardIndex = card_index
@@ -5839,7 +5839,7 @@ class Char():
 	def set_entangled(self):
 		if self.check_artifact():
 			self.entangled = True
-			ansiprint(self.displayName, "is now entangled for",self.entangled,"turn.\n")
+			ansiprint(self.displayName, "is now entangled for 1 turn.\n")
 
 	def set_cantDraw(self):
 		if self.check_artifact():
@@ -7129,9 +7129,9 @@ class Char():
 			if self.wraithForm > 0:
 				status += f" |<light-cyan> Wraith Form: {self.wraithForm}</light-cyan>"
 			if len(self.reducedDrawByTurns) > 1:
-				status += f" |</light-cyan> Draw Reduction </light-cyan>"
+				status += f" |<light-cyan> Draw Reduction </light-cyan>"
 			if self.entangled == True:
-				status += f" |</light-cyan> Entangle </light-cyan>"
+				status += f" |<light-cyan> Entangle </light-cyan>"
 			if self.strength != 0:
 				status += f" |<red> Strength: {self.strength}</red>"
 			if self.dexterity != 0:
