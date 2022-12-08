@@ -145,6 +145,8 @@ class Enemy():
 
 	def determine_choice(self,turn_counter):
 
+		heal = False
+
 		if self.intention_logic[0][0] == "Random":
 
 			choice = self.intentions[self.intention_logic[1][turn_counter-1]]
@@ -1656,7 +1658,7 @@ class Enemy():
 
 			ansiprint(self.name,"heals for", value - displayValue, "and now has <red>"+ str(self.health)+"Health</red>.")
 		else:
-			ansiprint(self.name,"heals for", value, "and now has <red>",self.health,"Health</red>.")
+			ansiprint(self.name,"heals for", value, "and now has <red>"+str(self.health)+"Health</red>.")
 
 	def set_weakness(self,value):
 		if self.artifact > 0:
@@ -1808,7 +1810,7 @@ class Enemy():
 		self.receive_recoil_damage(self.sadisticNature)
 
 	def set_intention_logic(self):
-		
+	
 		if self.intention_logic[0][0] != "Random":
 			self.dumb_check_because_this_part_of_python_sucks()
 
