@@ -5615,7 +5615,7 @@ class Char():
 				self.health = math.floor((self.max_health/100)*30)
 			
 
-		elif source == "Lizard Tale":
+		elif source == "Lizard Tail":
 			self.health = math.floor((self.max_health/100)*50)
 
 		ansiprint(self.displayName,"resurrected and now has",self.health,"health.")
