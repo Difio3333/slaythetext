@@ -145,8 +145,6 @@ class Enemy():
 
 	def determine_choice(self,turn_counter):
 
-		heal = False
-
 		if self.intention_logic[0][0] == "Random":
 
 			choice = self.intentions[self.intention_logic[1][turn_counter-1]]
@@ -239,38 +237,6 @@ class Enemy():
 				else:
 					choice = "Multiattack 7*3" 
 
-			if self.moveThreeSpree < 3 and heal == True:
-				
-				self.moveOneSpree = 0
-				self.moveTwoSpree = 0
-				self.moveThreeSpree += 1
-				choice = "MysticHeal 20"
-
-			else:
-				
-				if rd.randint(1,10) < 5:
-					if self.moveOneSpree == 0:
-						self.moveOneSpree += 1
-						self.moveTwoSpree = 0
-						self.moveThreeSpree = 0
-						choice = "Fell 9/2"
-					else:
-						self.moveOneSpree = 0
-						self.moveTwoSpree += 1
-						self.moveThreeSpree = 0
-						choice = "MysticBuff"
-				else:
-					if self.moveTwoSpree < 2:
-						self.moveOneSpree = 0
-						self.moveTwoSpree += 1
-						self.moveThreeSpree = 0
-						choice = "MysticBuff"
-
-					else:
-						self.moveOneSpree += 1
-						self.moveTwoSpree = 0
-						self.moveThreeSpree = 0
-						choice = "Fell 9/2"
 
 		elif self.intention_logic[0][0] == "Spire Growth":
 			if turn_counter == 1:
@@ -470,14 +436,11 @@ class Enemy():
 					elif mover == 2:
 						choice = 34
 				
-
-
 		elif self.intention_logic[0][0] == "Time Eater":
 			if self.health < math.floor(self.max_health / 2):
 				choice = "Haste"
 			else:
 				choice = self.intentions[self.intention_logic[1][turn_counter-1]]
-
 
 		elif self.intention_logic[0][0] == "Spire Shield":
 			if turn_counter % 3 == 0:
@@ -507,7 +470,6 @@ class Enemy():
 						choice = "Bash 12/1"
 					else:
 						choice = "Fortify 30"
-
 
 		elif self.intention_logic[0][0] == "Corrupt Heart":
 			if turn_counter == 1:
