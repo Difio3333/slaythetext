@@ -928,7 +928,7 @@ class Enemy():
 				entities.active_character[0].set_weakness(int(action.split(" ")[1]))
 				
 				if self.codeName == "Snake Plant":
-					self.intention_logic = [0]*helping_functions.turn_counter+[1,1,0]*33
+					self.intention_logic = [["Random"],[[0]*helping_functions.turn_counter+[1,1,0]*33]]
 					print("Snake Plant Intentionchange")
 			
 			elif "MegaDebuff" in action:
