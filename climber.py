@@ -3462,7 +3462,7 @@ class Char():
 				if potion_index in range(len(self.potionBag)):
 					
 					if self.potionBag[potion_index]["Name"] == "Fairy in a Bottle":
-						ansiprint("<c>Fairy in a Bottle</c> can't be played. It will revive you automatically if you died. I hope.")
+						ansiprint("<c>Fairy in a Bottle</c> can't be played. It will revive you automatically if you die. I hope.")
 						return
 					elif self.potionBag[potion_index]["Name"] == "Smoke Bomb" and self.get_floor() == "Boss":
 						ansiprint("<c>Smoke Bomb</c> can't be played during <black>Bossfigts</black>!")
@@ -5614,6 +5614,14 @@ class Char():
 			else:
 				self.health = math.floor((self.max_health/100)*30)
 			
+			i = 0
+			
+			for potion in self.potionbag:
+				if potion.get("Name") == "Fairy in a Bottle":
+					break
+				i+=1
+			
+			self.remove_potion(index=i)
 
 		elif source == "Lizard Tail":
 			self.health = math.floor((self.max_health/100)*50)
@@ -5626,7 +5634,7 @@ class Char():
 
 		self.cardsCostNothing += value
 		
-		ansiprint(self.displayName,"cards cost nothing for",self.cardsCostNothing,"turn.")
+		ansiprint(f"{self.displayName} cards cost nothing for {self.cardsCostNothing} turn(s).")
 
 	def set_rage(self,value):
 
