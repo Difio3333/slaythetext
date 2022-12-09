@@ -5621,7 +5621,7 @@ class Char():
 					break
 				i+=1
 			
-			self.remove_potion(index=i)
+			self.remove_Potion(index=i)
 
 		elif source == "Lizard Tail":
 			self.health = math.floor((self.max_health/100)*50)
