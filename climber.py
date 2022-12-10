@@ -130,7 +130,7 @@ class Char():
 
 		self.runicDome = 0
 		self.velvetChoker = 0
-		self.runicPyramide = 0
+		self.runicPyramid = 0
 		self.confused = False
 
 		self.artOfWar = 0
@@ -730,8 +730,8 @@ class Char():
 				if self.get_floor == "Boss" or self.get_floor == "Elite" or self.get_floor == "Super":
 					self.set_energyGain(1)
 
-			elif relic.get("Name") == "Runic Pyramide":
-				self.runicPyramide = 1
+			elif relic.get("Name") == "Runic Pyramid":
+				self.runicPyramid = 1
 
 			elif relic.get("Name") == "Art of War":
 				self.artOfWar = 1
@@ -4560,8 +4560,8 @@ class Char():
 			except Exception as e:
 				i+=1
 		
-		if self.runicPyramide > 0:
-			ansiprint("You keep your hand because of <light-red>Runic Pyramide</light-red>.")
+		if self.runicPyramid > 0:
+			ansiprint("You keep your hand because of <light-red>Runic Pyramid</light-red>.")
 
 		else:
 			i = 0
@@ -7270,7 +7270,7 @@ class Char():
 
 		self.runicDome = 0
 		self.velvetChoker = 0
-		self.runicPyramide = 0
+		self.runicPyramid = 0
 		self.confused = False
 		
 		self.artOfWar = 0
