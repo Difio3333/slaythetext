@@ -7125,9 +7125,9 @@ class Char():
 			if self.constriction > 0:
 				status += f" |<light-cyan> Constricted: {self.constriction}</light-cyan>"
 			if len(self.strengthDecrease) > 0:
-				status += f" |<light-cyan> Strength Decrease:{self.strengthDecrease[0][1]}</light-lightcyan>" 
+				status += f" |<light-cyan> Strength Decrease:{self.strengthDecrease[0][1]}</light-cyan>" 
 			if len(self.dexterityDecrease) > 0:
-				status += f" |<light-cyan> Dexterity Decrease:{self.dexterityDecrease[0][1]}</light-lightcyan>" 
+				status += f" |<light-cyan> Dexterity Decrease:{self.dexterityDecrease[0][1]}</light-cyan>" 
 			if self.confused == True:
 				status += f" |<light-cyan> Confused</light-cyan>"
 			if self.cantDraw == True:
