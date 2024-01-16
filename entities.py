@@ -30,20 +30,24 @@ def choose_character():
     
     while True:
         try:
-            ansiprint("1. <green>Silent</green>\n2. <red>Ironclad</red>")
+            ansiprint("1. <green>Silent</green>\n2. <red>Ironclad</red>\n3. <blue>Defect</blue>")
             charchoice = input("Pick the Character you want to play.\n")
-            charchoice = int(charchoice)
+            
 
-            if charchoice == 1:
+            if charchoice == "1":
                 active_character.append(Char("Silent",66,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."}]))
                 ansiprint("You chose the <green>Silent</green>.")
                 break
-            elif charchoice == 2:
-                active_character.append(Char("Ironclad",75,deck = [],gold = 99,relics=[{"Name":"Burning Blood","Rarity":"Starter","Owner":"Ironclad","Type":"Relic","Info":"At the end of combat, <red>heal 6 HP</red>."}]))
+            elif charchoice == "2":
+                active_character.append(Char("Ironclad",80,deck = [],gold = 99,relics=[{"Name":"Burning Blood","Rarity":"Starter","Owner":"Ironclad","Type":"Relic","Info":"At the end of combat, <red>heal 6 HP</red>."}]))
                 ansiprint("You chose the <red>Ironclad</red>.")
                 break
+            elif charchoice == "3":
+                active_character.append(Char("Defect",75,deck = [],gold = 99,relics=[{"Name":"Cracked Core","Rarity":"Starter","Owner":"Defect","Type":"Relic","Info":"At the start of each combat, Channel 1 Lightning."}]))
+                ansiprint("You chose the <blue>Defect</blue>.")
+                break
             else:
-                ansiprint("You have to type either 1 or 2.")
+                ansiprint("You have to type either 1, 2 or 3.")
         except ValueError:
             ansiprint("You have to type a number.")
         except Exception as e:
@@ -66,59 +70,59 @@ def check_if_character_dead():
                         pass
 
 def check_if_enemy_dead():
-	global list_of_enemies
-	try:
-		i = 0
-		for enemy in list_of_enemies:
-			if enemy.alive == False:
-				if enemy.stolenGold > 0:
-					ansiprint(active_character[0].displayName,"killed an enemy that had stolen Gold.")
-					active_character[0].set_gold(enemy.stolenGold)
-				
-				if len(enemy.stolenCard) > 0:
-					for card in enemy.stolenCard:
-						active_character[0].add_CardToHand(card)
+    global list_of_enemies
+    try:
+        i = 0
+        for enemy in list_of_enemies:
+            if enemy.alive == False:
+                if enemy.stolenGold > 0:
+                    ansiprint(active_character[0].displayName,"killed an enemy that had stolen Gold.")
+                    active_character[0].set_gold(enemy.stolenGold)
+                
+                if len(enemy.stolenCard) > 0:
+                    for card in enemy.stolenCard:
+                        active_character[0].add_CardToHand(card)
 
-				for relic in active_character[0].relics:
-					if relic.get("Name") == "Gremlin Horn":
-						active_character[0].draw(1)
-						active_character[0].gainEnergy(1)
-						ansiprint("You drew 1 card and received <yellow>1 Energy</yellow> because of <light-red>Gremlin Horn</light-red>!")
-					elif relic.get("Name") == "The Specimen":
-						if enemy.poison > 0:
-							if len(list_of_enemies) > 1:
-								print("<light-red>The Specimen</light-red> did that.")
-								snap = rd.randint(0,len(list_of_enemies)-1)
-								while snap == i:
-									snap = rd.randint(0,len(list_of_enemies)-1)
+                for relic in active_character[0].relics:
+                    if relic.get("Name") == "Gremlin Horn":
+                        active_character[0].draw(1)
+                        active_character[0].gainEnergy(1)
+                        ansiprint("You drew 1 card and received <yellow>1 Energy</yellow> because of <light-red>Gremlin Horn</light-red>!")
+                    elif relic.get("Name") == "The Specimen":
+                        if enemy.poison > 0:
+                            if len(list_of_enemies) > 1:
+                                print("<light-red>The Specimen</light-red> did that.")
+                                snap = rd.randint(0,len(list_of_enemies)-1)
+                                while snap == i:
+                                    snap = rd.randint(0,len(list_of_enemies)-1)
 
-								list_of_enemies[snap].set_poison(enemy.poison)
+                                list_of_enemies[snap].set_poison(enemy.poison)
 
-				ansiprint("The",list_of_enemies[i].name,"has been defeated.")
-				list_of_enemies.pop(i)
-				
-				if enemy.leader == True and len(list_of_enemies) >= 1:
-					list_of_enemies = []
-					ansiprint("All other Minions are fleeing!")
+                ansiprint("The",list_of_enemies[i].name,"has been defeated.")
+                list_of_enemies.pop(i)
+                
+                if enemy.leader == True and len(list_of_enemies) >= 1:
+                    list_of_enemies = []
+                    ansiprint("All other Minions are fleeing!")
 
-			else:
-				i += 1
-	except Exception as e:
-		print(e,"Issue in check_if_enemy_dead entities.")
+            else:
+                i += 1
+    except Exception as e:
+        print(e,"Issue in check_if_enemy_dead entities.")
 
 def enemy_runs_away():
-	i = 0
-	for enemy in list_of_enemies:
-		if enemy.runaway == True:
-			list_of_enemies.pop(i)
-			i += 1
-		else:
-			i += 1
+    i = 0
+    for enemy in list_of_enemies:
+        if enemy.runaway == True:
+            list_of_enemies.pop(i)
+            i += 1
+        else:
+            i += 1
 
 def spawn_enemies(theEnemies:list):
 
-	for enemy in theEnemies:
-		list_of_enemies.append(enemy)
+    for enemy in theEnemies:
+        list_of_enemies.append(enemy)
 
 
 def fill_enemy_list():
@@ -1127,6 +1131,234 @@ cards = {
     "Juggernaut" :{"Name":"Juggernaut","Damage":5,"Energy":2,"Type":"Power","Rarity":"Rare","Owner":"Ironclad","Info":"Whenever you gain <green>Block</green>, deal <red>5 damage</red> to a random enemy."},
     "Juggernaut +" :{"Name":"Juggernaut +","Damage":7,"Energy":2,"Type":"Power","Rarity":"Rare","Upgraded":True,"Owner": "Ironclad","Info":"Whenever you gain <green>Block</green>, deal <red>5 damage</red> to a random enemy."},
 
+    #Defect Cards
+
+    "Strike": {"Name": "Strike", "Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Defect","Info":"Deal 6 damage."},
+    "Strike +": {"Name": "Strike +","Upgraded": True, "Damage":9, "Energy": 1,"Type": "Attack" ,"Rarity": "Basic","Owner":"Defect","Info":"Deal 9 damage."},
+
+    "Defend": {"Name": "Defend", "Block":5, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Defect","Info":"Gain 5 Block."},
+    "Defend +": {"Name": "Defend +","Upgraded": True, "Block":8, "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Defect","Info":"Gain 8 Block."},
+
+    "Zap": {"Name": "Zap", "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Defect","Info":"Channel 1 Lightning."},
+    "Zap +": {"Name": "Zap +", "Upgraded": True, "Energy": 0,"Type": "Skill" ,"Rarity": "Basic","Owner":"Defect","Info":"Channel 1 Lightning."},
+
+    "Dualcast": {"Name": "Dualcast", "Energy": 1,"Type": "Skill" ,"Rarity": "Basic","Owner":"Defect","Info":"Evoke your next Orb twice."},
+    "Dualcast +": {"Name": "Dualcast +", "Upgraded": True, "Energy": 0,"Type": "Skill" ,"Rarity": "Basic","Owner":"Defect","Info":"Evoke your next Orb twice."},
+    
+    "Ball Lightning": {"Name": "Ball Lightning","Orb":"Lightning","Damage":7, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 7 damage. Channel 1 Lightning"},
+    "Ball Lightning +": {"Name": "Ball Lightning +","Orb":"Lightning","Damage":10,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 7 damage. Channel 1 Lightning"},
+    
+    "Barrage": {"Name": "Barrage","Damage":4, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 4 damage for each channeled Orb."},
+    "Barrage +": {"Name": "Barrage +","Damage":6,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 6 damage for each channeled Orb."},
+
+    "Beam Cell": {"Name": "Beam Cell","Damage":3, "Vulnerable":1,"Energy": 0,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 3 damage. Apply 1 Vulnerable."},
+    "Beam Cell +": {"Name": "Beam Cell +","Damage":4,"Vulnerable":2,"Upgraded":True, "Energy": 0,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 4 damage. Apply 2 Vulnerable."},
+
+    "Claw": {"Name": "Claw","Damage":3, "Increase":2,"Energy": 0,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 3 damage. Increase the damage of ALL Claw cards by 2 this combat."},
+    "Claw +": {"Name": "Claw +","Damage":5,"Increase":2,"Upgraded":True, "Energy": 0,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 5 damage. Increase the damage of ALL Claw cards by 2 this combat."},
+
+    "Cold Snap": {"Name": "Cold Snap","Orb":"Frost","Damage":6, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 6 damage. Channel 1 Frost."},
+    "Cold Snap +": {"Name": "Cold Snap +","Orb":"Frost","Damage":9,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 9 damage. Channel 1 Frost."},
+    
+    "Compile Driver": {"Name": "Compile Driver","Damage":7, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 7 damage. Draw 1 Card for each unique Orb you have."},
+    "Compile Driver +": {"Name": "Compile Driver +","Damage":10,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 10 damage. Draw 1 Card for each unique Orb you have."},
+    
+    "Go for the Eyes": {"Name": "Go for the Eyes","Damage":3, "Weakness":1,"Energy": 0,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 3 damage. If the enemy inteds to attack, apply 1 Weak."},
+    "Go for the Eyes +": {"Name": "Go for the Eyes +","Damage":4,"Weakness":2,"Upgraded":True, "Energy": 0,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 4 damage. If the enemy inteds to attack, apply 2 Weak."},
+
+    "Rebound": {"Name": "Rebound","Damage":9, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 9 damage. Put the next card you play this turn on top of your draw pile."},
+    "Rebound +": {"Name": "Rebound +","Damage":12,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 12 damage. Put the next card you play this turn on top of your draw pile."},
+    
+    "Streamline": {"Name": "Streamline","Damage":15, "Energy": 2,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 15 damage. Reduce this card's cost by 1 this combat."},
+    "Streamline +": {"Name": "Streamline +","Damage":20,"Upgraded":True, "Energy": 2,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 20 damage. Reduce this card's cost by 1 this combat."},
+    
+    "Sweeping Beam": {"Name": "Sweeping Beam","Damage":6,"Draw":1, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 6 damage to ALL enemies. Draw 1 card."},
+    "Sweeping Beam +": {"Name": "Sweeping Beam +","Damage":9,"Draw":1,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Common","Owner":"Defect","Info":"Deal 9 damage to ALL enemies. Draw 1 card."},
+
+    "Blizzard": {"Name": "Blizzard","Damage":2, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal damage equal to 2 times the number of Frost channeled this combat to ALL enemies."},
+    "Blizzard +": {"Name": "Blizzard +","Damage":3,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal damage equal to 2 times the number of Frost channeled this combat to ALL enemies."},
+
+    "Bullseye": {"Name": "Bullseye","Damage":8,"Lock-On":2, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 8 damage. Apply 2 Lock-On."},
+    "Bullseye +": {"Name": "Bullseye +","Damage":11,"Lock-On":3,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 11 damage. Apply 3 Lock-On."},
+    
+    "Doom and Gloom": {"Name": "Doom and Gloom","Damage":10,"Orb":"Dark", "Energy": 2,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 10 damage. Channel 1 Dark."},
+    "Doom and Gloom +": {"Name": "Doom and Gloom +","Damage":14,"Orb":"Dark","Upgraded":True, "Energy": 2,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 14 damage. Channel 1 Dark."},
+    
+    "FTL": {"Name": "FTL","Damage":5,"Max":3,"Draw":1, "Energy": 0,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 5 damage. If you have played less than 3 cards this turn, draw 1 card."},
+    "FTL +": {"Name": "FTL +","Damage":6,"Max":4,"Draw":1,"Upgraded":True, "Energy": 0,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 6 damage. If you have played less than 4 cards this turn, draw 1 card."},
+    
+    "Melter": {"Name": "Melter","Damage":10, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Remove all Block from the enemy. Deal 10 damage."},
+    "Melter +": {"Name": "Melter +","Damage":14,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Remove all Block from the enemy. Deal 14 damage."},
+
+    "Rip and Tear": {"Name": "Rip and Tear","Damage":7, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 7 damage to a random enemy twice."},
+    "Rip and Tear +": {"Name": "Rip and Tear +","Damage":9,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 9 damage to a random enemy twice."},
+    
+    "Scrape": {"Name": "Scrape","Damage":7,"Draw":4, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 7 damage. Draw 4 cards. Discard all cards drawn this way that do not cost 0."},
+    "Scrape +": {"Name": "Scrape +","Damage":10,"Draw":5,"Upgraded":True, "Energy": 1,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 10 damage. Draw 5 cards. Discard all cards drawn this way that do not cost 0."},
+    
+    "Sunder": {"Name": "Sunder","Damage":24,"Energy Gain":3,"Energy": 3,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 24 damage. If this kills an enemy, gain 3 Energy."},
+    "Sunder +": {"Name": "Sunder +","Damage":32,"Energy Gain":3,"Upgraded":True, "Energy": 3,"Type": "Attack" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Deal 32 damage. If this kills an enemy, gain 3 Energy."},
+    
+    "All for One": {"Name": "All for One","Damage":10,"Energy": 2,"Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 10 damage. Put all cost 0 cards from your discard pile into your hand."},
+    "All for One +": {"Name": "All for One +","Damage":14,"Upgraded":True, "Energy": 2,"Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 32 damage. If this kills an enemy, 3 Energy."},
+    
+    "Core Surge": {"Name": "Core Surge","Damage":11,"Energy": 1,"Exhaust":True,"Type": "Attack","Artifact":1 ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 11 damage. Gain 1 Artifact. Exhaust."},
+    "Core Surge +": {"Name": "Core Surge +","Damage":15,"Upgraded":True, "Energy": 1,"Exhaust":True,"Artifact":1,"Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 15 damage. Gain 1 Artifact. Exhaust."},
+    
+    "Hyperbeam": {"Name": "Hyperbeam","Damage":26,"Energy": 2,"Focus":-3,"Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 26 damage to ALL enemies. Lose 3 Focus."},
+    "Hyperbeam +": {"Name": "Hyperbeam +","Damage":34,"Upgraded":True, "Energy": 2,"Focus":-3,"Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 34 damage to ALL enemies. Lose 3 Focus."},
+    
+    "Meteor Strike": {"Name": "Meteor Strike","Damage":24,"Energy": 5,"Orb":"Plasma","Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 24 damage. Channel 3 Plasma."},
+    "Meteor Strike +": {"Name": "Meteor Strike +","Damage":30,"Upgraded":True, "Energy": 5,"Orb":"Plasma","Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 30 damage. Channel 3 Plasma."},
+    
+    "Thunder Strike": {"Name": "Thunder Strike","Damage":7,"Energy": 3,"Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 7 damage to a random enemy for each Lightning channeled this combat."},
+    "Thunder Strike +": {"Name": "Thunder Strike +","Damage":9,"Upgraded":True, "Energy": 3,"Type": "Attack" ,"Rarity": "Rare","Owner":"Defect","Info":"Deal 9 damage to a random enemy for each Lightning channeled this combat."},
+    
+    "Charge Battery": {"Name": "Charge Battery","Block":7, "Energy": 1,"Energy Gain":1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 7 Block. Next turn, gain 1 Energy."},
+    "Charge Battery +": {"Name": "Charge Battery +","Block":10,"Upgraded":True, "Energy": 1,"Energy Gain":1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 7 Block. Next turn, gain 1 Energy."},
+
+    "Coolheaded": {"Name": "Coolheaded","Orb":"Frost","Draw":1,"Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Channel 1 Frost. Draw 1 card."},
+    "Coolheaded +": {"Name": "Coolheaded +","Orb":"Frost","Draw":2,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Channel 1 Frost. Draw 2 card."},
+
+    "Hologram": {"Name": "Hologram","Block":3, "Energy": 1,"Type": "Skill","Exhaust":True ,"Rarity": "Common","Owner":"Defect","Info":"Exhaust. Gain 3 Block. Put a card from your discard pile into your hand."},
+    "Hologram +": {"Name": "Hologram +","Block":5,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 5 Block. Put a card from your discard pile into your hand."},
+
+    "Leap": {"Name": "Leap","Block":9, "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 9 Block."},
+    "Leap +": {"Name": "Leap +","Block":12,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 12 Block."},
+
+    "Recursion": {"Name": "Recursion", "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Evoke your next Orb. Channel the Orb that was just Evoked."},
+    "Recursion +": {"Name": "Recursion +","Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Evoke your next Orb. Channel the Orb that was just Evoked."},
+
+    "Stack": {"Name": "Stack", "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain Block equal to the number of cards in your discard pile."},
+    "Stack +": {"Name": "Stack +","Block":3,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain Block equal to the number of cards in your discard pile."},
+
+    "Steam Barrier": {"Name": "Steam Barrier","Block":6, "Energy": 0,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 6 Block. Decrease this card\'s Block by 1 this combat."},
+    "Steam Barrier +": {"Name": "Steam Barrier +","Block":8,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 6 Block. Decrease this card\'s Block by 1 this combat."},
+
+    "TURBO": {"Name": "TURBO","Energy Gain":2, "Energy": 0,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 2 Energy. Add a Void into your discard pile."},
+    "TURBO +": {"Name": "TURBO +","Energy Gain":3,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Common","Owner":"Defect","Info":"Gain 3 Energy. Add a Void into your discard pile."},
+
+    "Aggregate": {"Name": "Aggregate","Energy Divider":4, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain Energy for every 4 cards in your draw pile."},
+    "Aggregate +": {"Name": "Aggregate +","Energy Divider":3,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain Energy for every 4 cards in your draw pile."},
+
+    "Auto-Shields": {"Name": "Auto-Shields","Block":11, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"If you have no Block, gain 11 Block."},
+    "Auto-Shields +": {"Name": "Auto-Shields +","Block":15,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"If you have no Block, gain 15 Block."},
+
+    "Boot Sequence": {"Name": "Boot Sequence","Block":10,"Innate":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Innate. Gain 10 Block. Exhaust."},
+    "Boot Sequence +": {"Name": "Boot Sequence +","Block":13,"Innate":True,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Innate. Gain 13 Block. Exhaust."},
+
+    "Chaos": {"Name": "Chaos","Orb Amount":1, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel 1 random Orb."},
+    "Chaos +": {"Name": "Chaos +","Orb Amount":2,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel 2 random Orbs."},
+
+    "Chill": {"Name": "Chill","Orb":"Frost","Exhaust":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel 1 Frost for each enemy in combat. Exhaust."},
+    "Chill +": {"Name": "Chill +","Orb":"Frost","Exhaust":True,"Innate":True,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Innate. Channel 1 Frost for each enemy in combat. Exhaust."},
+
+    "Consume": {"Name": "Consume","Focus":2,"Orb Loss":1, "Energy": 2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 2 Focus. Lose 1 Orb Slot."},
+    "Consume +": {"Name": "Consume +","Focus":3,"Orb Loss":1,"Upgraded":True, "Energy": 2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 3 Focus. Lose 1 Orb Slot."},
+
+    "Darkness": {"Name": "Darkness","Orb":"Dark", "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel 1 Dark."},
+    "Darkness +": {"Name": "Darkness +","Orb":"Dark","Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel 1 Dark. Trigger the passive ability of all Dark orbs."},
+    
+    "Double Energy": {"Name": "Double Energy","Multiplier":2, "Energy": 1,"Exhaust":True,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Double your Energy. Exhaust."},
+    "Double Energy +": {"Name": "Double Energy +","Multiplier":2,"Upgraded":True,"Exhaust":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Double your Energy. Exhaust."},
+    
+    "Equilibrium": {"Name": "Equilibrium","Block":13, "Energy": 2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 13 Block. Retain your hand this turn."},
+    "Equilibrium +": {"Name": "Equilibrium +","Block":16,"Upgraded":True, "Energy": 2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 16 Block. Retain your hand this turn."},
+
+    "Force Field": {"Name": "Force Field","Block":12, "Energy": 4,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Costs 1 less Energy for each Power card played this combat. Gain 12 Block."},
+    "Force Field +": {"Name": "Force Field +","Block":16,"Upgraded":True, "Energy": 4,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Costs 1 less Energy for each Power card played this combat. Gain 16 Block."},
+
+    "Fusion": {"Name": "Fusion","Orb":"Plasma", "Energy": 2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel 1 Plasma."},
+    "Fusion +": {"Name": "Fusion +","Orb":"Plasma","Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel 1 Plasma."},
+
+    "Genetic Algorithm": {"Name": "Genetic Algorithm","Block":1,"Increase":2,"Exhaust":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 1 Block. Permanently increase this card\'s Block by 2. Exhaust."},
+    "Genetic Algorithm +": {"Name": "Genetic Algorithm +","Block":1,"Increase":3,"Exhaust":True,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 1 Block. Permanently increase this card\'s Block by 3. Exhaust."},
+
+    "Glacier": {"Name": "Glacier","Block":7,"Orb":"Frost","Orb Amount":2, "Energy": 2,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 7 Block. Channel 2 Frost."},
+    "Glacier +": {"Name": "Glacier +","Block":10,"Orb":"Frost","Orb Amount":2,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 10 Block. Channel 2 Frost."},
+
+    "Overclock": {"Name": "Overclock","Draw":2, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Draw 2 cards. Add a Burn into your discard pile."},
+    "Overclock +": {"Name": "Overclock +","Draw":3,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Draw 3 cards. Add a Burn into your discard pile."},
+
+    "Recycle": {"Name": "Recycle","Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Exhaust a card. Gain Energy equal to its cost."},
+    "Recycle +": {"Name": "Recycle +","Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Exhaust a card. Gain Energy equal to its cost."},
+
+    "Reinforced Body": {"Name": "Reinforced Body","Block":7,"Energy": "X","Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 7 Block X times."},
+    "Reinforced Body +": {"Name": "Reinforced Body +","Block":9,"Upgraded":True, "Energy": "X","Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 9 Block X times."},
+
+    "Reprogram": {"Name": "Reprogram","Energy": 1,"Changer":1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Lose 1 Focus. Gain 1 Strength. Gain 1 Dexterity."},
+    "Reprogram +": {"Name": "Reprogram +","Upgraded":True,"Changer":2, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Lose 2 Focus. Gain 2 Strength. Gain 2 Dexterity."},
+
+    "Skim": {"Name": "Skim","Draw":3, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Draw 3 cards."},
+    "Skim +": {"Name": "Skim +","Draw":4,"Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Draw 4 cards."},
+
+    "Tempest": {"Name": "Tempest","Exhaust":True,"Orb":"Lightning","Energy": "X","Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel X Lightning. Exhaust."},
+    "Tempest +": {"Name": "Tempest +","Exhaust":True,"Orb":"Lightning","Upgraded":True, "Energy": "X","Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Channel X+1 Lightning. Exhaust."},
+
+    "White Noise": {"Name": "White Noise","Exhaust":True,"Cardtype":"Power","Energy": 1,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Add a random Power card into your hand. It costs 0 this turn. Exhaust."},
+    "White Noise +": {"Name": "White Noise +","Exhaust":True,"Cardtype":"Power","Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Add a random Power card into your hand. It costs 0 this turn. Exhaust."},
+
+    "Amplify": {"Name": "Amplify","Amplificicy":1,"Energy": 1,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"This turn, your next Power card is played twice."},
+    "Amplify +": {"Name": "Amplify +","Amplificicy":2,"Cardtype":"Power","Upgraded":True, "Energy": 1,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"This turn, your next 2 Power cards are played twice."},
+
+    "Fission": {"Name": "Fission","Exhaust":True,"Energy": 0,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Remove all your Orbs. Gain 1 Energy and draw 1 card for each Orb removed. Exhaust."},
+    "Fission +": {"Name": "Fission +","Exhaust":True,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Evoke all your Orbs. Gain 1 Energy and draw 1 card for each Orb removed. Exhaust."},
+
+    "Multicast": {"Name": "Multicast","Energy": "X","Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Evoke your next Orb X times."},
+    "Multicast +": {"Name": "Multicast +","Upgraded":True, "Energy": "X","Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Evoke your next Orb X+1 times."},
+    
+    "Rainbow": {"Name": "Rainbow","Exhaust":True,"Energy": 2,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Channel 1 Lightning. Channel 1 Frost. Channel 1 Dark. Exhaust."},
+    "Rainbow +": {"Name": "Rainbow +","Upgraded":True, "Energy": 2,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Channel 1 Lightning. Channel 1 Frost. Channel 1 Dark."},
+    
+    "Reboot": {"Name": "Reboot","Draw":4,"Exhaust":True,"Energy": 0,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Shuffle ALL your cards into your draw pile. Draw 4 cards. Exhaust."},
+    "Reboot +": {"Name": "Reboot +","Draw":6,"Exhaust":True,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Shuffle ALL your cards into your draw pile. Draw 6 cards. Exhaust."},
+    
+    "Seek": {"Name": "Seek","Draw":1,"Exhaust":True,"Energy": 0,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Put 1 card from your draw pile into your hand. Exhaust."},
+    "Seek +": {"Name": "Seek +","Draw":2,"Exhaust":True,"Upgraded":True, "Energy": 0,"Type": "Skill" ,"Rarity": "Rare","Owner":"Defect","Info":"Put 2 cards from your draw pile into your hand. Exhaust."},
+
+    "Capacitor": {"Name": "Capacitor","Orb":2,"Energy": 1,"Type": "Power" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 2 Orb slots."},
+    "Capacitor +": {"Name": "Capacitor +","Orb":3,"Upgraded":True, "Energy": 1,"Type": "Power" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 3 Orb slots."},
+
+    "Defragment": {"Name": "Defragment","Focus":1,"Energy": 1,"Type": "Power" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 1 Focus."},
+    "Defragment +": {"Name": "Defragment +","Focus":2,"Upgraded":True, "Energy": 1,"Type": "Power" ,"Rarity": "Uncommon","Owner":"Defect","Info":"Gain 2 Focus."},
+    
+    "Heatsinks": {"Name": "Heatsinks","Draw":1,"Energy": 1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"Whenever you play a Power card, draw 1 card.."},
+    "Heatsinks +": {"Name": "Heatsinks +","Draw":2,"Upgraded":True,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"Whenever you play a Power card, draw 2 cards."},
+    
+    "Hello World": {"Name": "Hello World","Energy": 1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"At the start of your turn, add a random Common card into your hand."},
+    "Hello World +": {"Name": "Hello World +","Innate":True,"Upgraded":True,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"Innate. At the start of your turn, add a random Common card into your hand."},
+    
+    "Loop": {"Name": "Loop","Energy": 1,"Loop":1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"At the start of your turn, trigger the passive ability of your next Orb."},
+    "Loop +": {"Name": "Loop +","Loop":2,"Upgraded":True,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"At the start of your turn, trigger the passive ability of your next Orb 2 times."},
+    
+    "Self Repair": {"Name": "Self Repair","Energy": 1,"Heal":7,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"At the end of combat, heal 7 HP."},
+    "Self Repair +": {"Name": "Self Repair +","Heal":10,"Upgraded":True,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"At the end of combat, heal 10 HP."},
+    
+    "Static Discharge": {"Name": "Static Discharge","Energy": 1,"Orb":"Lightning","Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"Whenever you receive unblocked attack damage, Channel 1 Lightning."},
+    "Static Discharge +": {"Name": "Static Discharge +","Orb":"Lightning","Upgraded":True,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"Whenever you receive unblocked attack damage, Channel 2 Lightning."},
+
+    "Storm": {"Name": "Storm","Energy": 1,"Orb":"Lightning","Type":"Power","Rarity":"Uncommon","Owner":"Defect","Info":"Whenever you play a Power card, Channel 1 Lightning."},
+    "Storm +": {"Name": "Storm +","Orb":"Lightning","Upgraded":True,"Energy":1,"Type":"Power","Rarity":"Uncommon","Owner":"Defect","Innate":True,"Info":"Innate. Whenever you play a Power card, Channel 1 Lightning."},
+        
+    "Biased Cognition": {"Name": "Biased Cognition","Focus":4,"Energy": 1,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"Gain 4 Focus. At the start of your turn, lose 1 Focus."},
+    "Biased Cognition +": {"Name": "Biased Cognition +","Focus":5,"Upgraded":True,"Energy":1,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"Gain 5 Focus. At the start of your turn, lose 1 Focus."},
+    
+    "Buffer": {"Name": "Buffer","Buffer":1,"Energy": 2,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"Prevent the next time you would lose HP."},
+    "Buffer +": {"Name": "Buffer +","Buffer":2,"Upgraded":True,"Energy":2,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"Prevent the next 2 times you would lose HP."},
+
+    "Creative AI": {"Name": "Creative AI","Energy": 3,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"At the start of your turn, add a random Power card into your hand."},
+    "Creative AI +": {"Name": "Creative AI +","Upgraded":True,"Energy":2,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"At the start of your turn, add a random Power card into your hand."},
+
+    "Echo Form": {"Name": "Echo Form","Energy": 3,"Ethereal":True,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"Ethereal. The first card you play each turn is played twice."},
+    "Echo Form +": {"Name": "Echo Form +","Upgraded":True,"Energy":3,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"The first card you play each turn is played twice."},
+
+    "Electrodynamics": {"Name": "Electrodynamics","Energy": 2,"Orbs":2,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"Lightning now hits ALL enemies. Channel 2 Lightning."},
+    "Electrodynamics +": {"Name": "Electrodynamics +","Upgraded":True,"Orbs":3,"Energy":2,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"Lightning now hits ALL enemies. Channel 3 Lightning."},
+
+    "Machine Learning": {"Name": "Machine Learning","Energy": 1,"Draw":1,"Type":"Power","Rarity":"Rare","Owner":"Defect","Info":"At the start of your turn, draw 1 additional card."},
+    "Machine Learning +": {"Name": "Machine Learning +","Upgraded":True,"Draw":1,"Energy":1,"Type":"Power","Rarity":"Rare","Innate":True,"Owner":"Defect","Info":"Innate. At the start of your turn, draw 1 additional card."},
+
+
     #Neutral Cards
 
     "Bandage Up": {"Name": "Bandage Up","Heal": 4, "Energy": 0, "Exhaust": True, "Type": "Skill", "Rarity": "Uncommon", "Owner":"Colorless","Info":"<red>Heal 4 HP</red>.<BLUE>Exhaust</BLUE>."},
@@ -1303,6 +1535,10 @@ potions = {
     
     "Liquid Memories": {"Name": "Liquid Memories","Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Choose a card in your Discardpile and return it to your hand. It costs <yellow>0 Energy</yellow> this turn."},
     
+    "Essence of Darkness": {"Name": "Essence of Darkness","Rarity": "Rare","Owner":"Defect","Type": "Potion","Info":"Channel 1 Dark for each orb slot."},
+    "Focus Potion": {"Name": "Focus Potion","Potion Yield":2,"Rarity": "Common","Owner":"Defect","Type": "Potion","Info":"Gain 2 Focus."},
+    "Potion of Capacity": {"Name": "Potion of Capacity","Potion Yield":2,"Rarity": "Common","Owner":"Defect","Type": "Potion","Info":"Gain 2 Orb slots."},
+
     "Poison Potion": {"Name": "Poison Potion","Potion Yield":6,"Rarity": "Common","Owner":"Silent","Type": "Potion","Info":"Apply <green>6 Poison</green> to target enemy."},
     "Power Potion": {"Name": "Power Potion","Potion Yield":1,"Rarity": "Common","Owner":"The Spire","Type": "Potion","Info":"Add 1 of 3 random <blue>Power Cards</blue> to your hand, it costs <yellow> 0 Energy</yellow> this turn."},
     "Regen Potion": {"Name": "Regen Potion","Potion Yield":5,"Rarity": "Uncommon","Owner":"The Spire","Type": "Potion","Info":"Gain <green>6 Regeneration</green>."},
@@ -1323,118 +1559,128 @@ potions = {
 potionNames = ["Ancient Potion","Attack Potion","Blessing of the Forge","Block Potion","Blood Potion","Colorless Potion","Cultist Potion",
 "Cunning Potion","Dexterity Potion","Strength Potion","Distilled Chaos","Duplication Potion","Energy Potion","Entropic Brew","Essence of Steel",
 "Explosive Potion","Fairy in a Bottle","Fear Potion","Fire Potion","Fruit Juice","Gamblers Brew","Ghost in a Jar","Liquid Bronze","Liquid Memories",
-"Poison Potion","Power Potion","Regen Potion","Skill Potion","Smoke Bomb","Snecko Oil","Speed Potion","Flex Potion","Swift Potion","Weak Potion","Elixir","Heart Of Iron",]
+"Poison Potion","Power Potion","Regen Potion","Skill Potion","Focus Potion","Essence of Darkness","Potion of Capacity","Smoke Bomb","Snecko Oil","Speed Potion","Flex Potion","Swift Potion","Weak Potion","Elixir","Heart Of Iron",]
 
 
 relics = {
-	"Burning Blood":{"Name":"Burning Blood","Rarity":"Starter","Owner":"Ironclad","Type":"Relic","Info":"At the end of combat, <red>heal 6 HP</red>."},
-	"Ring of the Snake": {"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."},
-	
+    "Burning Blood":{"Name":"Burning Blood","Rarity":"Starter","Owner":"Ironclad","Type":"Relic","Info":"At the end of combat, <red>heal 6 HP</red>."},
+    "Ring of the Snake": {"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."},
+    "Cracked Core": {"Name":"Cracked Core","Rarity":"Starter","Owner":"Defect","Type":"Relic","Info":"At the start of each combat, Channel 1 Lightning."},
+
+    "Data Disk": {"Name":"Data Disk","Rarity":"Common","Owner":"Defect","Type":"Relic","Info":"Start each combat with 1 Focus."},
+    "Gold-Plated Cables": {"Name":"Gold-Plated Cables","Rarity":"Uncommon","Owner":"Defect","Type":"Relic","Info":"Your rightmost Orb triggers its passive an additional time."},
+    "Symbiotic Virus": {"Name":"Symbiotic Virus","Rarity":"Uncommon","Owner":"Defect","Type":"Relic","Info":"At the Start of each combat, Channel 1 Dark"},
+    "Emotion Chip": {"Name":"Emotion Chip","Rarity":"Rare","Owner":"Defect","Type":"Relic","Info":"If you lost HP during the previous turn, trigger the passive ability of all Orbs at the start of your turn."},
+    "Frozen Core": {"Name":"Frozen Core","Rarity":"Boss","Owner":"Defect","Type":"Relic","Info":"If you end your turn with empty Orb slots, channel 1 Frost."},
+    "Inserter": {"Name":"Inserter","Rarity":"Boss","Owner":"Defect","Counter":0,"Type":"Relic","Info":"Every 2 turns, gain 1 Orb slot."},
+    "Nuclear Battery": {"Name":"Nuclear Battery","Rarity":"Boss","Owner":"Defect","Type":"Relic","Info":"At the start of each combat, Channel 1 Plasma."},
+    "Runic Capacitor": {"Name":"Runic Capacitor","Rarity":"Shop","Owner":"Defect","Type":"Relic","Info":"Start each combat with 3 additional Orb slots."},
+
     "Akabeko":{"Name":"Akabeko","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Your first attack each combat deals <red>8 additional damage</red>"},
-	"Anchor":{"Name":"Anchor","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Start each combat with <green>10 Block</green>."},
-	"Ancient Tea Set":{"Name":"Ancient Tea Set","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you enter a <blue>Rest Site</blue>, start the next combat with <yellow>2 extra Energy</yellow>."},
-	"Art of War":{"Name":"Art of War","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you do not play any <red>Attacks</red> during your turn, gain <yellow>1 extra Energy</yellow> next turn."},
-	"Bag of Marbles":{"Name":"Bag of Marbles","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, apply <light-cyan>1 Vulnerable</light-cyan> to ALL enemies."},
-	"Bag of Preparation":{"Name":"Bag of Preparation","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."},
-	"Blood Vial":{"Name":"Blood Vial","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, <red>heal 2 HP</red>."},
-	"Bronze Scales":{"Name":"Bronze Scales","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Start each combat with <blue>3 Thorns</blue>."},
-	"Champion Belt":{"Name":"Champion Belt","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"Whenever you apply <light-cyan>Vulnerable</light-cyan>, also apply <light-cyan>1 Weak</light-cyan>."},
+    "Anchor":{"Name":"Anchor","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Start each combat with <green>10 Block</green>."},
+    "Ancient Tea Set":{"Name":"Ancient Tea Set","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you enter a <blue>Rest Site</blue>, start the next combat with <yellow>2 extra Energy</yellow>."},
+    "Art of War":{"Name":"Art of War","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you do not play any <red>Attacks</red> during your turn, gain <yellow>1 extra Energy</yellow> next turn."},
+    "Bag of Marbles":{"Name":"Bag of Marbles","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, apply <light-cyan>1 Vulnerable</light-cyan> to ALL enemies."},
+    "Bag of Preparation":{"Name":"Bag of Preparation","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."},
+    "Blood Vial":{"Name":"Blood Vial","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, <red>heal 2 HP</red>."},
+    "Bronze Scales":{"Name":"Bronze Scales","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Start each combat with <blue>3 Thorns</blue>."},
+    "Champion Belt":{"Name":"Champion Belt","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"Whenever you apply <light-cyan>Vulnerable</light-cyan>, also apply <light-cyan>1 Weak</light-cyan>."},
     "Charon's Ashes":{"Name":"Charon's Ashes","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"Whenever you <BLUE>Exhaust</BLUE> a card, deal <red>3 damage</red> to ALL enemies."},
     "Centennial Puzzle":{"Name":"Centennial Puzzle","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"The first time you lose HP each combat, draw 3 cards."},
-	"Ceramic Fish":{"Name":"Ceramic Fish","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you add a Card to your deck, gain <yellow>9 gold</yellow>."},
-	"Dream Catcher":{"Name":"Dream Catcher","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you <blue>rest</blue>, you may add a Card to your deck."},
-	"Happy Flower":{"Name":"Happy Flower","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every 3 turns, gain <yellow>1 Energy</yellow>."},
-	"Juzu Bracelet":{"Name":"Juzu Bracelet","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Regular enemy combats are no longer encountered in <blue>Event rooms</blue>."},
-	"Lantern":{"Name":"Lantern","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> on the first turn of each combat."},
-	"Maw Bank":{"Name":"Maw Bank","Working":True,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you climb a floor, gain <yellow>12 Gold</yellow>. No longer works when you spend any Gold at the <yellow>Shop$</yellow>."},
-	"Meal Ticket":{"Name":"Meal Ticket","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you enter a <yellow>Shop$</yellow> room, <red>heal 15 HP</red>."},
-	"Nunchaku":{"Name":"Nunchaku","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>10 Attacks</red>, gain <yellow>1 Energy</yellow>."},
-	"Oddly Smooth Stone":{"Name":"Oddly Smooth Stone","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <green>1 Dexterity</green>."},
-	"Omamori":{"Name":"Omamori","Counter":2,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Negate the next <m>2 Curses</m> you obtain."},
-	"Orichalcum":{"Name":"Orichalcum","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you end your turn without <green>Block</green>, gain <green>6 Block</green>."},
-	"Red Skull":{"Name":"Red Skull","Rarity":"Common","Owner":"Ironclad","Type":"Relic","Info":"While your <red>HP</red> is at or below 50%, you have <red>3</red> additional <red>Strength</red>."},
+    "Ceramic Fish":{"Name":"Ceramic Fish","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you add a Card to your deck, gain <yellow>9 gold</yellow>."},
+    "Dream Catcher":{"Name":"Dream Catcher","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you <blue>rest</blue>, you may add a Card to your deck."},
+    "Happy Flower":{"Name":"Happy Flower","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every 3 turns, gain <yellow>1 Energy</yellow>."},
+    "Juzu Bracelet":{"Name":"Juzu Bracelet","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Regular enemy combats are no longer encountered in <blue>Event rooms</blue>."},
+    "Lantern":{"Name":"Lantern","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> on the first turn of each combat."},
+    "Maw Bank":{"Name":"Maw Bank","Working":True,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you climb a floor, gain <yellow>12 Gold</yellow>. No longer works when you spend any Gold at the <yellow>Shop$</yellow>."},
+    "Meal Ticket":{"Name":"Meal Ticket","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you enter a <yellow>Shop$</yellow> room, <red>heal 15 HP</red>."},
+    "Nunchaku":{"Name":"Nunchaku","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>10 Attacks</red>, gain <yellow>1 Energy</yellow>."},
+    "Oddly Smooth Stone":{"Name":"Oddly Smooth Stone","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <green>1 Dexterity</green>."},
+    "Omamori":{"Name":"Omamori","Counter":2,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Negate the next <m>2 Curses</m> you obtain."},
+    "Orichalcum":{"Name":"Orichalcum","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you end your turn without <green>Block</green>, gain <green>6 Block</green>."},
+    "Red Skull":{"Name":"Red Skull","Rarity":"Common","Owner":"Ironclad","Type":"Relic","Info":"While your <red>HP</red> is at or below 50%, you have <red>3</red> additional <red>Strength</red>."},
 
-	"Pen Nib":{"Name":"Pen Nib","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every <red>10th Attack</red> you play deals double damage."},
-	
-	"Potion Belt":{"Name":"Potion Belt","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, gain <c>2 Potion slots</c>."},
-	"Preserved Insect":{"Name":"Preserved Insect","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Enemies in Elite rooms have <red>25% less HP</red>."},
-	"Regal Pillow":{"Name":"Regal Pillow","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"<red>Heal an additional 15</red> HP when you <blue>rest</blue>."},
-	"Smiling Mask":{"Name":"Smiling Mask","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"The <yellow>Merchant's</yellow> Card removal service now always costs <yellow>50 Gold</yellow>."},
-	"Snecko Skull":{"Name":"Snecko Skull","Rarity":"Common","Owner":"Silent","Type":"Relic","Info":"Whenever you apply <green>Poison</green>, apply an additional <green>1 Poison</green>."},
-	"Strawberry":{"Name":"Strawberry","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you end your turn without <green>Block</green>, gain <green>6 Block</green>."},
-	"The Boot":{"Name":"The Boot","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you would deal <red>4 or less unblocked Attack damage</red>, increase it to <red>5</red>."},	
-	"Tiny Chest":{"Name":"Tiny Chest","Rarity":"Common","Counter":0,"Owner":"The Spire","Type":"Relic","Info":"Every 4th <blue>Event</blue> room is a <yellow>Treasure</yellow> room."},
-	"Toy Ornithopter":{"Name":"Toy Ornithopter","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you drink a <c>Potion</c>, <red>heal 5 HP</red>."},
-	"Vajra":{"Name":"Vajra","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <red>1 Strength</red>."},
-	"War Paint":{"Name":"War Paint","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pickup upgrade <green>2 random Skills</green>."},
-	"Whetstone":{"Name":"Whetstone","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pickup upgrade <red>2 random Attacks</red>."},
-	
-	"Blue Candle":{"Name":"Blue Candle","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"<m>Curse</m> Cards can now be played. Playing a <m>Curse</m> will make you <red>lose 1 HP</red> and Exhausts the Card."},
-	"Bottled Flame":{"Name":"Bottled Flame","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, choose an <red>Attack</red>. Start each combat with this Card in your hand."},
-	"Bottled Lightning":{"Name":"Bottled Lightning","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, choose a <green>Skill</green>. Start each combat with this Card in your hand."},
-	"Bottled Tornado":{"Name":"Bottled Tornado","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, choose a <blue>Power</blue>. Start each combat with this Card in your hand."},
-	"Darkstone Periapt":{"Name":"Darkstone Periapt","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you obtain a <m>Curse</m>, increase your <red>Max HP by 6</red>."},
-	"Eternal Feather":{"Name":"Eternal Feather","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"For every 5 Cards in your deck, <red>heal 3</red> HP whenever you enter a <blue>Rest Site</blue>."},
-	"Frozen Egg":{"Name":"Frozen Egg","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you add a <blue>Power</blue> to your deck, it is Upgraded."},
-	"Gremlin Horn":{"Name":"Gremlin Horn","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever an enemy dies, gain <yellow>1 Energy</yellow> and draw 1 Card."},
-	"Horn Cleat":{"Name":"Horn Cleat","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of your 2nd turn, gain <green>14 Block</green>."},
-	"Ink Bottle":{"Name":"Ink Bottle","Counter":0,"Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you play 10 cards, draw 1 Card."},
-	"Kunai":{"Name":"Kunai","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <green>1 Dexterity</green>."},
-	"Letter Opener":{"Name":"Letter Opener","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <green>3 Skills</green> in a single turn, deal <red>5 damage</red> to ALL enemies."},
-	"Matryoshka":{"Name":"Matryoshka","Counter":2,"Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The next <yellow>2 Chests</yellow> you open contain <light-red>2 Relics</light-red>."},
-	"Meat on the Bone":{"Name":"Meat on the Bone","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"If your <red>HP</HP> is at or below 50% at the end of combat, <red>heal 12 HP</red>."},
-	"Mercury Hourglass":{"Name":"Mercury Hourglass","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of your turn, deal <red>3 damage</red> to ALL enemies."},
-	"Molten Egg":{"Name":"Molten Egg","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you add an <red>Attack</red> to your deck, it is Upgraded."},
-	"Mummified Hand":{"Name":"Mummified Hand","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you play a <blue>Power</blue>, a random card in your hand costs <yellow>0 Energy</yellow> for the turn."},
-	"Ninja Scroll":{"Name":"Ninja Scroll","Rarity":"Uncommon","Owner":"Silent","Type":"Relic","Info":"Start each combat with <red>3 Shivs</red> in hand."},
-	"Ornamental Fan":{"Name":"Ornamental Fan","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <green>4 Block</green>."},
-	
-	"Pantograph":{"Name":"Pantograph","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of <black>Boss</black> combats, <red>heal 25 HP</red>."},
-	"Paper Krane":{"Name":"Paper Krane","Rarity":"Uncommon","Owner":"Silent","Type":"Relic","Info":"Enemies with <light-cyan>Weak</light-cyan> deal 50% less damage rather than 25%."},
-	"Paper Phrog":{"Name":"Paper Phrog","Rarity":"Uncommon","Owner":"Ironclad","Type":"Relic","Info":"Enemies with <light-cyan>Vulnerable</light-cyan> take 75% more <red>damage</red> rather than 50%."},
+    "Pen Nib":{"Name":"Pen Nib","Counter":0,"Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Every <red>10th Attack</red> you play deals double damage."},
+    
+    "Potion Belt":{"Name":"Potion Belt","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, gain <c>2 Potion slots</c>."},
+    "Preserved Insect":{"Name":"Preserved Insect","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Enemies in Elite rooms have <red>25% less HP</red>."},
+    "Regal Pillow":{"Name":"Regal Pillow","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"<red>Heal an additional 15</red> HP when you <blue>rest</blue>."},
+    "Smiling Mask":{"Name":"Smiling Mask","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"The <yellow>Merchant's</yellow> Card removal service now always costs <yellow>50 Gold</yellow>."},
+    "Snecko Skull":{"Name":"Snecko Skull","Rarity":"Common","Owner":"Silent","Type":"Relic","Info":"Whenever you apply <green>Poison</green>, apply an additional <green>1 Poison</green>."},
+    "Strawberry":{"Name":"Strawberry","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"If you end your turn without <green>Block</green>, gain <green>6 Block</green>."},
+    "The Boot":{"Name":"The Boot","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you would deal <red>4 or less unblocked Attack damage</red>, increase it to <red>5</red>."},    
+    "Tiny Chest":{"Name":"Tiny Chest","Rarity":"Common","Counter":0,"Owner":"The Spire","Type":"Relic","Info":"Every 4th <blue>Event</blue> room is a <yellow>Treasure</yellow> room."},
+    "Toy Ornithopter":{"Name":"Toy Ornithopter","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Whenever you drink a <c>Potion</c>, <red>heal 5 HP</red>."},
+    "Vajra":{"Name":"Vajra","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <red>1 Strength</red>."},
+    "War Paint":{"Name":"War Paint","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pickup upgrade <green>2 random Skills</green>."},
+    "Whetstone":{"Name":"Whetstone","Rarity":"Common","Owner":"The Spire","Type":"Relic","Info":"Upon pickup upgrade <red>2 random Attacks</red>."},
+    
+    "Blue Candle":{"Name":"Blue Candle","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"<m>Curse</m> Cards can now be played. Playing a <m>Curse</m> will make you <red>lose 1 HP</red> and Exhausts the Card."},
+    "Bottled Flame":{"Name":"Bottled Flame","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, choose an <red>Attack</red>. Start each combat with this Card in your hand."},
+    "Bottled Lightning":{"Name":"Bottled Lightning","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, choose a <green>Skill</green>. Start each combat with this Card in your hand."},
+    "Bottled Tornado":{"Name":"Bottled Tornado","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Upon pick up, choose a <blue>Power</blue>. Start each combat with this Card in your hand."},
+    "Darkstone Periapt":{"Name":"Darkstone Periapt","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you obtain a <m>Curse</m>, increase your <red>Max HP by 6</red>."},
+    "Eternal Feather":{"Name":"Eternal Feather","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"For every 5 Cards in your deck, <red>heal 3</red> HP whenever you enter a <blue>Rest Site</blue>."},
+    "Frozen Egg":{"Name":"Frozen Egg","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you add a <blue>Power</blue> to your deck, it is Upgraded."},
+    "Gremlin Horn":{"Name":"Gremlin Horn","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever an enemy dies, gain <yellow>1 Energy</yellow> and draw 1 Card."},
+    "Horn Cleat":{"Name":"Horn Cleat","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of your 2nd turn, gain <green>14 Block</green>."},
+    "Ink Bottle":{"Name":"Ink Bottle","Counter":0,"Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you play 10 cards, draw 1 Card."},
+    "Kunai":{"Name":"Kunai","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <green>1 Dexterity</green>."},
+    "Letter Opener":{"Name":"Letter Opener","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <green>3 Skills</green> in a single turn, deal <red>5 damage</red> to ALL enemies."},
+    "Matryoshka":{"Name":"Matryoshka","Counter":2,"Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The next <yellow>2 Chests</yellow> you open contain <light-red>2 Relics</light-red>."},
+    "Meat on the Bone":{"Name":"Meat on the Bone","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"If your <red>HP</HP> is at or below 50% at the end of combat, <red>heal 12 HP</red>."},
+    "Mercury Hourglass":{"Name":"Mercury Hourglass","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of your turn, deal <red>3 damage</red> to ALL enemies."},
+    "Molten Egg":{"Name":"Molten Egg","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you add an <red>Attack</red> to your deck, it is Upgraded."},
+    "Mummified Hand":{"Name":"Mummified Hand","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you play a <blue>Power</blue>, a random card in your hand costs <yellow>0 Energy</yellow> for the turn."},
+    "Ninja Scroll":{"Name":"Ninja Scroll","Rarity":"Uncommon","Owner":"Silent","Type":"Relic","Info":"Start each combat with <red>3 Shivs</red> in hand."},
+    "Ornamental Fan":{"Name":"Ornamental Fan","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <green>4 Block</green>."},
+    
+    "Pantograph":{"Name":"Pantograph","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"At the start of <black>Boss</black> combats, <red>heal 25 HP</red>."},
+    "Paper Krane":{"Name":"Paper Krane","Rarity":"Uncommon","Owner":"Silent","Type":"Relic","Info":"Enemies with <light-cyan>Weak</light-cyan> deal 50% less damage rather than 25%."},
+    "Paper Phrog":{"Name":"Paper Phrog","Rarity":"Uncommon","Owner":"Ironclad","Type":"Relic","Info":"Enemies with <light-cyan>Vulnerable</light-cyan> take 75% more <red>damage</red> rather than 50%."},
     "Pear":{"Name":"Pear","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Raise your <red>Max HP by 10</red>."},
-	"Question Card":{"Name":"Question Card","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"On future Card Reward screens you have 1 additional Card to choose from."},
-	"Self-Forming Clay":{"Name":"Self-Forming Clay","Rarity":"Uncommon","Owner":"Ironclad","Type":"Relic","Info":"Whenever you lose <red>HP</red> in combat, gain <green>3 Block</green> next turn."},
+    "Question Card":{"Name":"Question Card","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"On future Card Reward screens you have 1 additional Card to choose from."},
+    "Self-Forming Clay":{"Name":"Self-Forming Clay","Rarity":"Uncommon","Owner":"Ironclad","Type":"Relic","Info":"Whenever you lose <red>HP</red> in combat, gain <green>3 Block</green> next turn."},
     "Shuriken":{"Name":"Shuriken","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every time you play <red>3 Attacks</red> in a single turn, gain <red>1 Strength</red>."},
-	"Singing Bowl":{"Name":"Singing Bowl","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"When adding Cards to your deck, you may gain <red>+2 Max HP</red> instead."},
-	"Strike Dummy":{"Name":"Strike Dummy","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Cards containing \"Strike\" deal <red>3 additional damage</red>."},
-	"Sundial":{"Name":"Sundial","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every 3 times you shuffle your Drawpile, gain <yellow>2 Energy</yellow>."},
-	"The Courier":{"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."},
-	"Toxic Egg":{"Name":"Toxic Egg","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you add a <green>Skill</green> to your deck, it is Upgraded."},
+    "Singing Bowl":{"Name":"Singing Bowl","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"When adding Cards to your deck, you may gain <red>+2 Max HP</red> instead."},
+    "Strike Dummy":{"Name":"Strike Dummy","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Cards containing \"Strike\" deal <red>3 additional damage</red>."},
+    "Sundial":{"Name":"Sundial","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Every 3 times you shuffle your Drawpile, gain <yellow>2 Energy</yellow>."},
+    "The Courier":{"Name":"The Courier","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"The <yellow>merchant</yellow> no longer runs out of Cards, <light-red>Relics</light-red>, or <c>Potions</c> and his prices are reduced by 20%."},
+    "Toxic Egg":{"Name":"Toxic Egg","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"Whenever you add a <green>Skill</green> to your deck, it is Upgraded."},
 
-	"White Beast Statue":{"Name":"White Beast Statue","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"<c>Potions</c> always drop after combat."},
-	
-	"Bird-Faced Urn":{"Name":"Bird-Faced Urn","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you play a <blue>Power</blue>, <red>heal 2 HP</red>."},
-	"Calipers":{"Name":"Calipers","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the start of your turn, lose <green>15 Block</green> rather than all of your <green>Block</green>."},
-	"Captain's Wheel":{"Name":"Captain's Wheel","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the start of your 3rd turn, gain <green>18 Block</green>."},
-	"Dead Branch":{"Name":"Dead Branch","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you Exhaust a Card, add a random Card to your hand."},
-	"Du-Vu Doll":{"Name":"Du-Vu Doll","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"For each <m>Curse</m> in your deck, start each combat with <red>1 additional Strength</red>."},
-	"Fossilized Helix":{"Name":"Fossilized Helix","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Prevent the first time you would <red>lose HP</red> in combat."},
-	
+    "White Beast Statue":{"Name":"White Beast Statue","Rarity":"Uncommon","Owner":"The Spire","Type":"Relic","Info":"<c>Potions</c> always drop after combat."},
+    
+    "Bird-Faced Urn":{"Name":"Bird-Faced Urn","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you play a <blue>Power</blue>, <red>heal 2 HP</red>."},
+    "Calipers":{"Name":"Calipers","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the start of your turn, lose <green>15 Block</green> rather than all of your <green>Block</green>."},
+    "Captain's Wheel":{"Name":"Captain's Wheel","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the start of your 3rd turn, gain <green>18 Block</green>."},
+    "Dead Branch":{"Name":"Dead Branch","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you Exhaust a Card, add a random Card to your hand."},
+    "Du-Vu Doll":{"Name":"Du-Vu Doll","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"For each <m>Curse</m> in your deck, start each combat with <red>1 additional Strength</red>."},
+    "Fossilized Helix":{"Name":"Fossilized Helix","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Prevent the first time you would <red>lose HP</red> in combat."},
+    
     "Ginger":{"Name":"Ginger","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can no longer become <light-cyan>Weakened</light-cyan>."},
-	
+    
     "Girya":{"Name":"Girya","Counter":3,"Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can now gain <red>Strength</red> at <blue>Rest Sites</blue>. (3 times max)"},
-	"Ice Cream":{"Name":"Ice Cream","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"<yellow>Energy</yellow> is now conserved between turns."},
-	"Lizard Tail":{"Name":"Lizard Tail","Counter":1,"Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"When you would <black>die</black>, <red>heal to 50%</red> of your </red>Max HP</red> instead (works once)."},
-	"Magic Flower":{"Name":"Magic Flower","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"<red>Healing</red> is 50% more effective during combat."},
+    "Ice Cream":{"Name":"Ice Cream","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"<yellow>Energy</yellow> is now conserved between turns."},
+    "Lizard Tail":{"Name":"Lizard Tail","Counter":1,"Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"When you would <black>die</black>, <red>heal to 50%</red> of your </red>Max HP</red> instead (works once)."},
+    "Magic Flower":{"Name":"Magic Flower","Rarity":"Rare","Owner":"Ironclad","Type":"Relic","Info":"<red>Healing</red> is 50% more effective during combat."},
     "Mango":{"Name":"Mango","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, raise your <red>Max HP by 14</red>."},
-	"Old Coin":{"Name":"Old Coin","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
-	"Peace Pipe":{"Name":"Peace Pipe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can now remove Cards from your deck at <blue>Rest Sites</blue>."},
-	"Pocketwatch":{"Name":"Pocketwatch","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you play 3 or less Cards in a turn, draw 3 additional Cards at the start of your next turn."},
-	"Prayer Wheel":{"Name":"Prayer Wheel","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Normal enemies drop an additional Card reward."},
-	"Shovel":{"Name":"Shovel","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can now Dig for <light-red>Relics</light-red> at <blue>Rest Sites</blue>."},
-	"Stone Calendar":{"Name":"Stone Calendar","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the end of turn 7, deal <red>52 damage</red> to ALL enemies."},
-	"The Specimen":{"Name":"The Specimen","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever an enemy <black>dies</black>, transfer any <green>Poison</green> it has to a random enemy."},
-	
-	"Thread and Needle":{"Name":"Thread and Needle","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <green>4 Plated Armor</green>."},
-	"Tingsha":{"Name":"Tingsha","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever you discard a card during your turn, deal <red>3 damage</red> to a random enemy for each card discarded."},
-	"Torii":{"Name":"Torii","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you would receive <red>5 or less unblocked Attack damage</red>, reduce it to <red>1</red>."},
-	"Tough Bandages":{"Name":"Tough Bandages","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever you discard a Card during your turn, gain <green>3 Block</green>."},
-	"Tungsten Rod":{"Name":"Tungsten Rod","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you would lose <red>HP</red>, lose <red>1</red> less.."},
-	"Turnip":{"Name":"Turnip","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
-	"Unceasing Top":{"Name":"Unceasing Top","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you have no Cards in hand during your turn, draw a Card."},
-	
-	"Astrolabe":{"Name":"Astrolabe","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."},	
+    "Old Coin":{"Name":"Old Coin","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
+    "Peace Pipe":{"Name":"Peace Pipe","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can now remove Cards from your deck at <blue>Rest Sites</blue>."},
+    "Pocketwatch":{"Name":"Pocketwatch","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you play 3 or less Cards in a turn, draw 3 additional Cards at the start of your next turn."},
+    "Prayer Wheel":{"Name":"Prayer Wheel","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Normal enemies drop an additional Card reward."},
+    "Shovel":{"Name":"Shovel","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"You can now Dig for <light-red>Relics</light-red> at <blue>Rest Sites</blue>."},
+    "Stone Calendar":{"Name":"Stone Calendar","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the end of turn 7, deal <red>52 damage</red> to ALL enemies."},
+    "The Specimen":{"Name":"The Specimen","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever an enemy <black>dies</black>, transfer any <green>Poison</green> it has to a random enemy."},
+    
+    "Thread and Needle":{"Name":"Thread and Needle","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, gain <green>4 Plated Armor</green>."},
+    "Tingsha":{"Name":"Tingsha","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever you discard a card during your turn, deal <red>3 damage</red> to a random enemy for each card discarded."},
+    "Torii":{"Name":"Torii","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you would receive <red>5 or less unblocked Attack damage</red>, reduce it to <red>1</red>."},
+    "Tough Bandages":{"Name":"Tough Bandages","Rarity":"Rare","Owner":"Silent","Type":"Relic","Info":"Whenever you discard a Card during your turn, gain <green>3 Block</green>."},
+    "Tungsten Rod":{"Name":"Tungsten Rod","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you would lose <red>HP</red>, lose <red>1</red> less.."},
+    "Turnip":{"Name":"Turnip","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>300 Gold</yellow>."},
+    "Unceasing Top":{"Name":"Unceasing Top","Rarity":"Rare","Owner":"The Spire","Type":"Relic","Info":"Whenever you have no Cards in hand during your turn, draw a Card."},
+    
+    "Astrolabe":{"Name":"Astrolabe","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Upon pickup, choose and Transform 3 Cards, then Upgrade them."}, 
     "Black Star":{"Name":"Black Star","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Elites drop an additional <light-red>Relic</light-red> when defeated."},
     "Black Blood":{"Name":"Black Blood","Rarity":"Boss","Owner":"Ironclad","Type":"Relic","Info":"Replaces <light-red>Burning Blood<light-red>. At the end of combat, <red>heal 12 HP</red>."},
     "Busted Crown":{"Name":"Busted Crown","Rarity":"Boss","Owner":"The Spire","Type":"Relic","Info":"Gain <yellow>1 Energy</yellow> at the start of each turn. On Card Reward screens, you have 2 fewer Cards to choose from."},
@@ -1611,18 +1857,18 @@ enemies = {"Gremlin": {"Name":"Fat Gremlin","Health":(14,18),"Intentions":["Smas
             "Raptomancer": {"Name": "Raptomancer","Health":(190,200),"Intentions_Logic":[["Raptomancer"]],"Leader":True},
             "Dagger": {"Name": "Dagger","Health":(20,25),"Intentions":["ScouringWhip 9/1","Explode 25"],"Intentions_Logic":[["Random"],[0,1,1,1]]},
 
-        	"Donu":{"Name":"Donu","Health":(265,265),"Intentions":["MysticBuff 3","Multiattack 12*2"],"Intentions_Logic":[["Random"],[0,1]*50],"Artifact":3},
-        	"Deca":{"Name":"Deca","Health":(265,265),"Intentions":["SquareOfDeca 16|3","DazeBeam 12*2"],"Intentions_Logic":[["Random"],[1,0]*50],"Artifact":3},
+            "Donu":{"Name":"Donu","Health":(265,265),"Intentions":["MysticBuff 3","Multiattack 12*2"],"Intentions_Logic":[["Random"],[0,1]*50],"Artifact":3},
+            "Deca":{"Name":"Deca","Health":(265,265),"Intentions":["SquareOfDeca 16|3","DazeBeam 12*2"],"Intentions_Logic":[["Random"],[1,0]*50],"Artifact":3},
 
-        	"Awakened One": {"Name":"Awakened One","Health":(320,320),"Intentions":[20,"Multiattack 6*4"],"Intentions_Logic":[["Awakened One"]], "CardTypeToLookOutFor":"Power Strength 2","Regen":15,"On_hit_or_death":[["Rebirth","Death"]]},
-        	
-        	"Time Eater": {"Name":"Time Eater","Health":(480,480),"Intentions":["TimeSlam 32/2","Ripple 20|1","Multiattack 8*3"],"Intentions_Logic":[["Time Eater"]], "CardTypeToLookOutFor":"Everything Counter Opposites 1"},
+            "Awakened One": {"Name":"Awakened One","Health":(320,320),"Intentions":[20,"Multiattack 6*4"],"Intentions_Logic":[["Awakened One"]], "CardTypeToLookOutFor":"Power Strength 2","Regen":15,"On_hit_or_death":[["Rebirth","Death"]]},
+            
+            "Time Eater": {"Name":"Time Eater","Health":(480,480),"Intentions":["TimeSlam 32/2","Ripple 20|1","Multiattack 8*3"],"Intentions_Logic":[["Time Eater"]], "CardTypeToLookOutFor":"Everything Counter Opposites 1"},
 
             "Spire Shield": {"Name":"Spire Shield","Health":(125,125),"Intentions":["Bash 12/1","Fortify 30","Thrash 38/99"],"Intentions_Logic":[["Spire Shield"]],"Artifact":2,"On_hit_or_death":[["SpireBros","Hit"]]},
             "Spire Spear": {"Name":"Spire Spear","Health":(180,180),"Intentions":["Multiattack 10*4","BurnStrike 6*2","CircleOfPower 2",],"Intentions_Logic":[["Spire Spear"]], "Artifact":2,"On_hit_or_death":[["SpireBros","Hit"]]},
                                                                 
             "Corrupt Heart":{"Name":"Corrupt Heart","Health":(800,800),"Intentions":["Debilitate 2","Multiattack 2*15",45,"HeartBuff"],"Intentions_Logic":[["Corrupt Heart"]],"On_hit_or_death":[["Invincible 200","Hit"]],"CardTypeToLookOutFor":"Everything BeatOfDeath Opposites 2"}
-        	}    
+            }    
 
 enemyEncounters = fill_enemy_list()
 eliteEncounters = fill_elite_list()
@@ -1632,50 +1878,50 @@ bossEncounters = fill_boss_list(helping_functions.gameAct)
 
 
 def update_encounter():
-	helping_functions.turn_counter = 0
+    helping_functions.turn_counter = 0
 
-	if active_character[0].get_floor() == "Enemy":
-		list_of_enemies.extend(enemyEncounters.pop(0))
-		helping_functions.encounter_counter += 1
-		if active_character[0].faceOfCleric > 0:
-			active_character[0].set_maxHealth(1)
+    if active_character[0].get_floor() == "Enemy":
+        list_of_enemies.extend(enemyEncounters.pop(0))
+        helping_functions.encounter_counter += 1
+        if active_character[0].faceOfCleric > 0:
+            active_character[0].set_maxHealth(1)
 
-	elif active_character[0].get_floor() == "Elite":
-		list_of_enemies.extend(eliteEncounters.pop(0))
-		if active_character[0].faceOfCleric > 0:
-			active_character[0].set_maxHealth(1)
+    elif active_character[0].get_floor() == "Elite":
+        list_of_enemies.extend(eliteEncounters.pop(0))
+        if active_character[0].faceOfCleric > 0:
+            active_character[0].set_maxHealth(1)
 
-	elif active_character[0].get_floor() == "Super":
-		
-		superElite = create_superElite(eliteEncounters.pop(0))
-				
-		list_of_enemies.extend(superElite)
-		if active_character[0].faceOfCleric > 0:
-			active_character[0].set_maxHealth(1)
+    elif active_character[0].get_floor() == "Super":
+        
+        superElite = create_superElite(eliteEncounters.pop(0))
+                
+        list_of_enemies.extend(superElite)
+        if active_character[0].faceOfCleric > 0:
+            active_character[0].set_maxHealth(1)
 
-	elif active_character[0].get_floor() == "Boss":
-		list_of_enemies.extend(bossEncounters.pop(0))
-		if active_character[0].faceOfCleric > 0:
-			active_character[0].set_maxHealth(1)
+    elif active_character[0].get_floor() == "Boss":
+        list_of_enemies.extend(bossEncounters.pop(0))
+        if active_character[0].faceOfCleric > 0:
+            active_character[0].set_maxHealth(1)
 
-	elif active_character[0].get_floor() == "Start":
-		neowBlesses()
+    elif active_character[0].get_floor() == "Start":
+        neowBlesses()
 
-	elif active_character[0].get_floor() == "Fires":
-		visit_campfire()
+    elif active_character[0].get_floor() == "Fires":
+        visit_campfire()
 
-	elif active_character[0].get_floor() == "Event":
-		visit_event()
+    elif active_character[0].get_floor() == "Event":
+        visit_event()
 
-	elif active_character[0].get_floor() == "Shop$":
-		shop = helping_functions.generateShop()
-		helping_functions.displayShop(shop)
+    elif active_character[0].get_floor() == "Shop$":
+        shop = helping_functions.generateShop()
+        helping_functions.displayShop(shop)
 
-	elif active_character[0].get_floor() == "Chest":
-		visit_treasureChest()
-	
-	else:
-		list_of_enemies.extend(enemyEncounters.pop(0))
+    elif active_character[0].get_floor() == "Chest":
+        visit_treasureChest()
+    
+    else:
+        list_of_enemies.extend(enemyEncounters.pop(0))
 
 
 def visit_campfire():
@@ -1754,9 +2000,9 @@ def visit_campfire():
             active_character[0].heal(healAmount)
 
             if dreamCatcher:
-            	dreamRewards = helping_functions.generateCardRewards()
-            	ansiprint("You dream of more cards because you own a <light-red>Dream Catcher</light-red>.")
-            	helping_functions.pickCard(dreamRewards)
+                dreamRewards = helping_functions.generateCardRewards()
+                ansiprint("You dream of more cards because you own a <light-red>Dream Catcher</light-red>.")
+                helping_functions.pickCard(dreamRewards)
             
             break
                 
@@ -1946,13 +2192,13 @@ def neowBlesses():
 
     if type(blessings[choice]) == list:
         if blessings[choice][0] == "Remove 2 cards":
-        	active_character[0].removeCardsFromDeck(2)
+            active_character[0].removeCardsFromDeck(2)
         
         elif blessings[choice][0] == "Gain 250 Gold":
-        	active_character[0].set_gold(250)
+            active_character[0].set_gold(250)
 
         elif blessings[choice][0] == "Max HP +12":
-        	active_character[0].set_maxHealth(12)
+            active_character[0].set_maxHealth(12)
 
         elif blessings[choice][0] == "Choose a rare card to obtain":
             
@@ -2406,7 +2652,7 @@ def event_MatchAndKeep():
             newUpgradedCard = helping_functions.upgradeCard(memoryGame[i].pop(i),place="External Function")
             memoryGame[i].insert(i,newUpgradedCard)
             
-       	i+=1
+        i+=1
 
     memoryGame.extend(memoryGame.copy())
     rd.shuffle(memoryGame)
@@ -2819,7 +3065,7 @@ def event_DeadAdventurer():
                         ansiprint("You found some <yellow>Gold</yellow>!")
                         active_character[0].set_gold(30)
                     elif reward == "Random Relic":
-                    	active_character[0].add_relic(deadAdventurerRelic.pop(0))
+                        active_character[0].add_relic(deadAdventurerRelic.pop(0))
                     elif reward == "Nothing":
                         pass
                 helping_functions.afterEventBattleRewardScreen(gold= goldReward,cards = eventCardsRewards)
@@ -3298,254 +3544,254 @@ def event_CouncilOfGhosts():
         ansiprint("Shape #3: \"How disappointing...\"\nShape #1: \"<red>You will join us sooner or later.</red>\"\nShape #2: \"HA HA HA HAHAHA!\"\nThe shapes fade away, leaving only the unnerving laughter ringing in your ears.")
 
 def event_cursedBook():
-	ansiprint("In an abandoned temple, you find a giant book, open, riddled with <m>cryptic writings</m>.\nAs you try to interpret the elaborate script, it begins shift and morph into writing you are familiar with.")
+    ansiprint("In an abandoned temple, you find a giant book, open, riddled with <m>cryptic writings</m>.\nAs you try to interpret the elaborate script, it begins shift and morph into writing you are familiar with.")
 
-	bookOptions = ["1. [Read] You know it's <green>good</green>. You know it's <red>bad</red>.","2. [Leave] Nothing happens.."]
-	checkNumbers = ["1","2"]
+    bookOptions = ["1. [Read] You know it's <green>good</green>. You know it's <red>bad</red>.","2. [Leave] Nothing happens.."]
+    checkNumbers = ["1","2"]
 
-	for option in bookOptions:
-		ansiprint(option)
+    for option in bookOptions:
+        ansiprint(option)
 
-	snap = input("What do you want to do?\n")
+    snap = input("What do you want to do?\n")
 
-	while snap not in checkNumbers:
-		active_character[0].explainer_function(snap,answer=False)
-		snap = input("What do you want to do? Pick the corresponding number.\n")
+    while snap not in checkNumbers:
+        active_character[0].explainer_function(snap,answer=False)
+        snap = input("What do you want to do? Pick the corresponding number.\n")
 
-	if snap == "1":
-		ansiprint("Odd. The book seems to be about an Ancient named <light-blue>Neow</light-blue>.\nThis piques your interest, but you have a general feeling of <m>malaise</m>.")
-		input("[Continue]")
-		ansiprint("The Ancient of resurrection, Neow, was exiled to the bottom of the Spire.\nYou feel compelled to read more, but your <red>body begins to ache</red>.")
-		active_character[0].set_health(-1)
-		input("[Continue]")
-		ansiprint("Seeking vengeance, Neow blesses outsiders, using them for her own purposes.\nYou are starting to feel <red>very weak and tired</red>.")
-		active_character[0].set_health(-2)
-		input("[Continue]")
-		ansiprint("Those resurrected by Neow remember only fragments of their past selves, <m>cursed</m> to <black>fight</black> for eternity.\nAs you near the final page, your <red>old wounds begin to reopen</red>!")
-		active_character[0].set_health(-3)
+    if snap == "1":
+        ansiprint("Odd. The book seems to be about an Ancient named <light-blue>Neow</light-blue>.\nThis piques your interest, but you have a general feeling of <m>malaise</m>.")
+        input("[Continue]")
+        ansiprint("The Ancient of resurrection, Neow, was exiled to the bottom of the Spire.\nYou feel compelled to read more, but your <red>body begins to ache</red>.")
+        active_character[0].set_health(-1)
+        input("[Continue]")
+        ansiprint("Seeking vengeance, Neow blesses outsiders, using them for her own purposes.\nYou are starting to feel <red>very weak and tired</red>.")
+        active_character[0].set_health(-2)
+        input("[Continue]")
+        ansiprint("Those resurrected by Neow remember only fragments of their past selves, <m>cursed</m> to <black>fight</black> for eternity.\nAs you near the final page, your <red>old wounds begin to reopen</red>!")
+        active_character[0].set_health(-3)
 
-		moreBookOptions = ["1. [Take] Obtain the <light-red>Book</light-red>. Lose <red>15 HP</red>.","2. [Leave] Lose <red>3 HP</red>"]
+        moreBookOptions = ["1. [Take] Obtain the <light-red>Book</light-red>. Lose <red>15 HP</red>.","2. [Leave] Lose <red>3 HP</red>"]
 
-		for option in moreBookOptions:
-			ansiprint(option)
+        for option in moreBookOptions:
+            ansiprint(option)
 
-		snap = input("What do you want to do?\n")
+        snap = input("What do you want to do?\n")
 
-		while snap not in checkNumbers:
-			active_character[0].explainer_function(snap,answer=False)
-			snap = input("What do you want to do? Pick the corresponding number.\n")
+        while snap not in checkNumbers:
+            active_character[0].explainer_function(snap,answer=False)
+            snap = input("What do you want to do? Pick the corresponding number.\n")
 
-		if snap == "1":
-			ansiprint("Upon finishing the tome, you decide to take it with you. With proof in hand, will you retain your memories?")
-			active_character[0].set_health(-15)
-			book = rd.randint(1,3)
-			if book == 1:
-				active_character[0].add_relic({"Name":"Necronomicon","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"The first <red>Attack</red> played each turn that costs 2 or more is played twice. When you take this <light-red>Relic</light-red>, become <m>Cursed</m>."})
-				
-			elif book == 2:
-				active_character[0].add_relic({"Name":"Enchiridion","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, add a random <blue>Power</blue> to your hand. It costs <yellow>0 Energy</yellow> until the end of turn."})
-			
-			elif book == 3:
-				active_character[0].add_relic({"Name":"Nilry's Codex","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"At the end of each turn, you can choose 1 of 3 random Cards to shuffle into your Drawpile."})
-	
-		elif snap == "2":
-			ansiprint("With incredible strain and willpower, you resist the trance of the tome and <red>SLAM</red> it shut.\nYou turn and exit the temple, <red>feeling drained</red>...")
-			active_character[0].set_health(-3)
+        if snap == "1":
+            ansiprint("Upon finishing the tome, you decide to take it with you. With proof in hand, will you retain your memories?")
+            active_character[0].set_health(-15)
+            book = rd.randint(1,3)
+            if book == 1:
+                active_character[0].add_relic({"Name":"Necronomicon","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"The first <red>Attack</red> played each turn that costs 2 or more is played twice. When you take this <light-red>Relic</light-red>, become <m>Cursed</m>."})
+                
+            elif book == 2:
+                active_character[0].add_relic({"Name":"Enchiridion","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"At the start of each combat, add a random <blue>Power</blue> to your hand. It costs <yellow>0 Energy</yellow> until the end of turn."})
+            
+            elif book == 3:
+                active_character[0].add_relic({"Name":"Nilry's Codex","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"At the end of each turn, you can choose 1 of 3 random Cards to shuffle into your Drawpile."})
+    
+        elif snap == "2":
+            ansiprint("With incredible strain and willpower, you resist the trance of the tome and <red>SLAM</red> it shut.\nYou turn and exit the temple, <red>feeling drained</red>...")
+            active_character[0].set_health(-3)
 
-	elif snap == "2":
-		ansiprint("You exit, feeling a <m>dark energy</m> emanating from the book on the pedestal.")
+    elif snap == "2":
+        ansiprint("You exit, feeling a <m>dark energy</m> emanating from the book on the pedestal.")
 
 def event_theForgottenAltar():
-	ansiprint("In front of you sits an altar to a forgotten god.\nAtop the altar sits an <yellow>ornate</yellow> <red>female</red> <yellow>statue</yellow> with arms outstretched.\nShe calls out to you, demanding <red>sacrifice</red>.")
-	healthLoss = math.floor(active_character[0].max_health / 100 * 35)
+    ansiprint("In front of you sits an altar to a forgotten god.\nAtop the altar sits an <yellow>ornate</yellow> <red>female</red> <yellow>statue</yellow> with arms outstretched.\nShe calls out to you, demanding <red>sacrifice</red>.")
+    healthLoss = math.floor(active_character[0].max_health / 100 * 35)
 
-	altarOptions = ["1. [Sacrifice] Gain <red>5 Max HP</red>. Lose <red>"+str(healthLoss)+"HP</red>.","2. [Desecrate] Become <m>Cursed - Decay</m>."]
-	checkNumbers = ["1","2"]
-	goldenIdol = False
+    altarOptions = ["1. [Sacrifice] Gain <red>5 Max HP</red>. Lose <red>"+str(healthLoss)+"HP</red>.","2. [Desecrate] Become <m>Cursed - Decay</m>."]
+    checkNumbers = ["1","2"]
+    goldenIdol = False
 
-	for relic in active_character[0].relics:
-		if relic.get("Name") == "Golden Idol":
-			goldenIdol = True
+    for relic in active_character[0].relics:
+        if relic.get("Name") == "Golden Idol":
+            goldenIdol = True
 
-	if goldenIdol == True:
-		altarOptions.append("3. [Offer] Obtain a special <light-red>Relic</light-red>. Lose <light-red>Golden Relic</light-red>.")
-		checkNumbers.append("3")
+    if goldenIdol == True:
+        altarOptions.append("3. [Offer] Obtain a special <light-red>Relic</light-red>. Lose <light-red>Golden Relic</light-red>.")
+        checkNumbers.append("3")
 
-	for option in altarOptions:
-		ansiprint(option)
+    for option in altarOptions:
+        ansiprint(option)
 
-	snap = input("What do you want to do?\n")
+    snap = input("What do you want to do?\n")
 
-	while snap not in checkNumbers:
-		active_character[0].explainer_function(snap,answer=False)
-		snap = input("What do you want to do? Pick the corresponding number.\n")
+    while snap not in checkNumbers:
+        active_character[0].explainer_function(snap,answer=False)
+        snap = input("What do you want to do? Pick the corresponding number.\n")
 
-	if snap == "1":
-		ansiprint("You stand on the altar and <red>cut your wrists</red>.\nAs the <red>blood spills</red> out in sacrifice, the arms of the statue reach out and close around your eyes.\nEverything goes <black>dark</black>.\nYou wake up a short time later feeling a new potential surging through you.\n")
-		active_character[0].set_maxHealth(5)
-		active_character[0].set_health(-healthLoss)
+    if snap == "1":
+        ansiprint("You stand on the altar and <red>cut your wrists</red>.\nAs the <red>blood spills</red> out in sacrifice, the arms of the statue reach out and close around your eyes.\nEverything goes <black>dark</black>.\nYou wake up a short time later feeling a new potential surging through you.\n")
+        active_character[0].set_maxHealth(5)
+        active_character[0].set_health(-healthLoss)
 
-	elif snap == "2":
-		ansiprint("You lash out and smash the statue in front of you, breaking the magical hold the room had placed upon you.\nA dark wail echoes all around you, and you can feel the <m>cursed magic</m> seep into your bones.")
-		active_character[0].add_CardToDeck({"Name": "Decay","Type": "Curse","Rarity": "Curse","Owner":"The Spire","Info":"<RED>Unplayable</RED>. At the end of your turn, take <red>2 damage</red>."})
+    elif snap == "2":
+        ansiprint("You lash out and smash the statue in front of you, breaking the magical hold the room had placed upon you.\nA dark wail echoes all around you, and you can feel the <m>cursed magic</m> seep into your bones.")
+        active_character[0].add_CardToDeck({"Name": "Decay","Type": "Curse","Rarity": "Curse","Owner":"The Spire","Info":"<RED>Unplayable</RED>. At the end of your turn, take <red>2 damage</red>."})
 
-	elif snap == "3":
-		active_character[0].remove_Relic("Golden Idol")
-		active_character[0].add_relic({"Name":"Bloody Idol","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"Whenever you gain <yellow>Gold</yellow>, heal <red>5 HP</red>."})
+    elif snap == "3":
+        active_character[0].remove_Relic("Golden Idol")
+        active_character[0].add_relic({"Name":"Bloody Idol","Rarity":"Event","Owner":"The Spire","Type":"Relic","Info":"Whenever you gain <yellow>Gold</yellow>, heal <red>5 HP</red>."})
 
 def event_theJoust():
-	ansiprint("As you make your way through the large buildings you come across a long narrow bridge and spot knights on either side, facing one another. You approach...\nKnight: \"HALT!\"\nA knight forcefully gestures you to stop with its giant lance.\nKnight: \"Today is the day I must settle the score with the <red>murderer</red> of my beloved pet, Noodles. Until then, you may not pass.\"\nKnight: \"Fellow witness, why don't you bet on who you think will <yellow>emerge victorious</yellow>?\"\n")
-	
-	joustOptions = ["1. [Murderer] Bet <yellow>50 Gold</yellow> - 70%: win <yellow>100 Gold</yellow>. ","2. [Owner] Bet <yellow>50 Gold</yellow> - 30%: win <yellow>250 Gold</yellow>.."]
-	checkNumbers = ["1","2"]
-	knight = False
+    ansiprint("As you make your way through the large buildings you come across a long narrow bridge and spot knights on either side, facing one another. You approach...\nKnight: \"HALT!\"\nA knight forcefully gestures you to stop with its giant lance.\nKnight: \"Today is the day I must settle the score with the <red>murderer</red> of my beloved pet, Noodles. Until then, you may not pass.\"\nKnight: \"Fellow witness, why don't you bet on who you think will <yellow>emerge victorious</yellow>?\"\n")
+    
+    joustOptions = ["1. [Murderer] Bet <yellow>50 Gold</yellow> - 70%: win <yellow>100 Gold</yellow>. ","2. [Owner] Bet <yellow>50 Gold</yellow> - 30%: win <yellow>250 Gold</yellow>.."]
+    checkNumbers = ["1","2"]
+    knight = False
 
-	for option in joustOptions:
-		ansiprint(option)
+    for option in joustOptions:
+        ansiprint(option)
 
-	if rd.randint(1,10) <= 3:
-		knight = True
+    if rd.randint(1,10) <= 3:
+        knight = True
 
-	snap = input("What do you want to do?\n")
+    snap = input("What do you want to do?\n")
 
-	while snap not in checkNumbers:
-		active_character[0].explainer_function(snap,answer=False)
-		snap = input("What do you want to do? Pick the corresponding number.\n")
+    while snap not in checkNumbers:
+        active_character[0].explainer_function(snap,answer=False)
+        snap = input("What do you want to do? Pick the corresponding number.\n")
 
-	if snap == "1":
-		ansiprint("Knight: \"I can't believe you're betting against Noodles!\"\nFurious, he clamps down his helmet and rushes towards his nemesis.")
-		ansiprint("<yellow>*CRASH!!!*</yellow>\n<red>*KLAAAAANG*</red>\n<green>*POW!*</green>")
+    if snap == "1":
+        ansiprint("Knight: \"I can't believe you're betting against Noodles!\"\nFurious, he clamps down his helmet and rushes towards his nemesis.")
+        ansiprint("<yellow>*CRASH!!!*</yellow>\n<red>*KLAAAAANG*</red>\n<green>*POW!*</green>")
 
-		if knight == True:
-			ansiprint("The nemesis was slain.")
-			ansiprint("You lost the bet, but at least you weren't gouged by a lance.")
-			active_character[0].set_gold(-50)
+        if knight == True:
+            ansiprint("The nemesis was slain.")
+            ansiprint("You lost the bet, but at least you weren't gouged by a lance.")
+            active_character[0].set_gold(-50)
 
-		else:
-			ansiprint("The knight died.")
-			ansiprint("You win the bet. Unsure what to think, you grab your winnings and leave.")
-			active_character[0].set_gold(100)
-	
-	elif snap == "2":
+        else:
+            ansiprint("The knight died.")
+            ansiprint("You win the bet. Unsure what to think, you grab your winnings and leave.")
+            active_character[0].set_gold(100)
+    
+    elif snap == "2":
 
-		ansiprint("Knight: \"Give me strength, Noodles!\"\nClamping down his helmet, the knight charges forward.")
-		ansiprint("<yellow>*CRASH!!!*</yellow>\n<red>*KLAAAAANG*</red>\n<green>POW!</green>")
+        ansiprint("Knight: \"Give me strength, Noodles!\"\nClamping down his helmet, the knight charges forward.")
+        ansiprint("<yellow>*CRASH!!!*</yellow>\n<red>*KLAAAAANG*</red>\n<green>POW!</green>")
 
-		if knight == True:
-			ansiprint("The nemesis was slain.")
-			ansiprint("You win the bet. Unsure what to think, you grab your winnings and leave.")
-			active_character[0].set_gold(250)
+        if knight == True:
+            ansiprint("The nemesis was slain.")
+            ansiprint("You win the bet. Unsure what to think, you grab your winnings and leave.")
+            active_character[0].set_gold(250)
 
-		else:
-			ansiprint("The knight died.")
-			ansiprint("You lost the bet, but at least you weren't gouged by a lance.")
-			active_character[0].set_gold(-50)
+        else:
+            ansiprint("The knight died.")
+            ansiprint("You lost the bet, but at least you weren't gouged by a lance.")
+            active_character[0].set_gold(-50)
 
 def event_knowingSkull():
-	ansiprint("You find yourself in an old, decorated chamber. In the center of the room, a large skull sits atop an ornate pedestal.\n As you approach, the skull bursts <red>into flames</red> and turns to face you.\n\"WHAT IS IT YOU SEEK? WHAT IS IT YOU OFFER?\"\nIn sync with its final words, the door behind you slams shut.\n")
-	healthLoss = math.floor(active_character[0].max_health / 10)
-	if healthLoss < 6:
-		healthLoss = 6
+    ansiprint("You find yourself in an old, decorated chamber. In the center of the room, a large skull sits atop an ornate pedestal.\n As you approach, the skull bursts <red>into flames</red> and turns to face you.\n\"WHAT IS IT YOU SEEK? WHAT IS IT YOU OFFER?\"\nIn sync with its final words, the door behind you slams shut.\n")
+    healthLoss = math.floor(active_character[0].max_health / 10)
+    if healthLoss < 6:
+        healthLoss = 6
 
-	skullOptions = ["1. [Riches?] Obtain <yellow>90 Gold</yellow>. Lose <red>"+str(healthLoss)+" HP</red>.","2. [Success?] Obtain a random Uncommon Colorless card. Lose <red>"+str(healthLoss)+" HP</red>.","3. [A Pick Me Up?] Obtain a <c>Potion</c>. Lose <red>"+str(healthLoss)+" HP</red>.","4. [How do I leave?] End the event. Lose <red>"+str(healthLoss)+" HP</red>."]
+    skullOptions = ["1. [Riches?] Obtain <yellow>90 Gold</yellow>. Lose <red>"+str(healthLoss)+" HP</red>.","2. [Success?] Obtain a random Uncommon Colorless card. Lose <red>"+str(healthLoss)+" HP</red>.","3. [A Pick Me Up?] Obtain a <c>Potion</c>. Lose <red>"+str(healthLoss)+" HP</red>.","4. [How do I leave?] End the event. Lose <red>"+str(healthLoss)+" HP</red>."]
 
-	checkNumbers = ["1","2","3","4"]
+    checkNumbers = ["1","2","3","4"]
 
-	while True:
-		skullOptions = ["1. [Riches?] Obtain <yellow>90 Gold</yellow>. Lose <red>"+str(healthLoss)+" HP</red>.","2. [Success?] Obtain a random Uncommon Colorless card. Lose <red>"+str(healthLoss)+" HP</red>.","3. [A Pick Me Up?] Obtain a <c>Potion</c>. Lose <red>"+str(healthLoss)+" HP</red>.","4. [How do I leave?] End the event. Lose <red>"+str(healthLoss)+" HP</red>."]
-		for option in skullOptions:
-			ansiprint(option)
+    while True:
+        skullOptions = ["1. [Riches?] Obtain <yellow>90 Gold</yellow>. Lose <red>"+str(healthLoss)+" HP</red>.","2. [Success?] Obtain a random Uncommon Colorless card. Lose <red>"+str(healthLoss)+" HP</red>.","3. [A Pick Me Up?] Obtain a <c>Potion</c>. Lose <red>"+str(healthLoss)+" HP</red>.","4. [How do I leave?] End the event. Lose <red>"+str(healthLoss)+" HP</red>."]
+        for option in skullOptions:
+            ansiprint(option)
 
-		snap = input("What do you want to do?\n")
+        snap = input("What do you want to do?\n")
 
-		while snap not in checkNumbers:
-			active_character[0].explainer_function(snap,answer=False)
-			snap = input("What do you want to do? Pick the corresponding number.\n")
+        while snap not in checkNumbers:
+            active_character[0].explainer_function(snap,answer=False)
+            snap = input("What do you want to do? Pick the corresponding number.\n")
 
-		if snap == "1":
-			ansiprint("\"YOU MORTALS NEVER CHANGE. IT IS DONE.\"\n<yellow>Gold</yellow> rains down on you.")
-			active_character[0].set_gold(90)
-			active_character[0].set_health(-healthLoss)
-		
-		elif snap == "2":
-			ansiprint("\"PERHAPS THIS WILL HELP?\"You obtain a card.")
-			random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == "Colorless" and v.get("Upgraded") != True}
-			card_add = rd.choices(list(random_cards.items()))[0][1]
-			active_character[0].add_CardToDeck(card_add)
-			active_character[0].set_health(-healthLoss)
+        if snap == "1":
+            ansiprint("\"YOU MORTALS NEVER CHANGE. IT IS DONE.\"\n<yellow>Gold</yellow> rains down on you.")
+            active_character[0].set_gold(90)
+            active_character[0].set_health(-healthLoss)
+        
+        elif snap == "2":
+            ansiprint("\"PERHAPS THIS WILL HELP?\"You obtain a card.")
+            random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == "Colorless" and v.get("Upgraded") != True}
+            card_add = rd.choices(list(random_cards.items()))[0][1]
+            active_character[0].add_CardToDeck(card_add)
+            active_character[0].set_health(-healthLoss)
 
-		elif snap == "3":
-			ansiprint("\"DRINK UP!\"\nYou obtain a <c>Potion</c>.")
-			random_potions = {k:v for k,v in potions.items() if v.get("Owner") == active_character[0].name or v.get("Owner") == "The Spire"}
-			onePotion = rd.choices(list(random_potions.items()),k=1)
-			active_character[0].add_potion(onePotion[0][1])
+        elif snap == "3":
+            ansiprint("\"DRINK UP!\"\nYou obtain a <c>Potion</c>.")
+            random_potions = {k:v for k,v in potions.items() if v.get("Owner") == active_character[0].name or v.get("Owner") == "The Spire"}
+            onePotion = rd.choices(list(random_potions.items()),k=1)
+            active_character[0].add_potion(onePotion[0][1])
 
-			active_character[0].set_health(-healthLoss)		
+            active_character[0].set_health(-healthLoss)     
 
-		elif snap == "4":
-			ansiprint("\"BEHIND YOU, MORTAL.\"\nYou peek behind the skull. Surely enough, there is a door.")
-			active_character[0].set_health(-healthLoss)
-			break
+        elif snap == "4":
+            ansiprint("\"BEHIND YOU, MORTAL.\"\nYou peek behind the skull. Surely enough, there is a door.")
+            active_character[0].set_health(-healthLoss)
+            break
 
-		healthLoss += 1				
+        healthLoss += 1             
 
 def event_theLibrary():
-	ansiprint("You come across an ornate building which appears abandoned.\nA plaque that has been torn free from a wall is on the floor. It reads, <light-blue>\"THE LIBRARY\"</light-blue>.\nInside, you find countless rows of scrolls, manuscripts, and books.\nYou pick one and cozy yourself into a chair for some quiet time.\n")
-	healthGain = math.floor(active_character[0].max_health / 5)
-	libraryOptions = ["1. [Read] Choose 1 of 20 cards to add to your deck.","2. [Sleep] Heal <red>"+str(healthGain)+" HP</red>."]
-	libraryCards = []
-	checkNumbers = ["1","2"]
-	
-	for option in libraryOptions:
-		ansiprint(option)
+    ansiprint("You come across an ornate building which appears abandoned.\nA plaque that has been torn free from a wall is on the floor. It reads, <light-blue>\"THE LIBRARY\"</light-blue>.\nInside, you find countless rows of scrolls, manuscripts, and books.\nYou pick one and cozy yourself into a chair for some quiet time.\n")
+    healthGain = math.floor(active_character[0].max_health / 5)
+    libraryOptions = ["1. [Read] Choose 1 of 20 cards to add to your deck.","2. [Sleep] Heal <red>"+str(healthGain)+" HP</red>."]
+    libraryCards = []
+    checkNumbers = ["1","2"]
+    
+    for option in libraryOptions:
+        ansiprint(option)
 
-	snap = input("What do you want to do?\n")
+    snap = input("What do you want to do?\n")
 
-	while snap not in checkNumbers:
-		active_character[0].explainer_function(snap,answer=False)
-		snap = input("What do you want to do? Pick the corresponding number.\n")
+    while snap not in checkNumbers:
+        active_character[0].explainer_function(snap,answer=False)
+        snap = input("What do you want to do? Pick the corresponding number.\n")
 
-	if snap == "1":
-		i = 0
-		while i < 20:
-			repeat = False
-			commonCardChance = helping_functions.commonCardChance * 100
-			uncommonCardChance = helping_functions.uncommonCardChance * 100
-			rareCardChance = helping_functions.rareCardChance * 100
-			
-			cardChance = rd.randint(1,100)
+    if snap == "1":
+        i = 0
+        while i < 20:
+            repeat = False
+            commonCardChance = helping_functions.commonCardChance * 100
+            uncommonCardChance = helping_functions.uncommonCardChance * 100
+            rareCardChance = helping_functions.rareCardChance * 100
+            
+            cardChance = rd.randint(1,100)
 
-			if cardChance <= rareCardChance:
-				random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") == active_character[0].name and v.get("Upgraded") != True}
-				card_add = rd.choices(list(random_cards.items()))[0][1]
-			elif cardChance <= uncommonCardChance:
-				random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == active_character[0].name and v.get("Upgraded") != True}
-				card_add = rd.choices(list(random_cards.items()))[0][1]
-			else: 
-				random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == active_character[0].name and v.get("Upgraded") != True}
-				card_add = rd.choices(list(random_cards.items()))[0][1]
-			
-			if len(libraryCards) > 0:
-				for card in libraryCards:
-					if card.get("Name") == card_add.get("Name"):
-						repeat = True
-			if repeat == True:
-				continue
+            if cardChance <= rareCardChance:
+                random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Rare" and v.get("Owner") == active_character[0].name and v.get("Upgraded") != True}
+                card_add = rd.choices(list(random_cards.items()))[0][1]
+            elif cardChance <= uncommonCardChance:
+                random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Uncommon" and v.get("Owner") == active_character[0].name and v.get("Upgraded") != True}
+                card_add = rd.choices(list(random_cards.items()))[0][1]
+            else: 
+                random_cards = {k:v for k,v in cards.items() if v.get("Rarity") == "Common" and v.get("Owner") == active_character[0].name and v.get("Upgraded") != True}
+                card_add = rd.choices(list(random_cards.items()))[0][1]
+            
+            if len(libraryCards) > 0:
+                for card in libraryCards:
+                    if card.get("Name") == card_add.get("Name"):
+                        repeat = True
+            if repeat == True:
+                continue
 
-			libraryCards.append(card_add)
-			
-			i+=1
+            libraryCards.append(card_add)
+            
+            i+=1
 
-		checkDeck = len(active_character[0].deck)
-		helping_functions.pickCard(libraryCards)
-		
-		while checkDeck == len(active_character[0].deck):
-			ansiprint("You can't skip a card in the Library.")	
-			helping_functions.pickCard(libraryCards)
+        checkDeck = len(active_character[0].deck)
+        helping_functions.pickCard(libraryCards)
+        
+        while checkDeck == len(active_character[0].deck):
+            ansiprint("You can't skip a card in the Library.")  
+            helping_functions.pickCard(libraryCards)
 
-	elif snap == "2":
-		ansiprint("Reading is for chumps.\nYou doze off in a comfy chair instead.\nZzz... zzz... ..Zz....\n<red>You wake up feeling refreshed.</red>")
-		active_character[0].heal(healthGain)
+    elif snap == "2":
+        ansiprint("Reading is for chumps.\nYou doze off in a comfy chair instead.\nZzz... zzz... ..Zz....\n<red>You wake up feeling refreshed.</red>")
+        active_character[0].heal(healthGain)
 
 def event_maskedBandits():
     ansiprint("You encounter a group of bandits wearing large <red>red masks</red>.\nRomeo: \"Hello, pay up to pass... a reasonable fee of <yellow>ALL your Gold</yellow> will do! Heh heh!\"")
@@ -4212,96 +4458,96 @@ def visit_event():
     global universalEvents
 
     for relic in active_character[0].relics:
-    	if relic.get("Name") == "Juzu Bracelet":
-    		eventMonsterChance = 0
-    	elif relic.get("Name") == "Tiny Chest":
-    		relic["Counter"] += 1
-    		if relic["Counter"] % 4 == 0:
-    			eventMonsterChance = 0
-    			eventTreasureChance = 1
-    			eventShopChance = 0
-    	elif relic.get("Name") == "Ssserpent Head":
-    		active_character[0].set_gold(50)
-    		ansiprint("You received <yellow>50 Gold</yellow> because of <light-red>Ssserpent Head</light-red>.")
+        if relic.get("Name") == "Juzu Bracelet":
+            eventMonsterChance = 0
+        elif relic.get("Name") == "Tiny Chest":
+            relic["Counter"] += 1
+            if relic["Counter"] % 4 == 0:
+                eventMonsterChance = 0
+                eventTreasureChance = 1
+                eventShopChance = 0
+        elif relic.get("Name") == "Ssserpent Head":
+            active_character[0].set_gold(50)
+            ansiprint("You received <yellow>50 Gold</yellow> because of <light-red>Ssserpent Head</light-red>.")
 
     eventChance = 1 - eventMonsterChance - eventTreasureChance - eventShopChance
 
     unknownLocation = list(helping_functions.nchoices_with_restrictions([eventChance,eventMonsterChance,eventTreasureChance,eventShopChance],k = 1))
 
     if unknownLocation[0] == 0:
-    	active_character[0].show_status(event=True)
-    	if rd.randint(0,1) == 0:
-    		if helping_functions.gameAct == 1:
-    			rd.shuffle(actOneEvents)
-    			actOneEvents.pop(0)()
-    		elif helping_functions.gameAct == 2:
-    			rd.shuffle(actTwoEvents)
-    			actTwoEvents.pop(0)()
-    		elif helping_functions.gameAct == 3:
-    			rd.shuffle(actThreeEvents)
-    			actThreeEvents.pop(0)()
+        active_character[0].show_status(event=True)
+        if rd.randint(0,1) == 0:
+            if helping_functions.gameAct == 1:
+                rd.shuffle(actOneEvents)
+                actOneEvents.pop(0)()
+            elif helping_functions.gameAct == 2:
+                rd.shuffle(actTwoEvents)
+                actTwoEvents.pop(0)()
+            elif helping_functions.gameAct == 3:
+                rd.shuffle(actThreeEvents)
+                actThreeEvents.pop(0)()
 
-    	else:
-    		
-    		if len(universalEvents) > 0:
-    			rd.shuffle(universalEvents)
-    			universalEvents.pop(0)()
-    		else:
-    			if helping_functions.gameAct == 1:
-    				rd.shuffle(actOneEvents)
-    				actOneEvents.pop(0)()
-    			elif helping_functions.gameAct == 2:
-    				rd.shuffle(actTwoEvents)
-    				actTwoEvents.pop(0)()
-    			elif helping_functions.gameAct == 3:
-    				rd.shuffle(actThreeEvents)
-    				actThreeEvents.pop(0)()
+        else:
+            
+            if len(universalEvents) > 0:
+                rd.shuffle(universalEvents)
+                universalEvents.pop(0)()
+            else:
+                if helping_functions.gameAct == 1:
+                    rd.shuffle(actOneEvents)
+                    actOneEvents.pop(0)()
+                elif helping_functions.gameAct == 2:
+                    rd.shuffle(actTwoEvents)
+                    actTwoEvents.pop(0)()
+                elif helping_functions.gameAct == 3:
+                    rd.shuffle(actThreeEvents)
+                    actThreeEvents.pop(0)()
 
-    	eventMonsterChance += 0.1
-    	eventTreasureChance += 0.02
-    	eventShopChance += 0.03
+        eventMonsterChance += 0.1
+        eventTreasureChance += 0.02
+        eventShopChance += 0.03
 
     elif unknownLocation[0] == 1:
-    	
-    	list_of_enemies.extend(enemyEncounters.pop(0))
-    	helping_functions.encounter_counter += 1
+        
+        list_of_enemies.extend(enemyEncounters.pop(0))
+        helping_functions.encounter_counter += 1
 
-    	eventMonsterChance = 0.1
-    	eventTreasureChance += 0.02
-    	eventShopChance += 0.03
+        eventMonsterChance = 0.1
+        eventTreasureChance += 0.02
+        eventShopChance += 0.03
 
-    	floor = active_character[0].get_floor()
-    	y = active_character[0].position[0]
-    	x = active_character[0].position[1]
-    	helping_functions.game_map[y][x] = "Creep"        
-    	helping_functions.game_map_dict[("Creep",y,x)] = helping_functions.game_map_dict[(floor,y,x)]
+        floor = active_character[0].get_floor()
+        y = active_character[0].position[0]
+        x = active_character[0].position[1]
+        helping_functions.game_map[y][x] = "Creep"        
+        helping_functions.game_map_dict[("Creep",y,x)] = helping_functions.game_map_dict[(floor,y,x)]
 
     elif unknownLocation[0] == 2:
 
-    	visit_treasureChest()
-    	eventMonsterChance += 0.1
-    	eventTreasureChance = 0.02
-    	eventShopChance += 0.03
+        visit_treasureChest()
+        eventMonsterChance += 0.1
+        eventTreasureChance = 0.02
+        eventShopChance += 0.03
 
     elif unknownLocation[0] == 3:
-    	
-    	ansiprint("\nThere was a <yellow>Merchant</yellow> hiding here!\n")
-    	
-    	floor = active_character[0].get_floor()
-    	y = active_character[0].position[0]
-    	x = active_character[0].position[1]
-    	helping_functions.game_map[y][x] = "Shop$"        
-    	helping_functions.game_map_dict[("Shop$",y,x)] = helping_functions.game_map_dict[(floor,y,x)]
+        
+        ansiprint("\nThere was a <yellow>Merchant</yellow> hiding here!\n")
+        
+        floor = active_character[0].get_floor()
+        y = active_character[0].position[0]
+        x = active_character[0].position[1]
+        helping_functions.game_map[y][x] = "Shop$"        
+        helping_functions.game_map_dict[("Shop$",y,x)] = helping_functions.game_map_dict[(floor,y,x)]
 
-    	shop = helping_functions.generateShop()
-    	helping_functions.displayShop(shop)
+        shop = helping_functions.generateShop()
+        helping_functions.displayShop(shop)
 
-    	eventMonsterChance += 0.1
-    	eventTreasureChance += 0.02
-    	eventShopChance = 0.03
+        eventMonsterChance += 0.1
+        eventTreasureChance += 0.02
+        eventShopChance = 0.03
 
     else:
-    	print(unknownLocation[0],"This should be either one 2 or three.")    
+        print(unknownLocation[0],"This should be either one 2 or three.")    
 
 
 
