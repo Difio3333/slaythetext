@@ -404,6 +404,9 @@ class Char():
                     #self.print_all_cards()
                     self.show_exhaustpile()
 
+                elif plan == len(self.hand) + len(self.potionBag) + 5:
+                    self.explainer_function("Save",answer=True)
+                
                 elif len(self.potionBag) > 0:
                 
                     if plan < len(self.hand) + len(self.potionBag):
@@ -430,12 +433,17 @@ class Char():
         self.showHand(battlemode=True,skip=False)
         self.showPotions(skip=False)
         
+
+
+
         ansiprint(f"{hand_and_potion_length+1}. End Turn")
         ansiprint(f"{hand_and_potion_length+2}. Show <light-red>Relics</light-red>")
         ansiprint(f"{hand_and_potion_length+3}. Show Drawpile")
         ansiprint(f"{hand_and_potion_length+4}. Show Discardpile")
         ansiprint(f"{hand_and_potion_length+5}. Show Exhaustpile")
+        ansiprint(f"{hand_and_potion_length+6}. Save Game")
         
+
     def enemyMoves(self):
         for enemy in entities.list_of_enemies:
             enemy.chooseMove()
@@ -6078,7 +6086,7 @@ class Char():
                 for potion in self.potionBag:
                     potions += "{}. <c>{}</c>\n".format(i+1+len(self.hand),potion.get("Name"))
                     i = i + 1
-                ansiprint(potions)
+                
             else:
                 potions = ""
                 i = 0
@@ -6089,6 +6097,10 @@ class Char():
                     potions += str(i+1)+".) Skip"
                 elif skip == False and len(self.potionBag) == 0:
                     ansiprint("You don't have any <c>Potions</c>.")
+            
+
+            if len(self.potionBag) > 0:
+                potions = potions.rstrip()
                 ansiprint(potions)
         except Exception as e:
             print(e)
