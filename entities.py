@@ -33,7 +33,6 @@ def choose_character():
             ansiprint("1. <green>Silent</green>\n2. <red>Ironclad</red>\n3. <blue>Defect</blue>")
             charchoice = input("Pick the Character you want to play.\n")
             
-
             if charchoice == "1":
                 active_character.append(Char("Silent",66,deck = [],gold = 99,relics=[{"Name":"Ring of the Snake","Rarity":"Starter","Owner":"Silent","Type":"Relic","Info":"At the start of each combat, draw 2 additional cards."}]))
                 ansiprint("You chose the <green>Silent</green>.")
@@ -2861,7 +2860,7 @@ def event_wheelOfChange():
 def event_theWomanInBlue():
     ansiprint("From the darkness, an arm pulls you into a small shop. As your eyes adjust, you see a pale woman in sharp clothes gesturing towards a wall of <c>potions</c>. Pale Woman: \"Buy a <c>potion</c>. Now!\" she states.")
     damage = math.floor((active_character[0].max_health/100) *5)
-    womanOptions = ["1. [Buy <c>1 Potion</c>] <yellow>10 Gold</yellow>.","2. [Buy <c>2 Potions</c>] <yellow>20 Gold</yellow>.","3. [Buy <c>3 Potion</c>] <yellow>30 Gold</yellow>.", "4. [Leave] Receive <red>"+str(damage)+"</red> damage."]
+    womanOptions = ["1. [Buy <c>1 Potion</c>] <yellow>10 Gold</yellow>.","2. [Buy <c>2 Potion</c>] <yellow>20 Gold</yellow>.","3. [Buy <c>3 Potion</c>] <yellow>30 Gold</yellow>.", "4. [Leave] Receive <red>"+str(damage)+"</red> damage."]
     checkNumbers = ["1","2","3","4"]
 
     for option in womanOptions:

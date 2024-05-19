@@ -346,47 +346,28 @@ class Char():
             #actionlist = [optionOne,optionTwo,optionThree,optionFour]
 
             self.showEnemies(skip=False,numbers=False)
-            ansiprint("\n")
+            
             i = 0
-            for action in actionlist:
-                ansiprint(str(i+1)+".",action)
-                i+=1
             try:
+                
+                self.print_hand_and_potions()
                 plan = input("\nWhat do you want to do?\n")
                 plan = int(plan)-1
-
-                if plan not in range(len(actionlist)):
-                    continue
-                        
-                if actionlist[plan] == optionOne:
+                
+                
+                #if plan not in range(len(actionlist)):
+                 #   continue
+                
+                if plan in range(len(self.hand)):
                     if self.velvetChoker > 0 and self.card_counter >= 6:
                         ansiprint("You can't play anymore cards because you own a <light-red>Velvet Choker</light-red>.")
                     elif self.timeWarp == True:
                         ansiprint("You can't play anmore cards this turn because of <red>Time Eater</red>.")
                     else:
-                        self.play_card(turn_counter)
-                
-                elif actionlist[plan] == optionTwo:
-                    if self.timeWarp == True:
-                        ansiprint("You can't drink anmore <c>Potions</c> this turn because of <red>Time Eater</red>.")
-                    else:
-                        self.play_potion(turn_counter)
+                        self.play_card(plan,turn_counter)
 
-                elif actionlist[plan] == optionThree:
-                    self.showRelics()
+                elif plan == len(self.hand) + len(self.potionBag):
                 
-                elif actionlist[plan] == optionFive:
-                    #self.print_all_cards()
-                    self.show_drawpile()
-                
-                elif actionlist[plan] == optionSix:
-                    #self.print_all_cards()
-                    self.show_discardpile()
-                elif actionlist[plan] == optionSeven:
-                    #self.print_all_cards()
-                    self.show_exhaustpile()
-
-                elif actionlist[plan] == optionFour:
                     print("\n\n")
                     if len(entities.list_of_enemies) > 0:
                         self.powersAtTheEndOfTheTurn()
@@ -409,6 +390,30 @@ class Char():
                         self.turnMoment = 0
                         break
 
+                elif plan == len(self.hand) + len(self.potionBag) + 1:
+                    self.showRelics()
+                
+                elif plan == len(self.hand) + len(self.potionBag) + 2:
+                    #self.print_all_cards()
+                    self.show_drawpile()
+                
+                elif plan == len(self.hand) + len(self.potionBag) + 3:
+                    #self.print_all_cards()
+                    self.show_discardpile()
+                elif plan == len(self.hand) + len(self.potionBag) + 4:
+                    #self.print_all_cards()
+                    self.show_exhaustpile()
+
+                elif len(self.potionBag) > 0:
+                
+                    if plan < len(self.hand) + len(self.potionBag):
+                        potion_index = plan - len(self.hand)
+                        if self.timeWarp == True:
+                            ansiprint(f"You can't drink anmore <light-cyan>Potions</light-cyan> this turn because of <red>Time Eater</red>.")
+                        else:
+                            self.play_potion(turn_counter,potion_index)
+                
+
                 if self.unceasingTop > 0 and len(self.hand) == 0:
                     self.draw(1)
                     ansiprint("You have drawn another card because of <light-red>Unceasing Top</light-red>")
@@ -418,7 +423,19 @@ class Char():
             except Exception as e:
                 print(e)
                 self.explainer_function(plan)
-                
+    
+
+    def print_hand_and_potions(self):
+        hand_and_potion_length = len(self.hand)+len(self.potionBag)
+        self.showHand(battlemode=True,skip=False)
+        self.showPotions(skip=False)
+        
+        ansiprint(f"{hand_and_potion_length+1}. End Turn")
+        ansiprint(f"{hand_and_potion_length+2}. Show <light-red>Relics</light-red>")
+        ansiprint(f"{hand_and_potion_length+3}. Show Drawpile")
+        ansiprint(f"{hand_and_potion_length+4}. Show Discardpile")
+        ansiprint(f"{hand_and_potion_length+5}. Show Exhaustpile")
+        
     def enemyMoves(self):
         for enemy in entities.list_of_enemies:
             enemy.chooseMove()
@@ -1043,7 +1060,7 @@ class Char():
         if self.brutality > 0:
             self.receive_recoil_damage(self.brutality,directDamage=True)
 
-    def play_card(self,turn_counter):
+    def play_card(self,card_index,turn_counter):
         
         if self.check_CardPlayRestrictions() == True:
             return
@@ -1059,14 +1076,14 @@ class Char():
 
             try:
                 #self.showEnemies(skip=false)
-                self.showHand(battlemode=True,skip=True)
+                #self.showHand(battlemode=True,skip=True)
                 
-                ansiprint("\nYou have <yellow>"+str(self.energy)+" Energy</yellow> available.")
+                #ansiprint("\nYou have <yellow>"+str(self.energy)+" Energy</yellow> available.")
                 
-                card_index = input("\nPick the number of the card you want to play\n")
-                card_index = int(card_index)-1
-                if card_index == len(self.hand):
-                    return
+                #card_index = input("\nPick the number of the card you want to play\n")
+                #card_index = int(card_index)-1
+                #if card_index == len(self.hand):
+                 #   return
 
                 if card_index in range(len(self.hand)):
                     try:
@@ -4363,10 +4380,14 @@ class Char():
         if exhaust:
             self.randomTarget = False
 
-    def play_potion(self,turn_counter):
+    def play_potion(self,turn_counter,potion_index=False):
         
-        self.showPotions(skip=True)
-        potion_index = 0
+        if potion_index == False:
+            if potion_index == 0:
+                pass
+            else:
+                return
+        
         potion_in_play = []
 
         if len(self.potionBag) == 0:
@@ -4375,9 +4396,6 @@ class Char():
         
         while True:
             try:
-                ansiprint("Pick the number of the <c>Potion</c> you want to play\n")
-                potion_index = input("")
-                potion_index = int(potion_index)-1
                 if potion_index == len(self.potionBag):
                     return
                 
@@ -4399,7 +4417,7 @@ class Char():
             except Exception as e:
                 self.explainer_function(potion_index)
                 ansiprint ("Try again! Type one of the corresponding numbers! play_potion")
-                pass
+                return
         
         if len(entities.list_of_enemies) == 0 and self.potionBag[potion_index]["Name"] != "Blood Potion" and self.potionBag[potion_index]["Name"] != "Fruit Juice" and self.potionBag[potion_index]["Name"] != "Entropic Brew":
             ansiprint("You don't have any <c>Potions</c> that you can play right now.")
@@ -5860,7 +5878,7 @@ class Char():
                 ansiprint("<light-red>"+relic.get("Name")+"</light-red>","| Effect:",relic.get("Info"))
 
     def showHand(self, noUpgrades: bool = False,battlemode: bool = False,skip:bool=False):
-        ansiprint("\n")     
+           
         blockAttackCard = False
         for card in self.hand:
             if card.get("Block") != None and card.get("Damage") != None and card.get("Energy") != None:
@@ -6050,21 +6068,28 @@ class Char():
                 ansiprint(f"{i+1}.{numberSpacing}<{color}>{card.get('Name')}</{color}>{lineSpacing}<yellow>{card.get('Energy')}</yellow>")
             
             i = i + 1
-        print("\n")
+   
 
-    def showPotions(self,skip=False):
+    def showPotions(self,skip=False,battlemode=True):
         try:
-            
-            potions = ""
-            i = 0
-            for potion in self.potionBag:
-                potions += "{}.) <c>{}</c>\n".format(i+1,potion.get("Name"))
-                i = i + 1
-            if skip and len(self.potionBag)>0:
-                potions += str(i+1)+".) Skip"
-            elif skip == False and len(self.potionBag) == 0:
-                ansiprint("You don't have any <c>Potions</c>.")
-            ansiprint(potions)
+            if battlemode:
+                potions = ""
+                i = 0
+                for potion in self.potionBag:
+                    potions += "{}. <c>{}</c>\n".format(i+1+len(self.hand),potion.get("Name"))
+                    i = i + 1
+                ansiprint(potions)
+            else:
+                potions = ""
+                i = 0
+                for potion in self.potionBag:
+                    potions += "{}.) <c>{}</c>\n".format(i+1,potion.get("Name"))
+                    i = i + 1
+                if skip and len(self.potionBag)>0:
+                    potions += str(i+1)+".) Skip"
+                elif skip == False and len(self.potionBag) == 0:
+                    ansiprint("You don't have any <c>Potions</c>.")
+                ansiprint(potions)
         except Exception as e:
             print(e)
 
@@ -7438,7 +7463,7 @@ class Char():
             if len(self.potionBag) == self.potionBagSize:
                 ansiprint(f"You can't have more than {self.potionBagSize} <c>Potions</c> in your <c>Potion Bag</c>.\n")
                 
-                self.showPotions()
+                self.showPotions(battlemode=False)
 
                 for option in discardOptions:
                     ansiprint(option)
@@ -7465,7 +7490,7 @@ class Char():
             if index:
                 choice = index
             else:
-                self.showPotions()
+                self.showPotions(battlemode=False)
                 ansiprint("Which <c>Potion</c> do you want to remove from your <c>Potion Bag</c>?")
                 choice = input ("Type the number:")
                 choice = int(choice)-1
@@ -8460,7 +8485,7 @@ class Char():
             status += f" |<yellow> Gold</yellow>: <yellow>{self.gold}</yellow> | <light-red>Relics</light-red>: {relics}"
             
 
-        ansiprint(status,"\n")
+        ansiprint(status)
 
     def get_smokebomb(self):
         
