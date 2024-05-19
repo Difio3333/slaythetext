@@ -1,11 +1,6 @@
-# Update Januar 16th 2024
-
-Hey everyone. I've noticed that this repository is consistently collecting stars and downloads so I thought I'd continue working on this a little bit more.
-This I've implemented Defect now as the third char. Might still be buggy but most of the cards should work.
-
 # General Info
 
-The game is still in Alpha so there a lot of bugs and weird messages in the game but you can now play as Ironclad, Silent and Defect.
+The game is still in alpha so there a lot of bugs and weird messages in the game but you can now play as Ironclad, Silent and Defect.
 
 # Download:
 
