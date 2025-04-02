@@ -3338,7 +3338,7 @@ def event_wingStatue():
     #exclusiveAct1Event
     ansiprint("Among the stone and boulders, you notice an intricate <blue>large blue</blue> statue resembling a wing.\nYou find <yellow>gold</yellow> spilling from its cracks. Maybe there is more inside...")
 
-    attacks = list([card for card in active_character[0].deck if card.get("Type") == "Attack"])
+    attacks = list([card for card in active_character[0].deck if card.get("Type") == "Attack" and card.get("Damage") != None])
     tenDamageCards = list([card for card in attacks if card.get("Damage") >= 10])
 
     if len(tenDamageCards) > 0:

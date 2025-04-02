@@ -103,7 +103,7 @@ def generate_map(superElite = True):
 		lengthOfPath = 12
 		roomDistribution = list(nchoices_with_restrictions([0.450,0.155,0.225,0.05,0.12],{0:2,1:1,2:1,3:1,4:1},k=lengthOfPath))
 		#snap = list(nchoices_with_restrictions([0.05,0.155,0.225,0.450,0.12],{0:3,1:1,2:1,3:1,4:1},k=lengthOfPath))
-		# snap = list(nchoices_with_restrictions([0.462,0.143,0.225,0.05,0.12],{0:3,1:1,2:1,3:1,4:1},k=lengthOfPath))
+		#snap = list(nchoices_with_restrictions([0.462,0.143,0.225,0.05,0.12],{0:3,1:1,2:1,3:1,4:1},k=lengthOfPath))
 		#snap = list(nchoices_with_restrictions([0.480,0.128,0.24,0.05,0.12],{0:2,1:1,2:1,3:1,4:1},k=lengthOfPath))
 		#snap = list(nchoices_with_restrictions([0.33,0.13,0.27,0.10,0.17],{0:3,1:1,2:1,3:1,4:1},k=13))
 		roomDistribution[7] = 5
