@@ -4059,6 +4059,7 @@ class Char():
                     i+=1
 
             elif self.card_in_play.get("Name") == "Chrysalis":
+                i = 0
                 while i < self.card_in_play["Cards"]:
                     skill_cards = {k:v for k,v in entities.cards.items() if v.get("Type") == "Skill" and v.get("Owner") == self.name and v.get("Rarity") != "Basic"}
                     #create a list of banned cards and exclude them from this pool via "not in list"
@@ -4069,6 +4070,7 @@ class Char():
                     i += 1
             
             elif self.card_in_play.get("Name") == "Chrysalis +":
+                i = 0
                 while i < self.card_in_play["Cards"]:
                     skill_cards = {k:v for k,v in entities.cards.items() if v.get("Type") == "Skill" and v.get("Owner") == self.name and v.get("Rarity") != "Basic"}
                     #create a list of banned cards and exclude them from this pool via "not in list"
@@ -4079,6 +4081,7 @@ class Char():
                     i += 1
 
             elif self.card_in_play.get("Name") == "Metamorphosis":
+                i = 0
                 while i < self.card_in_play["Cards"]:
                     attack_cards = {k:v for k,v in entities.cards.items() if v.get("Type") == "Attack" and v.get("Owner") == self.name and v.get("Rarity") != "Basic"}
                     card = rd.choices(list(skill_cards.items()))[0][1]                  
@@ -4088,6 +4091,7 @@ class Char():
                     i += 1
 
             elif self.card_in_play.get("Name") == "Metamorphosis +":
+                i = 0
                 while i < self.card_in_play["Cards"]:
                     attack_cards = {k:v for k,v in entities.cards.items() if v.get("Type") == "Attack" and v.get("Owner") == self.name and v.get("Rarity") != "Basic"}
                     card = rd.choices(list(skill_cards.items()))[0][1]                  
